@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+@import './fonts.less';
+
+*{ border: 0; margin:0; padding: 0;}
+html, body{ height: 100%; }
+body{
+    font-family: 'PT Sans',Tahoma,"Lato","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    color: #444;
+    line-height: 1.42857143 !important;
+    font-size: 15px !important;
+    background-color: white;
+}
+label{
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.btn{
+    cursor: pointer;
+    outline: none;
+
+    &:hover{
+        background-color: #0000002b;
+    }
+    &:active{
+        background-color: #0000003b;
+    }
+}
