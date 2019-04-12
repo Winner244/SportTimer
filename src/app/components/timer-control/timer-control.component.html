@@ -3,11 +3,11 @@
     <fa-icon [icon]="faPlay"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-pause" (click)="pause()">
+  <button class="btn timer-control__button-pause" (click)="pause()" *ngIf='isTimerRunning'>
     <fa-icon [icon]="faStop"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-clear" (click)="clear()">
+  <button class="btn timer-control__button-clear" (click)="clear()" *ngIf='!isTimerRunning'>
     <fa-icon [icon]="faPause"></fa-icon>
   </button>
 </div>

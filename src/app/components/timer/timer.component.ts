@@ -14,12 +14,12 @@ export class TimerComponent implements OnDestroy {
 
   private _destroyed: Subject<any> = new Subject();
 
-  timer = new Date(0, 0, 0);
+  timer: number;
 
   constructor(private timerService: TimerService) { 
     this.timerService.timer$
       .pipe(takeUntil(this._destroyed))
-      .subscribe(timer => this.timer = timer);
+      .subscribe(value => this.timer = value);
   }
 
   ngOnDestroy(){
@@ -28,15 +28,15 @@ export class TimerComponent implements OnDestroy {
   }
 
   /**
-     * Возвращает строку таймера в формате 00:00:00.00 с запущенного таймера
-     * @return {string}
-     */
-    get TimeString(){
-      return '{0}:{1}:{2}.{3}'.format(
-          Helper.twoZero(this.timer.getHours()),
-          Helper.twoZero(this.timer.getMinutes()),
-          Helper.twoZero(this.timer.getSeconds()),
-          Helper.twoZero(parseInt((this.timer.getMilliseconds() / 10) + '')),
-      );
+   * Возвращает строку таймера в формате 00:00:00.00 с запущенного таймера
+   * @return {string}
+   */
+  get timeString(){
+    return '{0}:{1}:{2}.{3}'.format(
+        Helper.twoZero(this.timer / 60 / 60 / 1000),
+        Helper.twoZero(this.timer / 60 / 1000 % 60),
+        Helper.twoZero(this.timer / 1000 % 60),
+        Helper.twoZero(parseInt((this.timer % 1000 / 10) + '')),
+    );
   }
 }

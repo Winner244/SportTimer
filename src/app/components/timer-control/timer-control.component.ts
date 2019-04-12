@@ -1,31 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
 import { faPlay, faStop, faPause } from '@fortawesome/free-solid-svg-icons';
+import { TimerService } from 'src/app/services/timer.service';
 
 @Component({
   selector: 'app-timer-control',
   templateUrl: './timer-control.component.html',
   styleUrls: ['./timer-control.component.less']
 })
-export class TimerControlComponent implements OnInit {
+export class TimerControlComponent implements OnDestroy {
   faPlay = faPlay;
   faStop = faStop;
   faPause = faPause;
 
-  constructor() { }
+  isTimerRunning: boolean;
 
-  ngOnInit() {
+  private _destroyed: Subject<any> = new Subject();
+
+  constructor(private timerService: TimerService) {
+    
+    this.timerService.isTimerRunning$
+    .pipe(takeUntil(this._destroyed))
+    .subscribe(value => this.isTimerRunning = value);
   }
 
+  ngOnDestroy(){
+     this._destroyed.next();
+     this._destroyed.complete();
+   }
+ 
+
   start(){
-    console.log('start');
+    this.timerService.playTimer();
   }
 
   pause(){
-    console.log('pause');
+    this.timerService.pauseTimer();
   }
 
   clear(){
-    console.log('clear');
+    this.timerService.clearTimer();
   }
 
 }
