@@ -16,4 +16,16 @@ export class TimerControlComponent implements OnInit {
   ngOnInit() {
   }
 
+  start(){
+    console.log('start');
+  }
+
+  pause(){
+    console.log('pause');
+  }
+
+  clear(){
+    console.log('clear');
+  }
+
 }

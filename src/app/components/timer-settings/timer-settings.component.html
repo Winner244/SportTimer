@@ -1,22 +1,21 @@
 <label class="timer-settings__input-box">
-  <input class="timer-settings__input" type="number">
+  <input class="timer-settings__input" type="number" [(ngModel)]="hours" (change)="changeHours()">
   <span class="timer-settings__input-label">Часов</span>
 </label>
 
 <label class="timer-settings__input-box">
-  <input class="timer-settings__input" type="number">
+  <input class="timer-settings__input" type="number" [(ngModel)]="minutes" (change)="changeMinutes()">
   <span class="timer-settings__input-label">Минут</span>
 </label>
 
 <label class="timer-settings__input-box">
-  <input class="timer-settings__input" type="number">
+  <input class="timer-settings__input" type="number" [(ngModel)]="seconds" (change)="changeSeconds()">
   <span class="timer-settings__input-label">Секунд</span>
 </label>
 
-<label class="timer-settings__input-box">
-  <input class="timer-settings__input-checkbox_hidden" type="checkbox">
-  <button class="timer-settings__input-checkbox">
-    <fa-icon [icon]="faCheck"></fa-icon>
+<label class="timer-settings__input-box" for='checkbox' (click)="changeIsPlaySoundInEnd($event)">
+  <button id='checkbox' class="timer-settings__input-checkbox">
+    <fa-icon [icon]="faCheck" *ngIf="isPlaySoundInEnd"></fa-icon>
   </button>
   <span class="timer-settings__input-checkbox-label">Проигрывать звук после завершения</span>
 </label>

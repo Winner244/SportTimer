@@ -8,6 +8,12 @@
         padding: 0 2px 0 15px;
         color: #666;
         font-size: 15px;
+        outline: none;
+        transition: border-color ease-in-out 0.15s;
+
+        &:focus{
+            border-color: #2c3e50;
+        }
 
         &-box{
             margin-bottom: 15px;
@@ -26,6 +32,13 @@
             border-radius: 3px;
             background-color: #fff;
             margin-right: 5px;
+            outline: none;
+            transition: border-color ease-in-out 0.15s;
+            cursor: pointer;
+
+            &:focus{
+                border-color: #3498db;
+            }
 
             & > fa-icon{
                 position: relative;

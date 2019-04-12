@@ -1,13 +1,13 @@
 <div class="timer-control">
-  <button class="btn timer-control__button-play">
+  <button class="btn timer-control__button-play" (click)="start()">
     <fa-icon [icon]="faPlay"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-pause">
+  <button class="btn timer-control__button-pause" (click)="pause()">
     <fa-icon [icon]="faStop"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-clear">
+  <button class="btn timer-control__button-clear" (click)="clear()">
     <fa-icon [icon]="faPause"></fa-icon>
   </button>
 </div>
