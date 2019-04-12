@@ -3,13 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { HeaderComponent } from './components/header/header.component';
-import { AppComponent } from './components/app/app.component';
-import { TimerViewComponent } from './components/timer-view/timer-view.component';
-import { TimerControlComponent } from './components/timer-control/timer-control.component';
-
 import { StringExtension } from './StringExtension';
 import { ArrayExtension } from './ArrayExtension';
+
+import { HeaderComponent } from './components/header/header.component';
+import { AppComponent } from './components/app/app.component';
+import { TimerComponent } from './components/timer/timer.component';
+import { TimerControlComponent } from './components/timer-control/timer-control.component';
+import { TimerSettingsComponent } from './components/timer-settings/timer-settings.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -18,8 +19,9 @@ ArrayExtension.on();
   declarations: [
     AppComponent,
     HeaderComponent,
-    TimerViewComponent,
-    TimerControlComponent
+    TimerComponent,
+    TimerControlComponent,
+    TimerSettingsComponent
   ],
   imports: [
     BrowserModule,

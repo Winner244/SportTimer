@@ -6,11 +6,11 @@ import { Helper } from '../../Helper';
 import { TimerService } from 'src/app/services/timer.service';
 
 @Component({
-  selector: 'app-timer-view',
-  templateUrl: './timer-view.component.html',
-  styleUrls: ['./timer-view.component.less']
+  selector: 'app-timer',
+  templateUrl: './timer.component.html',
+  styleUrls: ['./timer.component.less']
 })
-export class TimerViewComponent implements OnDestroy {
+export class TimerComponent implements OnDestroy {
 
   private _destroyed: Subject<any> = new Subject();
 

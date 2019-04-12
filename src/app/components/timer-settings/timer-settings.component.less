@@ -1,0 +1,45 @@
+.timer-settings{
+    &__input{
+        width: 55px;
+        height: 32px;
+        margin-right: 5px;
+        border: 2px solid #dce4ec;
+        border-radius: 4px;
+        padding: 0 2px 0 15px;
+        color: #666;
+        font-size: 15px;
+
+        &-box{
+            margin-bottom: 15px;
+            display: -webkit-box;
+            cursor: pointer;
+        }
+
+        &-label{
+            font-weight: bold;
+        }
+
+        &-checkbox{
+            height: 15px;
+            width: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff;
+            margin-right: 5px;
+
+            & > fa-icon{
+                position: relative;
+                top: -2px;
+                right: -1px;
+                color: #3498db;
+                font-size: 14px;
+                height: 14px;
+                width: 14px;
+            }
+
+            &_hidden{
+                display: none;
+            }
+        }
+    }
+}
