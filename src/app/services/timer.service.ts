@@ -9,28 +9,33 @@ import { SettingsService } from './settings.service';
 })
 export class TimerService {
   
+  //для внутреннего использования
   private _timer = new BehaviorSubject<number>(0); //время в таймере
-  private _settingHours = new BehaviorSubject<number>(0); //часы из настроек
-  private _settingMinutes = new BehaviorSubject<number>(1); //минуты из настроек
-  private _settingSeconds = new BehaviorSubject<number>(30); //секунды из настроек
-  private _isPlaySoundInEnd = new BehaviorSubject<boolean>(false); //проигрывать звук при окончании таймера?  //TODO: сменить на true
   private _isTimerRunning = new BehaviorSubject<boolean>(false); //таймер запущен?
 
-  private audio: HTMLAudioElement; //Звук сигнала окончания таймера
-  private intervalTimer: NodeJS.Timer;
+  private _audio: HTMLAudioElement; //Звук сигнала окончания таймера
+  private _intervalTimer: NodeJS.Timer; //для работы таймера во включённом состоянии
+  private _timeEnd: Moment; //Время окончания таймера (unixTime)
+  private _settingHours: number; //часы из настроек
+  private _settingMinutes: number; //минуты из настроек
+  private _settingSeconds: number; //секунды из настроек
+  private _callbacksStartTimer: Array<Function>; 
+  private _callbacksEndTimer: Array<Function>; 
 
-  public timeEnd: Moment; //Время окончания таймера (unixTime)
-
+  //для внешнего использования
   public timer$ = this._timer.asObservable();
   public isTimerRunning$ = this._isTimerRunning.asObservable();
- // public settingHours$ = this._settingHours.asObservable();
- // public settingMinutes$ = this._settingMinutes.asObservable();
-  //public settingSeconds$ = this._settingSeconds.asObservable();
-  //public isPlaySoundInEnd$ = this._isPlaySoundInEnd.asObservable();
+
+  public isPlaySoundInEnd: boolean; //проигрывать звук при окончании таймера?  
 
 
   constructor(private settingsService: SettingsService) { 
-    this.audio = new Audio('/assets/alarm1.wav')
+    this._audio = new Audio('/assets/alarm1.wav')
+    this._settingHours = 0;
+    this._settingMinutes = 1;
+    this._settingSeconds = 30;
+    this._callbacksStartTimer = [];
+    this._callbacksEndTimer = [];
 
     this.updateTimer = this.updateTimer.bind(this);
   }
@@ -43,31 +48,27 @@ export class TimerService {
   }
 
   public set settingHours(newValue: number){
-    this._settingHours.next(parseInt(newValue + ''));
+    this._settingHours = newValue;
+    this.updateTimer();
   }
   public get settingHours(): number{
-    return this._settingHours.getValue();
+    return this._settingHours;
   }
 
   public set settingMinutes(newValue: number){
-    this._settingMinutes.next(parseInt(newValue + ''));
+    this._settingMinutes = newValue;
+    this.updateTimer();
   }
   public get settingMinutes(): number{
-    return this._settingMinutes.getValue();
+    return this._settingMinutes;
   }
 
   public set settingSeconds(newValue: number){
-    this._settingSeconds.next(parseInt(newValue + ''));
+    this._settingSeconds = newValue;
+    this.updateTimer();
   }
   public get settingSeconds(): number{
-    return this._settingSeconds.getValue();
-  }
-
-  public set isPlaySoundInEnd(newValue: boolean){
-    this._isPlaySoundInEnd.next(newValue);
-  }
-  public get isPlaySoundInEnd(): boolean{
-    return this._isPlaySoundInEnd.getValue();
+    return this._settingSeconds;
   }
 
   public set isTimerRunning(newValue: boolean){
@@ -78,101 +79,92 @@ export class TimerService {
   }
   
 
-    /**
-     * Запуск таймера
-     */
-    playTimer(){
-      /* TODO
-      if(!ModelSettings.get(EnumSettingFields.ExerciseTypes) || !ModelSettings.get(EnumSettingFields.ExerciseTypes).length){
-          webix.message({
-              text: "У вас не заполнены типы упражнений! Данные не будут сохранены!",
-              type:"error",
-              expire: 15000,
-              id:"Data_error"
-          });
-      }*/
-
-      this.isTimerRunning = true;
-      this.timeEnd = moment();
-      this.timeEnd.add(this.settingHours, 'h');
-      this.timeEnd.add(this.settingMinutes, 'm');
-      this.timeEnd.add(this.settingSeconds, 's');
+  /**
+   * Запуск таймера
+   */
+  playTimer(){
+    this.isTimerRunning = true;
+    this._timeEnd = moment();
+    this._timeEnd.add(this.settingHours, 'h');
+    this._timeEnd.add(this.settingMinutes, 'm');
+    this._timeEnd.add(this.settingSeconds, 's');
 
 
-      //запускаем таймер
-      this.intervalTimer = setInterval(this.updateTimer, 10);
+    //запускаем таймер
+    this._intervalTimer = setInterval(this.updateTimer, 10);
 
-      //если уже есть результаты прошлые
-      /* TODO
-      if(this.resultsExercise.length){  
-          this.resultsExercise.last().timeEnd = new Date();
-      }
-
-      //выделяем ввод в последнее поле с количеством
-      const tableJquery = $($$(this.ids.tableResults).getNode());
-      tableJquery.find('.' + this.ids.inputsCount).last().select();*/
+    //вызов подписанных функций
+    this._callbacksStartTimer.map(x => x());
   }
 
   /**
    * Остановка таймера на паузу, если запущен
    */
   pauseTimer(){
-      this.isTimerRunning = false;
+    this.isTimerRunning = false;
 
-      //останавливаем таймер
-      clearInterval(this.intervalTimer);
+    //останавливаем таймер
+    clearInterval(this._intervalTimer);
   }
 
   /**
    * Остановка и очистка таймера
    */
   clearTimer(){
-      this.isTimerRunning = false;
-      this.updateTimer();
+    this.isTimerRunning = false;
+    this.updateTimer();
 
-      //останавливаем таймер
-      clearInterval(this.intervalTimer);
+    //останавливаем таймер
+    clearInterval(this._intervalTimer);
   }
 
   /**
    * Окончание таймера
    */
   endTimer(){
-      this.isTimerRunning = false;
-      this.clearTimer();
+    this.isTimerRunning = false;
+    this.clearTimer();
 
-      if(this.isPlaySoundInEnd){
-          this.audio.play();
-      }
+    if(this.isPlaySoundInEnd){
+        this._audio.play();
+    }
 
-      //this.addResults(); TODO: создать сервис
+    //показываем уведомление
+    if ("Notification" in window && this.settingsService.isOnPushMessage) {
+        if (Notification.permission === "granted") {
+            new Notification("Timer. Go!");
+        }
+    }
 
-      //показываем уведомление
-      if ("Notification" in window && this.settingsService.isOnPushMessage) {
-          if (Notification.permission === "granted") {
-              new Notification("Timer. Go!");
-          }
-      }
+    //вызов подписанных функций
+    this._callbacksEndTimer.map(x => x());
   }
-  
+
   /**
    * Обновляет время на таймере
    */
   updateTimer() : void{
-      if(this.isTimerRunning){
-          this.timer = this.timeEnd.valueOf() - moment().valueOf();
+    if(this.isTimerRunning){ 
+      //update
+      this.timer = this._timeEnd.valueOf() - moment().valueOf();
 
-          //end
-          if(this.timer <= 0){
-              this.endTimer();
-          }
+      //end
+      if(this.timer <= 0){
+          this.endTimer();
       }
-      else{
-          this.timer = this.settingHours * 60 * 60 * 1000 + 
-            this.settingMinutes * 60  * 1000 + 
-            this.settingSeconds * 1000;
-      }
+    }
+    else{ 
+      //start
+      this.timer = this.settingHours * 60 * 60 * 1000 + 
+          this.settingMinutes * 60  * 1000 + 
+          this.settingSeconds * 1000;
+    }
   }
 
-
+  addCallbackStart(callback: Function): void{
+    this._callbacksStartTimer.push(callback);
+  }
+  addCallbackEnd(callback: Function): void{
+    this._callbacksEndTimer.push(callback);
+  }
 }
