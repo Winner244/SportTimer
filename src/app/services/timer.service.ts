@@ -38,6 +38,8 @@ export class TimerService {
     this._callbacksEndTimer = [];
 
     this.updateTimer = this.updateTimer.bind(this);
+    
+    this.updateTimer();
   }
 
   public set timer(newValue: number){
@@ -84,10 +86,7 @@ export class TimerService {
    */
   playTimer(){
     this.isTimerRunning = true;
-    this._timeEnd = moment();
-    this._timeEnd.add(this.settingHours, 'h');
-    this._timeEnd.add(this.settingMinutes, 'm');
-    this._timeEnd.add(this.settingSeconds, 's');
+    this._timeEnd = moment().add(this.timer / 1000, 's');
 
 
     //запускаем таймер
