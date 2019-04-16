@@ -1,5 +1,5 @@
 <div class="timer-control">
-  <button class="btn timer-control__button-play" (click)="start()">
+  <button class="btn timer-control__button-play" (click)="start()" *ngIf='!isTimerRunning'>
     <fa-icon [icon]="faPlay"></fa-icon>
   </button>
 
@@ -7,7 +7,7 @@
     <fa-icon [icon]="faStop"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-clear" (click)="clear()" *ngIf='!isTimerRunning'>
+  <button class="btn timer-control__button-clear" (click)="clear()">
     <fa-icon [icon]="faPause"></fa-icon>
   </button>
 </div>
