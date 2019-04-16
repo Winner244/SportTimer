@@ -18,6 +18,7 @@ import { ExerciseResultsControlComponent } from './components/exercise-results-c
 import { ExerciseResultsSettingsComponent } from './components/exercise-results-settings/exercise-results-settings.component';
 import { ExerciseResultsStatisticsComponent } from './components/exercise-results-statistics/exercise-results-statistics.component';
 import { ExerciseResultsTableComponent } from './components/exercise-results-table/exercise-results-table.component';
+import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -34,7 +35,8 @@ ArrayExtension.on();
     ExerciseResultsControlComponent,
     ExerciseResultsSettingsComponent,
     ExerciseResultsStatisticsComponent,
-    ExerciseResultsTableComponent
+    ExerciseResultsTableComponent,
+    NavigationPanelComponent
   ],
   imports: [
     BrowserModule,

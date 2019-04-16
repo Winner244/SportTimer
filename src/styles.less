@@ -18,11 +18,40 @@ label{
 .btn{
     cursor: pointer;
     outline: none;
+}
+
+.btn-style{
+    color: #fff;
+    font-size: 15px;    
+    border-radius: 6px;
+    border: 1px solid #3498db;
+    border-bottom: 1px solid #268fd5;
+    padding: 6px 25px;
+}
+
+.btn-base{
+    border-color: #3498db;
+    border-bottom-color: #268fd5;
+    background: #003b63;
 
     &:hover{
-        background-color: #0000002b;
+        background: #0060a0;
     }
     &:active{
-        background-color: #0000003b;
+        background: #00395f;
+        border-color: #0a2a3f;
+    }
+}
+.btn-danger{
+    border-color: #ce5545;
+    border-bottom-color: #b13e2f;
+    background: #612d27;
+
+    &:hover{
+        background: #a00c26;
+    }
+    &:active{
+        background: #66081a;
+        border-color: #3b140f;
     }
 }
