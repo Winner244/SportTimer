@@ -1,4 +1,8 @@
-<app-header></app-header>
-<app-timer></app-timer>
-<app-exercise-results></app-exercise-results>
-<app-navigation-panel class="app__navigation-panel"></app-navigation-panel>
+<div #app (window:resize)="onResize()">
+    <app-header></app-header>
+    <app-timer></app-timer>
+    <app-exercise-results></app-exercise-results>
+</div>
+<footer #footer [class.footer-fixed]="isShowFooterFixed">
+    <app-navigation-panel></app-navigation-panel>
+</footer>

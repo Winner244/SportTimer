@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'sportTimer';
+  isShowFooterFixed = false;
 
-  constructor() { }
+  @ViewChild('app') appElement: ElementRef;
+  @ViewChild('footer') footerElement: ElementRef;
 
-  ngOnInit() {
+  constructor(){
+    this.onResize = this.onResize.bind(this);
   }
 
+  ngOnInit() {
+    setTimeout(this.onResize, 100);
+  }
+
+  onResize() {
+    this.isShowFooterFixed = window.innerHeight > this.appElement.nativeElement.offsetHeight + this.footerElement.nativeElement.offsetHeight;
+  }
 }
