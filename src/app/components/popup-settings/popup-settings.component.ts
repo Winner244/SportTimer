@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./popup-settings.component.less']
 })
 export class PopupSettingsComponent implements OnInit {
+  isOpen: boolean = false;
 
   constructor() { }
 
