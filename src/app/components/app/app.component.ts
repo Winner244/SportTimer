@@ -9,7 +9,7 @@ export class AppComponent implements OnInit {
   title = 'sportTimer';
   isShowFooterFixed = false;
 
-  @ViewChild('app') appElement: ElementRef;
+  @ViewChild('content') contentElement: ElementRef;
   @ViewChild('footer') footerElement: ElementRef;
 
   constructor(){
@@ -21,6 +21,6 @@ export class AppComponent implements OnInit {
   }
 
   onResize() {
-    this.isShowFooterFixed = window.innerHeight > this.appElement.nativeElement.offsetHeight + this.footerElement.nativeElement.offsetHeight;
+    this.isShowFooterFixed = window.innerHeight > this.contentElement.nativeElement.offsetHeight + this.footerElement.nativeElement.offsetHeight;
   }
 }

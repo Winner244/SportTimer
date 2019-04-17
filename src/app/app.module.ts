@@ -19,6 +19,8 @@ import { ExerciseResultsSettingsComponent } from './components/exercise-results-
 import { ExerciseResultsStatisticsComponent } from './components/exercise-results-statistics/exercise-results-statistics.component';
 import { ExerciseResultsTableComponent } from './components/exercise-results-table/exercise-results-table.component';
 import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
+import { PopupSettingsComponent } from './components/popup-settings/popup-settings.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -36,7 +38,9 @@ ArrayExtension.on();
     ExerciseResultsSettingsComponent,
     ExerciseResultsStatisticsComponent,
     ExerciseResultsTableComponent,
-    NavigationPanelComponent
+    NavigationPanelComponent,
+    PopupSettingsComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
