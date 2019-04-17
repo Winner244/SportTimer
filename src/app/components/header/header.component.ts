@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,12 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 export class HeaderComponent implements OnInit {
   faCog = faCog;
 
-  constructor() { }
+  constructor(private settingsService: SettingsService) { }
 
   ngOnInit() {
   }
 
   onClickOpenSettings(){
-    console.log('onClickOpenSettings');
+    this.settingsService.isOpen = true;
   }
 }
