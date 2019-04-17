@@ -15,14 +15,16 @@ export class TimerControlComponent implements OnDestroy {
   faPause = faPause;
 
   isTimerRunning: boolean;
+  isDisabledClearButton: boolean;
 
   private _destroyed: Subject<any> = new Subject();
 
   constructor(private timerService: TimerService) {
-    
+    this.isDisabledClearButton = true;
+
     this.timerService.isTimerRunning$
-    .pipe(takeUntil(this._destroyed))
-    .subscribe(value => this.isTimerRunning = value);
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(value => this.isTimerRunning = value);
   }
 
   ngOnDestroy(){
@@ -32,6 +34,7 @@ export class TimerControlComponent implements OnDestroy {
  
 
   start(){
+    this.isDisabledClearButton = false;
     this.timerService.playTimer();
   }
 
@@ -40,6 +43,7 @@ export class TimerControlComponent implements OnDestroy {
   }
 
   clear(){
+    this.isDisabledClearButton = true;
     this.timerService.clearTimer();
   }
 

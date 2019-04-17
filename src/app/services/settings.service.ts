@@ -10,11 +10,12 @@ export class SettingsService {
 
   //для внешнего использования
   public isOpen$ = this._isOpen.asObservable();
+  
   public isOnPushMessage: boolean;
 
   constructor() { }
 
-  
+
   public set isOpen(newValue: boolean){
     this._isOpen.next(newValue);
   }

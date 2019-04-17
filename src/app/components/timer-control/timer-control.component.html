@@ -7,7 +7,7 @@
     <fa-icon [icon]="faPause"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-clear" (click)="clear()">
+  <button class="btn timer-control__button-clear" (click)="clear()" [disabled]="isDisabledClearButton" >
     <fa-icon [icon]="faStop"></fa-icon>
   </button>
 </div>
