@@ -13,9 +13,4 @@
   <span class="timer-settings__input-label">Секунд</span>
 </label>
 
-<label class="timer-settings__input-box" for='checkbox' (click)="changeIsPlaySoundInEnd($event)">
-  <button id='checkbox' class="timer-settings__input-checkbox">
-    <fa-icon [icon]="faCheck" *ngIf="isPlaySoundInEnd"></fa-icon>
-  </button>
-  <span class="timer-settings__input-checkbox-label">Проигрывать звук после завершения</span>
-</label>
+<app-checkbox text="Проигрывать звук после завершения" [value]="isPlaySoundInEnd" (onToggle)="changeIsPlaySoundInEnd()"></app-checkbox>

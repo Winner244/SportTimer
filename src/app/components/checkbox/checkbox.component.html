@@ -1,0 +1,6 @@
+<label class="checkbox__box" for='checkbox' (click)="toggle($event)">
+  <button id='checkbox' class="checkbox">
+    <fa-icon [icon]="faCheck" *ngIf="value"></fa-icon>
+  </button>
+  <span class="checkbox__label">{{text}}</span>
+</label>

@@ -1,0 +1,29 @@
+.checkbox{
+    height: 15px;
+    width: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    margin-right: 5px;
+    outline: none;
+    transition: border-color ease-in-out 0.15s;
+    cursor: pointer;
+
+    &:focus{
+        border-color: #3498db;
+    }
+
+    & > fa-icon{
+        position: relative;
+        top: -2px;
+        right: -1px;
+        color: #3498db;
+        font-size: 14px;
+        height: 14px;
+        width: 14px;
+    }
+
+    &__box{
+        cursor: pointer;
+    }
+}

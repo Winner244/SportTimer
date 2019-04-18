@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { TimerService } from 'src/app/services/timer.service';
 
 @Component({
@@ -8,7 +7,6 @@ import { TimerService } from 'src/app/services/timer.service';
   styleUrls: ['./timer-settings.component.less']
 })
 export class TimerSettingsComponent implements OnInit {
-  faCheck = faCheck;
   hours: number;
   minutes: number;
   seconds: number;
@@ -34,9 +32,8 @@ export class TimerSettingsComponent implements OnInit {
   changeSeconds(){
     this.timerService.settingSeconds = this.seconds;
   }
-  changeIsPlaySoundInEnd(event){
+  changeIsPlaySoundInEnd(){
     this.isPlaySoundInEnd = !this.isPlaySoundInEnd;
     this.timerService.isPlaySoundInEnd = this.isPlaySoundInEnd;
-    event.preventDefault();
   }
 }

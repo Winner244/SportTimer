@@ -21,6 +21,7 @@ import { ExerciseResultsTableComponent } from './components/exercise-results-tab
 import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
 import { PopupSettingsComponent } from './components/popup-settings/popup-settings.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -40,7 +41,8 @@ ArrayExtension.on();
     ExerciseResultsTableComponent,
     NavigationPanelComponent,
     PopupSettingsComponent,
-    PopupComponent
+    PopupComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,
