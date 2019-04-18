@@ -1,0 +1,38 @@
+.popup-settings{
+    &__item{
+        margin-bottom: 10px;
+    }
+
+    &__list-exercises{
+        height: 280px;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    &__exercise{
+        height: 30px;
+        line-height: 28px;
+        border-bottom: 1px solid #ebebeb;
+        display: flex;
+
+        &-name{
+            flex-grow: 1;
+
+            & input{
+                line-height: 30px;
+                width: 100%;
+                outline: none;
+            }
+        }
+
+        &-count{
+            color: #b5b5b5;
+        }
+
+        &-button{
+            cursor: pointer;
+            padding: 0 5px;
+            color: #666;
+        }
+    }
+}

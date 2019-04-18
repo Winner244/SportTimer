@@ -1,3 +1,36 @@
 <app-popup title="Настройки" [isOpen]="isOpen" (onClose)="onClose()">
-  popu-settings
+  <div class="popup-settings__item">
+    <app-checkbox text="Отображать предыдущие результаты рядом с текущими" [value]="isDisplayOldResults" (onToggle)="toggleDisplayOldResults()"></app-checkbox>
+  </div>
+
+  <div class="popup-settings__item">
+    <app-checkbox text="Включить push-уведомления" [value]="isOnPushNotification" (onToggle)="toggleOnPushNotification()"></app-checkbox>
+  </div>
+  
+  <div class="popup-settings__item">
+    <button *ngIf="!isOnGoogleDrive" class="btn btn-style btn-popup" (click)="connectGoogleDrive()">Подключить Google Drive</button>
+    <button *ngIf="isOnGoogleDrive" class="btn btn-style btn-popup-danger" (click)="disconnectGoogleDrive()">Отключить Google Drive - {{googleDriveEmail}}</button>
+  </div>
+
+  <h3>Упражнения:</h3>
+  <div class="popup-settings__list-exercises">
+    <div class="popup-settings__exercise">
+      <div class="popup-settings__exercise-name"><input value='Пресс'></div>
+      <div class="popup-settings__exercise-count">5</div>
+      <div class="popup-settings__exercise-button" (click)="removeExercise('Пресс')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </div>
+    </div>
+    <div class="popup-settings__exercise">
+      <div class="popup-settings__exercise-name"><input value='Бицепс'></div>
+      <div class="popup-settings__exercise-count">157</div>
+      <div class="popup-settings__exercise-button" (click)="removeExercise('Бицепс')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup-settings__item">
+    <button class="btn btn-style btn-popup" (click)="addExercise()">Добавить упражнение</button>
+  </div>
 </app-popup>
