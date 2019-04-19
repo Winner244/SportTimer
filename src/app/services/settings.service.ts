@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Helper } from '../Helper';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,12 @@ export class SettingsService {
   }
 
   public set exerciseTypes(newValue: string[]){
-    this._exerciseTypes.next(newValue);
-    localStorage.setItem('SettingsService.exerciseTypes', JSON.stringify(newValue));
+    const sortValue = Helper.clone(newValue).sort();
+    this._exerciseTypes.next(sortValue);
+    localStorage.setItem('SettingsService.exerciseTypes', JSON.stringify(sortValue));
+  }
+  public get exerciseTypes(): string[]{
+    return this._exerciseTypes.getValue();
   }
 
   

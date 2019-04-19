@@ -22,16 +22,17 @@ export class PopupSettingsComponent implements OnDestroy {
   private _destroyed: Subject<any> = new Subject();
 
   constructor(private settingsService: SettingsService) { 
-    this.isOnPushNotification = this.settingsService.isOnPushNotification;
-    this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
 
     this.settingsService.isOpen$
       .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.isOpen = value);
-
-    this.settingsService.exerciseTypes$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseTypes = value);
+      .subscribe(value => {
+        this.isOpen = value;
+        if(value){
+          this.isOnPushNotification = this.settingsService.isOnPushNotification;
+          this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
+          this.exerciseTypes = this.settingsService.exerciseTypes;
+        }
+      });
   }
 
   ngOnDestroy(){
@@ -53,13 +54,23 @@ export class PopupSettingsComponent implements OnDestroy {
     this.settingsService.isOnPushNotification = this.isOnPushNotification;
   }
   
+  blurExerciseType(){
+    this.settingsService.exerciseTypes = this.exerciseTypes;
+  }
 
-  removeExercise(exercise: string){
-    console.log('removeExercise: ' + exercise);
+  removeExerciseType(index: number){
+    this.exerciseTypes.splice(index, 1);
+    this.settingsService.exerciseTypes = this.exerciseTypes;
   }
 
   addExercise(){
-    console.log('addExercise');
+    const newName = 'Новое упражнение';
+    this.exerciseTypes.push(newName + this.exerciseTypes.filter(x => x.includes(newName)).length);
+    this.settingsService.exerciseTypes = this.exerciseTypes;
+
+    //scroll to bottom
+    const box = document.getElementsByClassName('popup-settings__list-exercises')[0];
+    box.scrollTo(0, box.scrollHeight);
   }
 
   connectGoogleDrive(){
@@ -72,5 +83,10 @@ export class PopupSettingsComponent implements OnDestroy {
 
   getCountExercisesByType(exerciseType){
     return 5; //TODO
+  }
+
+  /** для починки ngModel внутри ngFor (устсраняет баг ангуляра) */
+  trackByIndex(index: number): any {
+    return index;
   }
 }
