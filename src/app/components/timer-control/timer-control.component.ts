@@ -28,9 +28,9 @@ export class TimerControlComponent implements OnDestroy {
   }
 
   ngOnDestroy(){
-     this._destroyed.next();
-     this._destroyed.complete();
-   }
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
  
 
   start(){

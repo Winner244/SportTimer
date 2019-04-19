@@ -14,17 +14,12 @@
 
   <h3>Упражнения:</h3>
   <div class="popup-settings__list-exercises">
-    <div class="popup-settings__exercise">
-      <div class="popup-settings__exercise-name"><input value='Пресс'></div>
-      <div class="popup-settings__exercise-count">5</div>
-      <div class="popup-settings__exercise-button" (click)="removeExercise('Пресс')">
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </div>
-    </div>
-    <div class="popup-settings__exercise">
-      <div class="popup-settings__exercise-name"><input value='Бицепс'></div>
-      <div class="popup-settings__exercise-count">157</div>
-      <div class="popup-settings__exercise-button" (click)="removeExercise('Бицепс')">
+    <div class="popup-settings__exercise"
+      *ngFor="let exerciseType of exerciseTypes" 
+    >
+      <div class="popup-settings__exercise-name"><input [value]='exerciseType'></div>
+      <div class="popup-settings__exercise-count">{{getCountExercisesByType(exerciseType)}}</div>
+      <div class="popup-settings__exercise-button" (click)="removeExercise(exerciseType)">
         <fa-icon [icon]="faTimes"></fa-icon>
       </div>
     </div>

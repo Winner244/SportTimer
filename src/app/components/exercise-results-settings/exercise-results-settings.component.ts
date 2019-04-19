@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-exercise-results-settings',
   templateUrl: './exercise-results-settings.component.html',
   styleUrls: ['./exercise-results-settings.component.less']
 })
-export class ExerciseResultsSettingsComponent implements OnInit {
+export class ExerciseResultsSettingsComponent implements OnDestroy {
+  exerciseTypes: string[];
 
-  constructor() { }
+  private _destroyed: Subject<any> = new Subject();
 
-  ngOnInit() {
+  constructor(private settingsService: SettingsService) { 
+    this.settingsService.exerciseTypes$
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(value => this.exerciseTypes = value);
   }
 
+  ngOnDestroy(){
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
 }

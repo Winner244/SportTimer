@@ -42,6 +42,7 @@ export class TimerService {
     this.updateTimer();
   }
 
+  //set/get
   public set timer(newValue: number){
     this._timer.next(newValue);
   }
@@ -97,10 +98,11 @@ export class TimerService {
    */
   playTimer(){
     this.isTimerRunning = true;
+
+    //время окончания таймера
     this._timeEnd = moment().add(this.timer / 1000, 's');
 
-
-    //запускаем таймер
+    //запуск таймера в интервале
     this._intervalTimer = setInterval(this.updateTimer, 10);
 
     //вызов подписанных функций
@@ -135,12 +137,13 @@ export class TimerService {
     this.isTimerRunning = false;
     this.clearTimer();
 
+    //проигрывание звука
     if(this.isPlaySoundInEnd){
         this._audio.play();
     }
 
-    //показываем уведомление
-    if ("Notification" in window && this.settingsService.isOnPushMessage) {
+    //показ уведомления
+    if ("Notification" in window && this.settingsService.isOnPushNotification) {
         if (Notification.permission === "granted") {
             new Notification("Timer. Go!");
         }
@@ -153,7 +156,7 @@ export class TimerService {
   /**
    * Обновляет время на таймере
    */
-  updateTimer() : void{
+  updateTimer(){
     if(this.isTimerRunning){ 
       //update
       this.timer = this._timeEnd.valueOf() - moment().valueOf();
@@ -171,10 +174,10 @@ export class TimerService {
     }
   }
 
-  addCallbackStart(callback: Function): void{
+  addCallbackStart(callback: Function){
     this._callbacksStartTimer.push(callback);
   }
-  addCallbackEnd(callback: Function): void{
+  addCallbackEnd(callback: Function){
     this._callbacksEndTimer.push(callback);
   }
 }

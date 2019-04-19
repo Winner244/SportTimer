@@ -12,18 +12,26 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export class PopupSettingsComponent implements OnDestroy {
   faTimes = faTimes;
 
-  isOpen: boolean = false;
-  isDisplayOldResults: boolean = true;
-  isOnPushNotification: boolean = false;
-  isOnGoogleDrive: boolean = false;
+  isOpen: boolean;
+  isDisplayOldResults: boolean;
+  isOnPushNotification: boolean;
+  isOnGoogleDrive: boolean;
   googleDriveEmail: string;
+  exerciseTypes: string[];
 
   private _destroyed: Subject<any> = new Subject();
 
   constructor(private settingsService: SettingsService) { 
+    this.isOnPushNotification = this.settingsService.isOnPushNotification;
+    this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
+
     this.settingsService.isOpen$
       .pipe(takeUntil(this._destroyed))
       .subscribe(value => this.isOpen = value);
+
+    this.settingsService.exerciseTypes$
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(value => this.exerciseTypes = value);
   }
 
   ngOnDestroy(){
@@ -37,10 +45,12 @@ export class PopupSettingsComponent implements OnDestroy {
 
   toggleDisplayOldResults(){
     this.isDisplayOldResults = !this.isDisplayOldResults;
+    this.settingsService.isDisplayOldResults = this.isDisplayOldResults;
   }
 
   toggleOnPushNotification(){
     this.isOnPushNotification = !this.isOnPushNotification;
+    this.settingsService.isOnPushNotification = this.isOnPushNotification;
   }
   
 
@@ -58,5 +68,9 @@ export class PopupSettingsComponent implements OnDestroy {
   
   disconnectGoogleDrive(){
     console.log('disconnectGoogleDrive');
+  }
+
+  getCountExercisesByType(exerciseType){
+    return 5; //TODO
   }
 }

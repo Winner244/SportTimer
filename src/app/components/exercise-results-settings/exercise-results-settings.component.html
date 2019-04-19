@@ -1,7 +1,6 @@
 <span class="exercise-results-settings">
   <span>Упражнение: </span>
   <select class="exercise-results-settings__select-exercise">
-      <option>Пресс</option>
-      <option>Бицепс</option>
+      <option *ngFor="let exerciseType of exerciseTypes">{{exerciseType}}</option>
   </select>
 </span>
