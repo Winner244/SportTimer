@@ -74,11 +74,11 @@ export class PopupSettingsComponent implements OnDestroy {
   }
 
   connectGoogleDrive(){
-    console.log('connectGoogleDrive');
+    console.log('connectGoogleDrive'); //TODO
   }
   
   disconnectGoogleDrive(){
-    console.log('disconnectGoogleDrive');
+    console.log('disconnectGoogleDrive'); //TODO
   }
 
   getCountExercisesByType(exerciseType){
