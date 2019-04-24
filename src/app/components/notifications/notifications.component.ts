@@ -25,4 +25,8 @@ export class NotificationsComponent implements OnDestroy {
     this._destroyed.next();
     this._destroyed.complete();
   }
+  
+  removeMessage(message: ModelNotification){
+    this.notificationService.removeMessage(message.uid);
+  }
 }

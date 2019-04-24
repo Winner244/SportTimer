@@ -35,10 +35,22 @@ export class NotificationService implements OnDestroy {
 
 
   removeMessages(){
-    console.log('removeMessages');
-    this.messages = this.messages.filter(x => x.endTime < Date.now());
+    this.messages = this.messages.filter(x => x.endTime > Date.now());
+    this.setTimetout();
+  }
+
+  removeMessage(uid: string){
+    this.messages = this.messages.filter(x => x.uid != uid);
+    this.setTimetout();
+  }
+
+  setTimetout(){
     if(this.messages.length){
       this._timerRemoveMessages = setTimeout(this.removeMessages, this.messages.last().endTime - Date.now());
+    }
+    else{
+      clearTimeout(this._timerRemoveMessages);
+      this._timerRemoveMessages = null;
     }
   }
 

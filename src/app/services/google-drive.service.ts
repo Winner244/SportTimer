@@ -52,7 +52,7 @@ export class GoogleDriveService {
      * Отключение подключенного диска
      */
     disconnectDrive(): Promise<boolean> {
-        localStorage.removeItem('GoogleDriveData');
+        localStorage.removeItem('GoogleDrive.googleUser');
         return this._logout();
     }
 
@@ -65,7 +65,7 @@ export class GoogleDriveService {
     synchronizationDrive() {
         console.log('synchronizationDrive');
         //is exist connect drive?
-        if (!localStorage.getItem('GoogleDriveData')) {
+        if (!localStorage.getItem('GoogleDrive.googleUser')) {
             return null;
         }
         console.log('synchronizationDrive2');
@@ -97,12 +97,12 @@ export class GoogleDriveService {
                                     this.exerciseResultsService.dateSave = dataFile.dateSave;
                                     this.settingsService.exerciseTypes = dataFile.exerciseTypes;
                                     this.notificationService.addMessage(new ModelNotification('Данные успешно загружены с Google Drive.', 'success', 5));
-                                    return true;
+                                    return;
                                 }
 
                                 //одинакова
                                 if (googleLastDate === currentData.dateSave) {
-                                    return true;
+                                    return;
                                 }
 
                                 const data = {
@@ -110,7 +110,7 @@ export class GoogleDriveService {
                                 };
 
                                 //сохраняем на google drive
-                                return this.http.patch(this._apiPath + '/upload/drive/v3/files/' + id + '?uploadType=media&fields=id', data)
+                                return this.http.patch(this._apiPath + '/upload/drive/v3/files/' + id + '?uploadType=media&fields=id', data, this._getHeader())
                                     .toPromise()
                                     .then(res => {
                                         this.notificationService.addMessage(new ModelNotification('Данные успешно обновлены в Google Drive.', 'success', 5));
@@ -128,7 +128,7 @@ export class GoogleDriveService {
                         };
 
                         //сохраняем на google drive
-                        return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart&fields=id', data)
+                        return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart&fields=id', data, this._getHeader())
                             .toPromise()
                             .then(res => {
                                 this.notificationService.addMessage(new ModelNotification('Данные успешно сохранены в Google Drive.', 'success', 5));
@@ -147,8 +147,9 @@ export class GoogleDriveService {
      * Отдаёт содержимое файла на google drive по id файла
      */
     private _getFile(idFile: string | number): Promise<any> {
-        return this.http.get(this._apiPath + '/drive/v3/files/' + idFile + '?alt=media')
+        return this.http.get(this._apiPath + '/drive/v3/files/' + idFile + '?alt=media', this._getHeader())
             .toPromise()
+            .then(dataFile => dataFile + '')
             .then((dataFile: string) => {
                 dataFile = dataFile.substr(dataFile.indexOf('{'));
                 dataFile = dataFile.substr(0, dataFile.lastIndexOf('}') + 1);
@@ -161,8 +162,8 @@ export class GoogleDriveService {
      * @return Promise<>
      */
     private _getIdFile() {
-        return this.http.get(this._apiPath + '/drive/v3/files?corpus=user&includeTeamDriveItems=false&orderBy=name&pageSize=1&q=name%3D%27'
-            + this._fileDriveName + '%27&spaces=drive&supportsTeamDrives=false&key=' + this._clientId)
+        return this.http.get('https://content.googleapis.com/drive/v3/files?corpus=user&includeTeamDriveItems=false&orderBy=name&pageSize=1&q=name%3D%27'
+            + this._fileDriveName + '%27&spaces=drive&supportsTeamDrives=false&key=' + this._clientId, this._getHeader())
             .toPromise()
             .then((data: any) => data.files.length > 0 ? data.files[0].id : null);
     }
@@ -175,11 +176,12 @@ export class GoogleDriveService {
     private _login(): Promise<string | null> {
         return this._auth2Load()
             .then((auth2: any) => {
+                console.log('_login', auth2);
                 return auth2.signIn()
                     .then(() => {
                         const googleUser = auth2.currentUser.get();
                         const access_token = googleUser.getAuthResponse().access_token;
-                        sessionStorage.setItem('accessToken', access_token);
+                        sessionStorage.setItem('GoogleDrive.accessToken', access_token);
 
                         if (!access_token) {
                             return null;
@@ -188,7 +190,7 @@ export class GoogleDriveService {
                         const profile = googleUser.getBasicProfile();
                         const userData = new ModelGoogleUser();
                         userData.email = profile.getEmail();
-                        localStorage.setItem('GoogleDriveData', JSON.stringify(userData));
+                        localStorage.setItem('GoogleDrive.googleUser', JSON.stringify(userData));
 
                         this.synchronizationDrive();
                         return access_token;
@@ -224,8 +226,8 @@ export class GoogleDriveService {
         return this._auth2Load()
             .then(() => {
                 (<any>window).gapi.auth2.getAuthInstance().disconnect();
-                sessionStorage.removeItem('accessToken');
-                localStorage.removeItem('GoogleDriveData');
+                sessionStorage.removeItem('GoogleDrive.accessToken');
+                localStorage.removeItem('GoogleDrive.googleUser');
                 return true;
             });
     }
@@ -241,7 +243,7 @@ export class GoogleDriveService {
 
             return googleUser.reloadAuthResponse()
                 .then(res => {
-                    sessionStorage.setItem('accessToken', res.access_token);
+                    sessionStorage.setItem('GoogleDrive.accessToken', res.access_token);
                     return res.access_token;
                 })
                 .catch(err => {
@@ -262,17 +264,17 @@ export class GoogleDriveService {
             if (!(<any>window).gapi) {
                 this._countFailedLoadGoogle++;
                 if(this._countFailedLoadGoogle > 5){ //3sec
-                    console.error('Could not load google sdk!');
-                    return;
+                    err('Could not load google sdk!');
+                    return null;
                 }
                 setTimeout(() => this._auth2Load().then(ok).catch(err), 500);
-                return;
+                return null;
             }
 
             try {
                 const gapi = (<any>window).gapi;
-                gapi.auth2.load({
-                    callback: function () {
+                gapi.load('client:auth2', {
+                    callback: () => {
                         const params = {
                             client_id: this._clientIdFull,
                         };
@@ -292,16 +294,17 @@ export class GoogleDriveService {
                             ok(auth2);
                         }
                         catch (error2) {
-                            console.error(error2);
+                            err(error2);
                         }
                     },
-                    onerror: () => console.error('gapi.client failed to load!'),
-                    ontimeout: () => console.error('gapi.client could not load in a timely manner!'),
+                    onerror: () => err('gapi.client failed to load!'),
+                    ontimeout: () => err('gapi.client could not load in a timely manner!'),
                     timeout: 5000, // 5 seconds.
                 });
             }
             catch (error) {
-                console.error('Возможно сайт запущен с локального файла html (Нужно с localhost, как минимум)', error);
+                console.error('Возможно сайт запущен с локального файла html (Нужно с localhost, как минимум)');
+                err(error.message);
             }
         })
         .catch(err => {
@@ -311,6 +314,14 @@ export class GoogleDriveService {
     }
 
     private _loadGoogleUser() : ModelGoogleUser{
-        return JSON.parse(localStorage.getItem('GoogleDriveData') || 'null') || null;
+        return JSON.parse(localStorage.getItem('GoogleDrive.googleUser') || 'null') || null;
+    }
+
+    private _getHeader() : any{
+        return {
+            headers: new HttpHeaders({
+              'Authorization':  'Bearer ' + sessionStorage.getItem('GoogleDrive.accessToken')
+            })
+          };
     }
 }

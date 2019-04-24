@@ -1,7 +1,10 @@
+import { Helper } from '../Helper';
+
 /**
  * Сообщение
  */
 export class ModelNotification{
+    uid: string;
     text: string;
     type: 'success' | 'error';
     endTime: number; //unixTime
@@ -17,6 +20,7 @@ export class ModelNotification{
         this.startTime = Date.now();
 
         this.endTime = this.startTime + this.lifetime * 1000;
+        this.uid = Helper.generateUid();
 
     }
 }
