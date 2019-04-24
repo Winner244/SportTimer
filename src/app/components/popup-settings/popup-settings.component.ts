@@ -1,8 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
-import { SettingsService } from 'src/app/services/settings.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { SettingsService } from 'src/app/services/settings.service';
+import { ModelTypeExercise } from '../../models/ModelTypeExercise';
+import { GoogleDriveService } from 'src/app/services/google-drive.service';
+import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
   selector: 'app-popup-settings',
@@ -17,11 +20,14 @@ export class PopupSettingsComponent implements OnDestroy {
   isOnPushNotification: boolean;
   isOnGoogleDrive: boolean;
   googleDriveEmail: string;
-  exerciseTypes: string[];
+  exerciseTypes: ModelTypeExercise[];
 
   private _destroyed: Subject<any> = new Subject();
 
-  constructor(private settingsService: SettingsService) { 
+  constructor(
+    private settingsService: SettingsService, 
+    private googleDriveService: GoogleDriveService,
+    private exerciseResultsService: ExerciseResultsService) { 
 
     this.settingsService.isOpen$
       .pipe(takeUntil(this._destroyed))
@@ -33,6 +39,10 @@ export class PopupSettingsComponent implements OnDestroy {
           this.exerciseTypes = this.settingsService.exerciseTypes;
         }
       });
+
+    this.googleDriveService.googleUser$
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(value => this.googleDriveEmail = value ? value.email : '');
   }
 
   ngOnDestroy(){
@@ -65,7 +75,12 @@ export class PopupSettingsComponent implements OnDestroy {
 
   addExercise(){
     const newName = 'Новое упражнение';
-    this.exerciseTypes.push(newName + this.exerciseTypes.filter(x => x.includes(newName)).length);
+    let countCoincidences = 0;
+    do{
+      countCoincidences++;
+    }while(this.exerciseTypes.find(x => x.name == newName + countCoincidences));
+    
+    this.exerciseTypes.push(new ModelTypeExercise(newName + countCoincidences));
     this.settingsService.exerciseTypes = this.exerciseTypes;
 
     //scroll to bottom
@@ -74,15 +89,15 @@ export class PopupSettingsComponent implements OnDestroy {
   }
 
   connectGoogleDrive(){
-    console.log('connectGoogleDrive'); //TODO
+    this.googleDriveService.connectDrive();
   }
   
   disconnectGoogleDrive(){
-    console.log('disconnectGoogleDrive'); //TODO
+    this.googleDriveService.disconnectDrive();
   }
 
-  getCountExercisesByType(exerciseType){
-    return 5; //TODO
+  getCountExercisesByType(exerciseType: ModelTypeExercise){
+    return this.exerciseResultsService.exerciseResults.filter(x => x.type.uid == exerciseType.uid).length;
   }
 
   /** для починки ngModel внутри ngFor (устсраняет баг ангуляра) */

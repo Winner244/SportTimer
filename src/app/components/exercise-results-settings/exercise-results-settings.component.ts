@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { SettingsService } from 'src/app/services/settings.service';
+import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
 
 @Component({
   selector: 'app-exercise-results-settings',
@@ -9,7 +10,7 @@ import { SettingsService } from 'src/app/services/settings.service';
   styleUrls: ['./exercise-results-settings.component.less']
 })
 export class ExerciseResultsSettingsComponent implements OnDestroy {
-  exerciseTypes: string[];
+  exerciseTypes: ModelTypeExercise[];
 
   private _destroyed: Subject<any> = new Subject();
 

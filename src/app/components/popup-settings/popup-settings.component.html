@@ -17,7 +17,7 @@
     <div class="popup-settings__exercise"
       *ngFor="let exerciseType of exerciseTypes; index as i;trackBy:trackByIndex;" 
     >
-      <div class="popup-settings__exercise-name"><input [(ngModel)]="exerciseTypes[i]" (blur)="blurExerciseType()"></div>
+      <div class="popup-settings__exercise-name"><input [(ngModel)]="exerciseType.name" (blur)="blurExerciseType()"></div>
       <div class="popup-settings__exercise-count">{{getCountExercisesByType(exerciseType)}}</div>
       <div class="popup-settings__exercise-button" (click)="removeExerciseType(i)">
         <fa-icon [icon]="faTimes"></fa-icon>

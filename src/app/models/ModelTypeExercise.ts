@@ -7,7 +7,7 @@ export class ModelTypeExercise{
     uid: string;
     name: string;
 
-    constructor(uid = '', name = ''){
+    constructor(name: string, uid: string = ''){
         this.uid = uid || Helper.generateUid();
         this.name = name || '';
     }

@@ -22,6 +22,7 @@ import { NavigationPanelComponent } from './components/navigation-panel/navigati
 import { PopupSettingsComponent } from './components/popup-settings/popup-settings.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -42,7 +43,8 @@ ArrayExtension.on();
     NavigationPanelComponent,
     PopupSettingsComponent,
     PopupComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

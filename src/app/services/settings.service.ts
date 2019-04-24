@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Helper } from '../Helper';
+import { ModelTypeExercise } from '../models/ModelTypeExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class SettingsService {
 
   private _isOpen = new BehaviorSubject<boolean>(false); //окно открыто?
   private _isDisplayOldResults = new BehaviorSubject<boolean>(true); //показывать предыдущие результаты?
-  private _exerciseTypes = new BehaviorSubject<string[]>(this.loadExerciseTypes()); //типы упражнений
+  private _exerciseTypes = new BehaviorSubject<ModelTypeExercise[]>(this.loadExerciseTypes()); //типы упражнений
 
   //для внешнего использования
   public isOpen$ = this._isOpen.asObservable();
@@ -35,12 +36,12 @@ export class SettingsService {
     return this._isDisplayOldResults.getValue();
   }
 
-  public set exerciseTypes(newValue: string[]){
+  public set exerciseTypes(newValue: ModelTypeExercise[]){
     const sortValue = Helper.clone(newValue).sort();
     this._exerciseTypes.next(sortValue);
     localStorage.setItem('SettingsService.exerciseTypes', JSON.stringify(sortValue));
   }
-  public get exerciseTypes(): string[]{
+  public get exerciseTypes(): ModelTypeExercise[]{
     return this._exerciseTypes.getValue();
   }
 
@@ -48,11 +49,11 @@ export class SettingsService {
   /**
    * Загрузка типов упражнений или возврат default значения
    */
-  private loadExerciseTypes(): string[]{
+  private loadExerciseTypes(): ModelTypeExercise[]{
     return JSON.parse(localStorage.getItem('SettingsService.exerciseTypes') || 'null') || 
       [
-        'Упражнение1',
-        'Упражнение2',
+        new ModelTypeExercise('Упражнение1'),
+        new ModelTypeExercise('Упражнение2')
       ];
   }
 }

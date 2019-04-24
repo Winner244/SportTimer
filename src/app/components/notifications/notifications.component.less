@@ -1,0 +1,27 @@
+.notifications{
+    position: fixed;
+    top:0;
+    right:0;
+    width: 240px;
+    height: 100%;
+    padding: 10px 15px;
+
+    &__message{
+        padding: 5px 10px;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 5px #000;
+
+        &_success{
+            background-color: #0fb504;
+            border: 1px solid #41d61c;
+            color: white;
+        }
+
+        &_error{    
+            background-color: #c51c1c;
+            border: 1px solid #940000;
+            color: white;
+        }
+    }
+}

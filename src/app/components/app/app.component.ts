@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { GoogleDriveService } from 'src/app/services/google-drive.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,10 @@ export class AppComponent implements OnInit {
   @ViewChild('content') contentElement: ElementRef;
   @ViewChild('footer') footerElement: ElementRef;
 
-  constructor(){
+  constructor(private googleDriveService: GoogleDriveService){
     this.onResize = this.onResize.bind(this);
+
+    googleDriveService.synchronizationDrive();
   }
 
   ngOnInit() {
