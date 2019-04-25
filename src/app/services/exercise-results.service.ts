@@ -8,7 +8,7 @@ import { ModelExerciseResult } from '../models/ModelExerciseResult';
 export class ExerciseResultsService {
 
   private _exerciseResults = new BehaviorSubject<ModelExerciseResult[]>(this.loadExerciseResults()); //типы упражнений
-  private _dateSave = new BehaviorSubject<Date|null>(this.loadDateSave()); //время последнего изменения
+  private _dateSave = new BehaviorSubject<number>(this.loadDateSave()); //время последнего изменения
 
   //для внешнего использования
   public exerciseResults$ = this._exerciseResults.asObservable();
@@ -17,16 +17,18 @@ export class ExerciseResultsService {
 
   //set/get
   public set exerciseResults(newValue: ModelExerciseResult[]){
+    localStorage.setItem('ExerciseResultsService.exerciseResults', JSON.stringify(newValue));
     this._exerciseResults.next(newValue);
   }
   public get exerciseResults(): ModelExerciseResult[]{
     return this._exerciseResults.getValue();
   }
 
-  public set dateSave(newValue: Date){
+  public set dateSave(newValue: number){
+    localStorage.setItem('ExerciseResultsService.dateSave', newValue + '');
     this._dateSave.next(newValue);
   }
-  public get dateSave(): Date{
+  public get dateSave(): number{
     return this._dateSave.getValue();
   }
   
@@ -39,7 +41,7 @@ export class ExerciseResultsService {
   /**
    * Загрузка результатов упражнений
    */
-  private loadDateSave(): Date|null{
-    return JSON.parse(localStorage.getItem('ExerciseResultsService.dateSave') || 'null') || null;
+  private loadDateSave(): number{
+    return JSON.parse(localStorage.getItem('ExerciseResultsService.dateSave') || '0') || 0;
   }
 }

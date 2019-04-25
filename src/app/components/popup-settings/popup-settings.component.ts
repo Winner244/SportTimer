@@ -18,7 +18,6 @@ export class PopupSettingsComponent implements OnDestroy {
   isOpen: boolean;
   isDisplayOldResults: boolean;
   isOnPushNotification: boolean;
-  isOnGoogleDrive: boolean;
   googleDriveEmail: string;
   exerciseTypes: ModelTypeExercise[];
 
