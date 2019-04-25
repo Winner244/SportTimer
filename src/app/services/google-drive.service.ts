@@ -319,7 +319,7 @@ export class GoogleDriveService {
             }
         })
         .catch(err => {
-            console.info('GoogleDrive. login error', err);
+            console.info('GoogleDrive. auth error', err);
             this.notificationService.addMessage(new ModelNotification('С Google возникли проблемы. Попробуйте перезагрузить сайт и повторить.', 'error', 5));
         });
     }

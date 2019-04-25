@@ -5,12 +5,12 @@ import { ModelTypeExercise } from './ModelTypeExercise';
  * Результат упражнения
  */
 export class ModelExerciseResults{
-    dateSave: Date; //Дата сохранения модели
+    dateSave: number; //Дата сохранения модели (unixTime)
     exerciseTypes: ModelTypeExercise[]; //типы упражнений
     data: ModelExerciseResult[]; //упражнения
 
     constructor(){
-        this.dateSave = new Date();
+        this.dateSave = 0;
         this.exerciseTypes = [];
         this.data = [];
     }
