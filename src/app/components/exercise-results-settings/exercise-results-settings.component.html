@@ -1,6 +1,12 @@
 <span class="exercise-results-settings">
   <span>Упражнение: </span>
   <select class="exercise-results-settings__select-exercise">
-    <option *ngFor="let exerciseType of exerciseTypes">{{exerciseType.name}}</option>
+    <option 
+        (click)="onSelectTypeExercise(exerciseType)"
+        [selected]="exerciseType.uid === exerciseTypeUidSelected"
+        *ngFor="let exerciseType of exerciseTypes" 
+      >
+      {{exerciseType.name}}
+    </option>
   </select>
 </span>

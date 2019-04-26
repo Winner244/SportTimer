@@ -1,5 +1,14 @@
 <div class="exercise-results-statistics">
-  <span class="exercise-results-statistics__item">Количество: 87</span>
-  <span class="exercise-results-statistics__item">Поднятая масса: 4872</span>
-  <span class="exercise-results-statistics__item">Время начала: 10 апреля 11:05</span>
+  <span class="exercise-results-statistics__item">
+    Количество: {{exerciseCurrentResultCount}} 
+    <small *ngIf="exerciseLastResultCount" class="exercise-results-statistics__item-last">/ {{exerciseLastResultCount}}</small>
+  </span>
+  <span class="exercise-results-statistics__item">
+    Поднятая масса: {{exerciseCurrentResultMass}} 
+    <small *ngIf="exerciseLastResultMass" class="exercise-results-statistics__item-last">/ {{exerciseLastResultMass}}</small>
+  </span>
+  <span class="exercise-results-statistics__item">
+    Время начала: {{getDateStartCurrent()}} 
+    <small *ngIf="exerciseCurrentResultDate" class="exercise-results-statistics__item-last">/ {{getDateLast()}}</small>
+  </span>
 </div>

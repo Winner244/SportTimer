@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ModelExerciseResultItem } from 'src/app/models/ModelExerciseResultItem';
+import { Helper } from '../../Helper';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-exercise-results-table',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExerciseResultsTableComponent implements OnInit {
 
+  @Input() items: ModelExerciseResultItem[];
+
+  @Output() onChangeModel = new EventEmitter<void>();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  getTimeStart(item: ModelExerciseResultItem): string{
+    return moment(item.timeStart).format('hh:mm');
+  }
+  getTimeEnd(item: ModelExerciseResultItem): string{
+    return moment(item.timeEnd).format('hh:mm');
+  }
+  getTimeDuration(item: ModelExerciseResultItem): string{
+    return Helper.betweenDate(item.timeStart, item.timeEnd);
+  }
+
+  changeModel(){
+    this.onChangeModel.emit();
+  }
 }

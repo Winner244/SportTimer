@@ -7,11 +7,13 @@ import { ModelExerciseResult } from '../models/ModelExerciseResult';
 })
 export class ExerciseResultsService {
 
-  private _exerciseResults = new BehaviorSubject<ModelExerciseResult[]>(this.loadExerciseResults()); //типы упражнений
+  private _exerciseResults = new BehaviorSubject<ModelExerciseResult[]>(this.loadExerciseResults()); //результаты всех упражнений
+  private _exerciseCurrentResults = new BehaviorSubject<ModelExerciseResult>(this.loadExerciseCurrentResults()); //результаты текущего упражнения
   private _dateSave = new BehaviorSubject<number>(this.loadDateSave()); //время последнего изменения
 
   //для внешнего использования
   public exerciseResults$ = this._exerciseResults.asObservable();
+  public exerciseCurrentResults$ = this._exerciseCurrentResults.asObservable();
   
   constructor() { }
 
@@ -31,17 +33,36 @@ export class ExerciseResultsService {
   public get dateSave(): number{
     return this._dateSave.getValue();
   }
+
+  public set exerciseCurrentResults(newValue: ModelExerciseResult){
+    localStorage.setItem('ExerciseResultsService.exerciseCurrentResults', JSON.stringify(newValue));
+    this._exerciseCurrentResults.next(newValue);
+  }
+  public get exerciseCurrentResults(): ModelExerciseResult{
+    return this._exerciseCurrentResults.getValue();
+  }
+
+
+  public getLastExerciseResults(exerciseTypeUid: string){
+    if(!exerciseTypeUid){
+      return null;
+    }
+
+    return this.exerciseResults.filter(x => x.type.uid === exerciseTypeUid).last();
+  }
   
-  /**
-   * Загрузка результатов упражнений
-   */
+  
+  /** Загрузка результатов упражнений */
   private loadExerciseResults(): ModelExerciseResult[]{
     return JSON.parse(localStorage.getItem('ExerciseResultsService.exerciseResults') || '[]') || [];
   }
-  /**
-   * Загрузка результатов упражнений
-   */
+  /** Загрузка результатов упражнений */
   private loadDateSave(): number{
     return JSON.parse(localStorage.getItem('ExerciseResultsService.dateSave') || '0') || 0;
+  }
+
+  /** Загрузка результатов текущего упражнения */
+  private loadExerciseCurrentResults(): ModelExerciseResult{
+    return JSON.parse(localStorage.getItem('ExerciseResultsService.exerciseCurrentResults') || 'null') || null;
   }
 }

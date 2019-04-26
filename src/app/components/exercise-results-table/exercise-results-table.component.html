@@ -10,29 +10,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-        <td>1</td>
-        <td>11:05:47</td>
-        <td>11:09:28</td>
-        <td>3м. 41сек</td>
-        <td><input type='number'/></td>
-        <td><input type='number'/></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>11:09:28</td>
-        <td>13:07:10</td>
-        <td>6дн. 1ч. 57м. 42сек.</td>
-        <td><input type='number'/></td>
-        <td><input type='number'/></td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>13:07:10</td>
-        <td></td>
-        <td></td>
-        <td><input type='number'/></td>
-        <td><input type='number'/></td>
+    <tr *ngFor="let exerciseResult of items; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{getTimeStart(exerciseResult)}}</td>
+        <td>{{getTimeEnd(exerciseResult)}}</td>
+        <td>{{getTimeDuration(exerciseResult)}}</td>
+        <td><input type='number' [(ngModel)]="exerciseResult.count" (blur)="changeModel()"/></td>
+        <td><input type='number' [(ngModel)]="exerciseResult.mass" (blur)="changeModel()"/></td>
     </tr>
   </tbody>
 </table>
