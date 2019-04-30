@@ -1,9 +1,12 @@
 <span class="exercise-results-settings">
   <span>Упражнение: </span>
-  <select class="exercise-results-settings__select-exercise">
+  <select 
+    (change)="onSelectTypeExercise($event.target.value)"
+    class="exercise-results-settings__select-exercise"
+  >
     <option 
-        (click)="onSelectTypeExercise(exerciseType)"
-        [selected]="exerciseType.uid === exerciseTypeUidSelected"
+        [value]="exerciseType.uid"
+        [selected]="exerciseType.uid === exerciseTypeSelected.uid"
         *ngFor="let exerciseType of exerciseTypes" 
       >
       {{exerciseType.name}}

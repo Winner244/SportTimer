@@ -33,9 +33,9 @@ export class TimerComponent implements OnDestroy {
    */
   get timeString(){
     return '{0}:{1}:{2}.{3}'.format(
-        Helper.twoZero(this.timer / 60 / 60 / 1000),
-        Helper.twoZero(this.timer / 60 / 1000 % 60),
-        Helper.twoZero(this.timer / 1000 % 60),
+        Helper.twoZero(parseInt(this.timer / 60 / 60 / 1000 + '')),
+        Helper.twoZero(parseInt(this.timer / 60 / 1000 % 60 + '')),
+        Helper.twoZero(parseInt(this.timer / 1000 % 60 + '')),
         Helper.twoZero(parseInt((this.timer % 1000 / 10) + '')),
     );
   }

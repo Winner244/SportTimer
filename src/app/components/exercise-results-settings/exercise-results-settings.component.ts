@@ -11,7 +11,7 @@ import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
 })
 export class ExerciseResultsSettingsComponent implements OnDestroy {
   exerciseTypes: ModelTypeExercise[];
-  exerciseTypeUidSelected: string;
+  exerciseTypeSelected: ModelTypeExercise;
 
   private _destroyed: Subject<any> = new Subject();
 
@@ -22,7 +22,7 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
 
     this.settingsService.exerciseTypeUidSelected$
       .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseTypeUidSelected = value);
+      .subscribe(value => this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == value));
   }
 
   ngOnDestroy(){
@@ -30,8 +30,8 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
     this._destroyed.complete();
   }
 
-  onSelectTypeExercise(exerciseType: ModelTypeExercise){
-    this.exerciseTypeUidSelected = exerciseType.uid;
-    this.settingsService.exerciseTypeUidSelected = exerciseType.uid;
+  onSelectTypeExercise(exerciseTypeUid: string){
+    this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == exerciseTypeUid);
+    this.settingsService.exerciseTypeUidSelected = exerciseTypeUid;
   }
 }

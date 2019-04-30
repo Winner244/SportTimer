@@ -96,7 +96,7 @@ export class PopupSettingsComponent implements OnDestroy {
   }
 
   getCountExercisesByType(exerciseType: ModelTypeExercise){
-    return this.exerciseResultsService.exerciseResults.filter(x => x.type.uid == exerciseType.uid).length;
+    return this.exerciseResultsService.exerciseResults.filter(x => x.type == exerciseType.uid).length;
   }
 
   /** для починки ngModel внутри ngFor (устсраняет баг ангуляра) */

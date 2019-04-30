@@ -47,8 +47,8 @@ export class ExerciseResultsService {
     if(!exerciseTypeUid){
       return null;
     }
-
-    return this.exerciseResults.filter(x => x.type.uid === exerciseTypeUid).last();
+    
+    return this.exerciseResults.filter(x => x.type === exerciseTypeUid).last();
   }
   
   

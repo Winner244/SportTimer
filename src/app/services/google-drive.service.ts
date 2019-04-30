@@ -114,6 +114,7 @@ export class GoogleDriveService {
                                 }
 
                                 //сохраняем на google drive
+                                console.info('GoogleDrive. data is not the same', googleLastDate, currentData.dateSave);
                                 return this._updateDriveFile(idFile, currentData);
                             });
                     }
@@ -166,9 +167,9 @@ export class GoogleDriveService {
     private _getDataDriveFile(idFile: string | number): Promise<any> {
         return this.http.get(this._apiPath + '/drive/v3/files/' + idFile + '?alt=media', this._getHeader())
             .toPromise()
-            .then(dataFile => {
+            .then((dataFile: any) => {
                 console.info('GoogleDrive. loaded from drive:', dataFile);
-                return dataFile;
+                return JSON.parse(dataFile.file);
             })
     }
 

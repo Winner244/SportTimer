@@ -6,12 +6,12 @@ import { ModelTypeExercise } from './ModelTypeExercise';
  */
 export class ModelExerciseResult{
     date: number; //Дата начала тренировки (unixTime)
-    type: ModelTypeExercise; //тип тренировки
+    type: string; //uid типа тренировки
     results: ModelExerciseResultItem[]; //Подходы (результаты упражнения)
 
     constructor(type: ModelTypeExercise, approachExercise: ModelExerciseResultItem[]){
         this.date = Date.now();
-        this.type = type;
+        this.type = type.uid;
         this.results = approachExercise || [];
     }
 }
