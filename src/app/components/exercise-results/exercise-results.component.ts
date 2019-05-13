@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
-import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-exercise-results',
@@ -12,25 +11,22 @@ import { SettingsService } from 'src/app/services/settings.service';
 })
 export class ExerciseResultsComponent implements OnDestroy {
   exerciseLastResults: ModelExerciseResult;
-  exerciseCurrentResults: ModelExerciseResult;
+  exerciseCurrentResult: ModelExerciseResult;
 
   private _destroyed: Subject<any> = new Subject();
 
-  constructor(
-    private exerciseResultsService: ExerciseResultsService,
-    private settingsService: SettingsService) 
-  { 
+  constructor(private exerciseResultsService: ExerciseResultsService) { 
     this.exerciseResultsService.exerciseResults$
       .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(this.settingsService.exerciseTypeUidSelected));
+      .subscribe(value => this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(this.exerciseResultsService.exerciseTypeUidSelected));
 
-    this.settingsService.exerciseTypeUidSelected$
+    this.exerciseResultsService.exerciseTypeUidSelected$
       .pipe(takeUntil(this._destroyed))
       .subscribe(value => this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(value));
 
-    this.exerciseResultsService.exerciseCurrentResults$
+    this.exerciseResultsService.exerciseCurrentResult$
       .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseCurrentResults = value);
+      .subscribe(value => this.exerciseCurrentResult = value);
   }
 
   ngOnDestroy(){
@@ -40,6 +36,6 @@ export class ExerciseResultsComponent implements OnDestroy {
 
   changeModelTable(){
     console.log('changeModelTable');
-    this.exerciseResultsService.exerciseCurrentResults = this.exerciseCurrentResults;
+    this.exerciseResultsService.exerciseCurrentResult = this.exerciseCurrentResult;
   }
 }

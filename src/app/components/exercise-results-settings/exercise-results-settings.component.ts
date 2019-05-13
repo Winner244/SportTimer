@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
+import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
   selector: 'app-exercise-results-settings',
@@ -15,12 +16,15 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
 
   private _destroyed: Subject<any> = new Subject();
 
-  constructor(private settingsService: SettingsService) { 
+  constructor(
+    private settingsService: SettingsService,
+    private exerciseResultsService: ExerciseResultsService) 
+  { 
     this.settingsService.exerciseTypes$
       .pipe(takeUntil(this._destroyed))
       .subscribe(value => this.exerciseTypes = value);
 
-    this.settingsService.exerciseTypeUidSelected$
+    this.exerciseResultsService.exerciseTypeUidSelected$
       .pipe(takeUntil(this._destroyed))
       .subscribe(value => this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == value));
   }
@@ -32,6 +36,6 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
 
   onSelectTypeExercise(exerciseTypeUid: string){
     this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == exerciseTypeUid);
-    this.settingsService.exerciseTypeUidSelected = exerciseTypeUid;
+    this.exerciseResultsService.exerciseTypeUidSelected = exerciseTypeUid;
   }
 }

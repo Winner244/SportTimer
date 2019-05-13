@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import * as moment from 'moment';
-import { SettingsService } from 'src/app/services/settings.service';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
@@ -23,9 +22,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
 
   private _destroyed: Subject<any> = new Subject();
 
-  constructor(
-    private timerService: SettingsService,
-    private exerciseResultsService: ExerciseResultsService) {
+  constructor(private exerciseResultsService: ExerciseResultsService) {
       this.exerciseLastResultCount = 
       this.exerciseLastResultMass =
       this.exerciseLastResultDate =
@@ -33,7 +30,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
       this.exerciseCurrentResultMass =
       this.exerciseCurrentResultDate = 0;
     
-    this.timerService.exerciseTypeUidSelected$
+    this.exerciseResultsService.exerciseTypeUidSelected$
       .pipe(takeUntil(this._destroyed))
       .subscribe(value => {
         this.exerciseTypeUidSelected = value;

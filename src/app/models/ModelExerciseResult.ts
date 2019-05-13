@@ -9,9 +9,9 @@ export class ModelExerciseResult{
     type: string; //uid типа тренировки
     results: ModelExerciseResultItem[]; //Подходы (результаты упражнения)
 
-    constructor(type: ModelTypeExercise, approachExercise: ModelExerciseResultItem[]){
+    constructor(type: string, approachExercise: ModelExerciseResultItem[] = []){
         this.date = Date.now();
-        this.type = type.uid;
+        this.type = type;
         this.results = approachExercise || [];
     }
 }
