@@ -5,62 +5,70 @@ import * as moment from 'moment';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
-  selector: 'app-exercise-results-statistics',
-  templateUrl: './exercise-results-statistics.component.html',
-  styleUrls: ['./exercise-results-statistics.component.less']
+   selector: 'app-exercise-results-statistics',
+   templateUrl: './exercise-results-statistics.component.html',
+   styleUrls: ['./exercise-results-statistics.component.less']
 })
 export class ExerciseResultsStatisticsComponent implements OnDestroy {
-  exerciseTypeUidSelected: string;
+   exerciseTypeUidSelected: string;
 
-  exerciseLastResultCount: number;
-  exerciseLastResultMass: number;
-  exerciseLastResultDate: number;
-  
-  exerciseCurrentResultCount: number;
-  exerciseCurrentResultMass: number;
-  exerciseCurrentResultDate: number;
+   exerciseLastResultCount: number;
+   exerciseLastResultMass: number;
+   exerciseLastResultDate: number;
 
-  private _destroyed: Subject<any> = new Subject();
+   exerciseCurrentResultCount: number;
+   exerciseCurrentResultMass: number;
+   exerciseCurrentResultDate: number;
 
-  constructor(private exerciseResultsService: ExerciseResultsService) {
-      this.exerciseLastResultCount = 
-      this.exerciseLastResultMass =
-      this.exerciseLastResultDate =
-      this.exerciseCurrentResultCount =
-      this.exerciseCurrentResultMass =
-      this.exerciseCurrentResultDate = 0;
-    
-    this.exerciseResultsService.exerciseTypeUidSelected$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(value => {
-        this.exerciseTypeUidSelected = value;
-        const exerciseLastResult = this.exerciseResultsService.getLastExerciseResults(this.exerciseTypeUidSelected);
+   private _destroyed: Subject<any> = new Subject();
 
-        if(exerciseLastResult && exerciseLastResult.results){
-          this.exerciseLastResultCount = exerciseLastResult.results.sum(x => x.count);
-          this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.mass);
-          this.exerciseLastResultDate = exerciseLastResult.date;
-        }
-        else{
-          this.exerciseLastResultCount = 0;
-          this.exerciseLastResultMass = 0;
-          this.exerciseLastResultDate = 0;
-        }
-      });
-  }
+   constructor(private exerciseResultsService: ExerciseResultsService) {
+      this.exerciseLastResultCount =
+         this.exerciseLastResultMass =
+         this.exerciseLastResultDate =
+         this.exerciseCurrentResultCount =
+         this.exerciseCurrentResultMass =
+         this.exerciseCurrentResultDate = 0;
 
-  ngOnDestroy(){
-    this._destroyed.next();
-    this._destroyed.complete();
-  }
+      this.exerciseResultsService.exerciseTypeUidSelected$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.exerciseTypeUidSelected = value;
+            const exerciseLastResult = this.exerciseResultsService.getLastExerciseResults(this.exerciseTypeUidSelected);
 
-  getDateStartCurrent() : string{
-    return this.exerciseCurrentResultDate 
-      ? moment(this.exerciseCurrentResultDate).format('DD MMMM HH:mm')
-      : '-';
-  }
+            if (exerciseLastResult && exerciseLastResult.results) {
+               this.exerciseLastResultCount = exerciseLastResult.results.sum(x => x.count);
+               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.mass);
+               this.exerciseLastResultDate = exerciseLastResult.date;
+            }
+            else {
+               this.exerciseLastResultCount = 0;
+               this.exerciseLastResultMass = 0;
+               this.exerciseLastResultDate = 0;
+            }
+         });
 
-  getDateLast() : string{
-    return moment(this.exerciseLastResultDate).format('DD MMMM');
-  }
+      this.exerciseResultsService.exerciseCurrentResult$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.exerciseCurrentResultCount = value.results.sum(x => x.count);
+            this.exerciseCurrentResultMass = value.results.sum(x => x.mass);
+            this.exerciseCurrentResultDate = value.date;
+         });
+   }
+
+   ngOnDestroy() {
+      this._destroyed.next();
+      this._destroyed.complete();
+   }
+
+   getDateStartCurrent(): string {
+      return this.exerciseCurrentResultDate
+         ? moment(this.exerciseCurrentResultDate).format('DD MMMM HH:mm')
+         : '-';
+   }
+
+   getDateLast(): string {
+      return moment(this.exerciseLastResultDate).format('DD MMMM');
+   }
 }

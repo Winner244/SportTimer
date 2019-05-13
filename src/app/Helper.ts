@@ -69,6 +69,9 @@ export class Helper{
 
     /** Clone deep */
     public static clone(object: any): any{
+        if(object === undefined){
+            return null;
+        }
         return JSON.parse(JSON.stringify(object));
     }
 }

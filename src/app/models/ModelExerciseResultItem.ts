@@ -9,5 +9,8 @@ export class ModelExerciseResultItem{
 
     constructor(){
         this.timeStart = Date.now();
+        this.timeEnd = null;
+        this.count = 0;
+        this.mass = 0;
     }
 }

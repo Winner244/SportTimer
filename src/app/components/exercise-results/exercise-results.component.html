@@ -5,6 +5,6 @@
   <app-exercise-results-control></app-exercise-results-control>
 </div>
 <div class="exercise-results__tables">
-  <app-exercise-results-table [items]="(exerciseLastResults || {}).results || []" class="exercise-results__table-results-old"></app-exercise-results-table>
-  <app-exercise-results-table [items]="(exerciseCurrentResult || {}).results || []" (changeModel)=changeModelTable()></app-exercise-results-table>
+  <app-exercise-results-table [items]="(exerciseLastResults || {}).results || []"   class="exercise-results__table-results-old" isDisableInputs="true"></app-exercise-results-table>
+  <app-exercise-results-table [items]="(exerciseCurrentResult || {}).results || []" class="exercise-results__table-results" (onChangeModel)=changeModelTable()></app-exercise-results-table>
 </div>

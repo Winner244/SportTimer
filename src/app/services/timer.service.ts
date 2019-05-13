@@ -1,183 +1,183 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { Moment }  from 'moment';
+import { Moment } from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { SettingsService } from './settings.service';
 
 @Injectable({
-  providedIn: 'root'
+   providedIn: 'root'
 })
 export class TimerService {
-  
-  //для внутреннего использования
-  private _timer = new BehaviorSubject<number>(0); //время в таймере
-  private _isTimerRunning = new BehaviorSubject<boolean>(false); //таймер запущен?
 
-  private _audio: HTMLAudioElement; //Звук сигнала окончания таймера
-  private _intervalTimer: NodeJS.Timer; //для работы таймера во включённом состоянии
-  private _timeEnd: Moment; //Время окончания таймера (unixTime)
-  private _settingHours: number; //часы из настроек
-  private _settingMinutes: number; //минуты из настроек
-  private _settingSeconds: number; //секунды из настроек
-  private _isPlaySoundInEnd: boolean; //проигрывать звук при окончании таймера?  
-  private _callbacksStartTimer: Array<Function>; 
-  private _callbacksEndTimer: Array<Function>; 
+   //для внутреннего использования
+   private _timer = new BehaviorSubject<number>(0); //время в таймере
+   private _isTimerRunning = new BehaviorSubject<boolean>(false); //таймер запущен?
 
-  //для внешнего использования
-  public timer$ = this._timer.asObservable();
-  public isTimerRunning$ = this._isTimerRunning.asObservable();
+   private _audio: HTMLAudioElement; //Звук сигнала окончания таймера
+   private _intervalTimer: NodeJS.Timer; //для работы таймера во включённом состоянии
+   private _timeEnd: Moment; //Время окончания таймера (unixTime)
+   private _settingHours: number; //часы из настроек
+   private _settingMinutes: number; //минуты из настроек
+   private _settingSeconds: number; //секунды из настроек
+   private _isPlaySoundInEnd: boolean; //проигрывать звук при окончании таймера?  
+   private _callbacksStartTimer: Array<Function>;
+   private _callbacksEndTimer: Array<Function>;
+
+   //для внешнего использования
+   public timer$ = this._timer.asObservable();
+   public isTimerRunning$ = this._isTimerRunning.asObservable();
 
 
-  constructor(private settingsService: SettingsService) { 
-    this._audio = new Audio('/assets/alarm1.wav')
-    this._settingHours = parseInt(localStorage.getItem('TimerService.settingHours')) || 0;
-    this._settingMinutes = parseInt(localStorage.getItem('TimerService.settingMinutes')) || 1;
-    this._settingSeconds = parseInt(localStorage.getItem('TimerService.settingSeconds')) || 30;
-    this._isPlaySoundInEnd = (localStorage.getItem('TimerService.isPlaySoundInEnd') || 'true') === 'true';
-    this._callbacksStartTimer = [];
-    this._callbacksEndTimer = [];
+   constructor(private settingsService: SettingsService) {
+      this._audio = new Audio('/assets/alarm1.wav')
+      this._settingHours = parseInt(localStorage.getItem('TimerService.settingHours')) || 0;
+      this._settingMinutes = parseInt(localStorage.getItem('TimerService.settingMinutes')) || 1;
+      this._settingSeconds = parseInt(localStorage.getItem('TimerService.settingSeconds')) || 30;
+      this._isPlaySoundInEnd = (localStorage.getItem('TimerService.isPlaySoundInEnd') || 'true') === 'true';
+      this._callbacksStartTimer = [];
+      this._callbacksEndTimer = [];
 
-    this.updateTimer = this.updateTimer.bind(this);
+      this.updateTimer = this.updateTimer.bind(this);
 
-    this.updateTimer();
-  }
+      this.updateTimer();
+   }
 
-  //set/get
-  public set timer(newValue: number){
-    this._timer.next(newValue);
-  }
-  public get timer(): number{
-    return this._timer.getValue();
-  }
+   //set/get
+   public set timer(newValue: number) {
+      this._timer.next(newValue);
+   }
+   public get timer(): number {
+      return this._timer.getValue();
+   }
 
-  public set settingHours(newValue: number){
-    localStorage.setItem('TimerService.settingHours', newValue + '');
-    this._settingHours = newValue;
-    this.updateTimer();
-  }
-  public get settingHours(): number{
-    return this._settingHours;
-  }
+   public set settingHours(newValue: number) {
+      localStorage.setItem('TimerService.settingHours', newValue + '');
+      this._settingHours = newValue;
+      this.updateTimer();
+   }
+   public get settingHours(): number {
+      return this._settingHours;
+   }
 
-  public set settingMinutes(newValue: number){
-    localStorage.setItem('TimerService.settingMinutes', newValue + '');
-    this._settingMinutes = newValue;
-    this.updateTimer();
-  }
-  public get settingMinutes(): number{
-    return this._settingMinutes;
-  }
+   public set settingMinutes(newValue: number) {
+      localStorage.setItem('TimerService.settingMinutes', newValue + '');
+      this._settingMinutes = newValue;
+      this.updateTimer();
+   }
+   public get settingMinutes(): number {
+      return this._settingMinutes;
+   }
 
-  public set settingSeconds(newValue: number){
-    localStorage.setItem('TimerService.settingSeconds', newValue + '');
-    this._settingSeconds = newValue;
-    this.updateTimer();
-  }
-  public get settingSeconds(): number{
-    return this._settingSeconds;
-  }
+   public set settingSeconds(newValue: number) {
+      localStorage.setItem('TimerService.settingSeconds', newValue + '');
+      this._settingSeconds = newValue;
+      this.updateTimer();
+   }
+   public get settingSeconds(): number {
+      return this._settingSeconds;
+   }
 
-  public set isTimerRunning(newValue: boolean){
-    this._isTimerRunning.next(newValue);
-  }
-  public get isTimerRunning(): boolean{
-    return this._isTimerRunning.getValue();
-  }
+   public set isTimerRunning(newValue: boolean) {
+      this._isTimerRunning.next(newValue);
+   }
+   public get isTimerRunning(): boolean {
+      return this._isTimerRunning.getValue();
+   }
 
-  public set isPlaySoundInEnd(newValue: boolean){
-    localStorage.setItem('TimerService.isPlaySoundInEnd', newValue + '');
-    this._isPlaySoundInEnd = newValue;
-  }
-  public get isPlaySoundInEnd(): boolean{
-    return this._isPlaySoundInEnd;
-  }
-  
+   public set isPlaySoundInEnd(newValue: boolean) {
+      localStorage.setItem('TimerService.isPlaySoundInEnd', newValue + '');
+      this._isPlaySoundInEnd = newValue;
+   }
+   public get isPlaySoundInEnd(): boolean {
+      return this._isPlaySoundInEnd;
+   }
 
-  /**
-   * Запуск таймера
-   */
-  playTimer(){
-    this.isTimerRunning = true;
 
-    //время окончания таймера
-    this._timeEnd = moment().add(this.timer / 1000, 's');
+   /**
+    * Запуск таймера
+    */
+   public playTimer() {
+      this.isTimerRunning = true;
 
-    //запуск таймера в интервале
-    this._intervalTimer = setInterval(this.updateTimer, 10);
+      //время окончания таймера
+      this._timeEnd = moment().add(this.timer / 1000, 's');
 
-    //вызов подписанных функций
-    this._callbacksStartTimer.map(x => x());
-  }
+      //запуск таймера в интервале
+      this._intervalTimer = setInterval(this.updateTimer, 10);
 
-  /**
-   * Остановка таймера на паузу, если запущен
-   */
-  pauseTimer(){
-    this.isTimerRunning = false;
+      //вызов подписанных функций
+      this._callbacksStartTimer.map(x => x());
+   }
 
-    //останавливаем таймер
-    clearInterval(this._intervalTimer);
-  }
+   /**
+    * Остановка таймера на паузу, если запущен
+    */
+   public pauseTimer() {
+      this.isTimerRunning = false;
 
-  /**
-   * Остановка и очистка таймера
-   */
-  clearTimer(){
-    this.isTimerRunning = false;
-    this.updateTimer();
+      //останавливаем таймер
+      clearInterval(this._intervalTimer);
+   }
 
-    //останавливаем таймер
-    clearInterval(this._intervalTimer);
-  }
+   /**
+    * Остановка и очистка таймера
+    */
+   public clearTimer() {
+      this.isTimerRunning = false;
+      this.updateTimer();
 
-  /**
-   * Окончание таймера
-   */
-  endTimer(){
-    this.isTimerRunning = false;
-    this.clearTimer();
+      //останавливаем таймер
+      clearInterval(this._intervalTimer);
+   }
 
-    //проигрывание звука
-    if(this.isPlaySoundInEnd){
-        this._audio.play();
-    }
+   /**
+    * Окончание таймера
+    */
+   public endTimer() {
+      this.isTimerRunning = false;
+      this.clearTimer();
 
-    //показ уведомления
-    if ("Notification" in window && this.settingsService.isOnPushNotification) {
-        if (Notification.permission === "granted") {
-            new Notification("Timer. Go!");
-        }
-    }
-
-    //вызов подписанных функций
-    this._callbacksEndTimer.map(x => x());
-  }
-
-  /**
-   * Обновляет время на таймере
-   */
-  updateTimer(){
-    if(this.isTimerRunning){ 
-      //update
-      this.timer = this._timeEnd.valueOf() - moment().valueOf();
-
-      //end
-      if(this.timer <= 0){
-          this.endTimer();
+      //проигрывание звука
+      if (this.isPlaySoundInEnd) {
+         this._audio.play();
       }
-    }
-    else{ 
-      //start
-      this.timer = this.settingHours * 60 * 60 * 1000 + 
-          this.settingMinutes * 60  * 1000 + 
-          this.settingSeconds * 1000;
-    }
-  }
 
-  addCallbackStart(callback: Function){
-    this._callbacksStartTimer.push(callback);
-  }
-  addCallbackEnd(callback: Function){
-    this._callbacksEndTimer.push(callback);
-  }
+      //показ уведомления
+      if ("Notification" in window && this.settingsService.isOnPushNotification) {
+         if (Notification.permission === "granted") {
+            new Notification("Timer. Go!");
+         }
+      }
+
+      //вызов подписанных функций
+      this._callbacksEndTimer.map(x => x());
+   }
+
+   /**
+    * Обновляет время на таймере
+    */
+   public updateTimer() {
+      if (this.isTimerRunning) {
+         //update
+         this.timer = this._timeEnd.valueOf() - moment().valueOf();
+
+         //end
+         if (this.timer <= 0) {
+            this.endTimer();
+         }
+      }
+      else {
+         //start
+         this.timer = this.settingHours * 60 * 60 * 1000 +
+            this.settingMinutes * 60 * 1000 +
+            this.settingSeconds * 1000;
+      }
+   }
+
+   public addCallbackStart(callback: Function) {
+      this._callbacksStartTimer.push(callback);
+   }
+   public addCallbackEnd(callback: Function) {
+      this._callbacksEndTimer.push(callback);
+   }
 }

@@ -11,7 +11,8 @@ import * as moment from 'moment';
 export class ExerciseResultsTableComponent implements OnInit {
 
   @Input() items: ModelExerciseResultItem[];
-
+  @Input() isDisableInputs: boolean;
+  
   @Output() onChangeModel = new EventEmitter<void>();
 
   constructor() { }
@@ -20,13 +21,13 @@ export class ExerciseResultsTableComponent implements OnInit {
   }
 
   getTimeStart(item: ModelExerciseResultItem): string{
-    return moment(item.timeStart).format('hh:mm');
+    return moment(item.timeStart).format('hh:mm:ss');
   }
   getTimeEnd(item: ModelExerciseResultItem): string{
-    return moment(item.timeEnd).format('hh:mm');
+    return item.timeEnd ? moment(item.timeEnd).format('hh:mm:ss') : '';
   }
   getTimeDuration(item: ModelExerciseResultItem): string{
-    return Helper.betweenDate(item.timeStart, item.timeEnd);
+    return item.timeEnd ? Helper.betweenDate(item.timeStart, item.timeEnd) : '';
   }
 
   changeModel(){

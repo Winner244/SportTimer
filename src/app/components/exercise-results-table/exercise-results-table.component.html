@@ -15,8 +15,8 @@
         <td>{{getTimeStart(exerciseResult)}}</td>
         <td>{{getTimeEnd(exerciseResult)}}</td>
         <td>{{getTimeDuration(exerciseResult)}}</td>
-        <td><input type='number' [(ngModel)]="exerciseResult.count" (blur)="changeModel()"/></td>
-        <td><input type='number' [(ngModel)]="exerciseResult.mass" (blur)="changeModel()"/></td>
+        <td><input type='number' class="exercise-results-table__input-count" [(ngModel)]="exerciseResult.count" (blur)="changeModel()" [disabled]="isDisableInputs"/></td>
+        <td><input type='number' class="exercise-results-table__input-mass" [(ngModel)]="exerciseResult.mass" (blur)="changeModel()" [disabled]="isDisableInputs"/></td>
     </tr>
   </tbody>
 </table>
