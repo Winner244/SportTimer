@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { GoogleDriveService } from 'src/app/services/google-drive.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(this.onResize, 100);
+
+    const language = window.navigator ? window.navigator.language : 'en';
+    moment.locale(language.substr(0, 2));
   }
 
   onResize() {
