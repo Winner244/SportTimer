@@ -1,10 +1,12 @@
-<div #content (window:resize)="onResize()">
-    <app-header></app-header>
-    <app-timer></app-timer>
-    <app-exercise-results></app-exercise-results>
+<div class="app">
+    <div class="content">
+        <app-header></app-header>
+        <app-timer></app-timer>
+        <app-exercise-results></app-exercise-results>
+    </div>
+    <footer class="footer">
+        <app-navigation-panel></app-navigation-panel>
+    </footer>
 </div>
-<footer #footer class="footer" [class.footer-fixed]="isShowFooterFixed">
-    <app-navigation-panel></app-navigation-panel>
-</footer>
 <app-popup-settings></app-popup-settings>
 <app-notifications></app-notifications>

@@ -9,13 +9,11 @@ import * as moment from 'moment';
 })
 export class AppComponent implements OnInit {
    title = 'sportTimer';
-   isShowFooterFixed = false;
 
    @ViewChild('content') contentElement: ElementRef;
    @ViewChild('footer') footerElement: ElementRef;
 
    constructor(private googleDriveService: GoogleDriveService) {
-      this.onResize = this.onResize.bind(this);
 
       //синхронизация данных при старте
       this.googleDriveService.synchronizationDrive();
@@ -26,10 +24,5 @@ export class AppComponent implements OnInit {
    }
 
    ngOnInit() {
-      setTimeout(this.onResize, 100);
-   }
-
-   onResize() {
-      this.isShowFooterFixed = window.innerHeight > this.contentElement.nativeElement.offsetHeight + this.footerElement.nativeElement.offsetHeight;
    }
 }
