@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GoogleDriveService } from 'src/app/services/google-drive.service';
 import * as moment from 'moment';
 
@@ -9,9 +9,6 @@ import * as moment from 'moment';
 })
 export class AppComponent implements OnInit {
    title = 'sportTimer';
-
-   @ViewChild('content') contentElement: ElementRef;
-   @ViewChild('footer') footerElement: ElementRef;
 
    constructor(private googleDriveService: GoogleDriveService) {
 

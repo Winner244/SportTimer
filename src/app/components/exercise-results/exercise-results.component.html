@@ -4,7 +4,7 @@
   <app-exercise-results-statistics class="exercise-results__panel-statistics"></app-exercise-results-statistics>
   <app-exercise-results-control></app-exercise-results-control>
 </div>
-<div class="exercise-results__tables">
+<div class="exercise-results__tables" #tablesBox>
   <app-exercise-results-table [items]="(exerciseLastResults || {}).results || []"   class="exercise-results__table-results-old" isDisableInputs="true"></app-exercise-results-table>
   <app-exercise-results-table [items]="(exerciseCurrentResult || {}).results || []" class="exercise-results__table-results" (onChangeModel)=changeModelTable()></app-exercise-results-table>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
@@ -10,7 +10,7 @@ import { Helper } from 'src/app/Helper';
    templateUrl: './exercise-results.component.html',
    styleUrls: ['./exercise-results.component.less']
 })
-export class ExerciseResultsComponent implements OnDestroy {
+export class ExerciseResultsComponent implements OnDestroy, OnInit {
    exerciseLastResults: ModelExerciseResult;
    exerciseCurrentResultOldCountSumAndMass: number;
    exerciseCurrentResultsOld: number;
@@ -18,18 +18,32 @@ export class ExerciseResultsComponent implements OnDestroy {
 
    private _destroyed: Subject<any> = new Subject();
 
+   @ViewChild('tablesBox') tablesBoxElement: ElementRef;
+
+
    constructor(private exerciseResultsService: ExerciseResultsService) {
       this.exerciseCurrentResultOldCountSumAndMass = 0;
       this.exerciseCurrentResultsOld = 0;
+   }
 
+   ngOnInit() {
+      //подписка на изменение упражнений (добавился новый)
       this.exerciseResultsService.exerciseResults$
          .pipe(takeUntil(this._destroyed))
-         .subscribe(value => this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(this.exerciseResultsService.exerciseTypeUidSelected));
+         .subscribe(value => {
+            this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(this.exerciseResultsService.exerciseTypeUidSelected);
+            this.resizeTablesBox();
+         });
 
+      //подписка на изменение выбранного упражнения
       this.exerciseResultsService.exerciseTypeUidSelected$
          .pipe(takeUntil(this._destroyed))
-         .subscribe(value => this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(value));
+         .subscribe(value => {
+            this.exerciseLastResults = this.exerciseResultsService.getLastExerciseResults(value);
+            this.resizeTablesBox();
+         });
 
+      //подписка на изменение текущего упражнения (добился новый подход в упражнении)
       this.exerciseResultsService.exerciseCurrentResult$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
@@ -43,6 +57,7 @@ export class ExerciseResultsComponent implements OnDestroy {
             }
 
             this.exerciseCurrentResult = Helper.clone(value);
+            this.resizeTablesBox();
          });
    }
 
@@ -69,5 +84,16 @@ export class ExerciseResultsComponent implements OnDestroy {
       if(this.exerciseCurrentResultOldCountSumAndMass !== this.exerciseCurrentResult.results.sum(x => x.count + x.mass)){
          this.exerciseResultsService.exerciseCurrentResult = this.exerciseCurrentResult;
       }
+   }
+
+   /** высота контейнера таблиц должна быть такой же как самая большая таблица в ней. 
+    * Это нужна для footer-а и что бы другой контент не наезжал на таблицу прошлых результатов */
+   resizeTablesBox(){
+      setTimeout(() => {
+         const tableOld : any = document.getElementsByClassName('exercise-results__table-results-old')[0].children[0];
+         const tableCurrent : any = document.getElementsByClassName('exercise-results__table-results')[0].children[0];
+         const heightTables = Math.max(tableOld.offsetHeight, tableCurrent.offsetHeight);
+         this.tablesBoxElement.nativeElement.style.height = heightTables + 'px';
+      }, 100);
    }
 }
