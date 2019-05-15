@@ -31,7 +31,7 @@ export class TimerService {
    constructor(private settingsService: SettingsService) {
       this._audio = new Audio('/assets/alarm1.wav')
       this._settingHours = parseInt(localStorage.getItem('TimerService.settingHours')) || 0;
-      this._settingMinutes = parseInt(localStorage.getItem('TimerService.settingMinutes')) || 1;
+      this._settingMinutes = this._getDefaultMinutes();
       this._settingSeconds = parseInt(localStorage.getItem('TimerService.settingSeconds')) || 30;
       this._isPlaySoundInEnd = (localStorage.getItem('TimerService.isPlaySoundInEnd') || 'true') === 'true';
       this._callbacksStartTimer = [];
@@ -69,6 +69,7 @@ export class TimerService {
    }
 
    public set settingSeconds(newValue: number) {
+      console.log('settingSeconds', newValue);
       localStorage.setItem('TimerService.settingSeconds', newValue + '');
       this._settingSeconds = newValue;
       this.updateTimer();
@@ -179,5 +180,15 @@ export class TimerService {
    }
    public addCallbackEnd(callback: Function) {
       this._callbacksEndTimer.push(callback);
+   }
+
+   private _getDefaultMinutes() : number{
+      const localValue = localStorage.getItem('TimerService.settingMinutes');
+
+      if(localValue === null){
+         return 1; //default
+      }
+
+      return parseInt(localValue) || 0;
    }
 }

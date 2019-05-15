@@ -16,6 +16,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onClickOpenSettings(){
-    this.settingsService.isOpen = true;
+    this.settingsService.openPopup();
   }
 }

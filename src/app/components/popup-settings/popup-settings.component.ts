@@ -50,7 +50,7 @@ export class PopupSettingsComponent implements OnDestroy {
   }
 
   onClose(){
-    this.settingsService.isOpen = false;
+    this.settingsService.closePopup();
   }
 
   toggleDisplayOldResults(){

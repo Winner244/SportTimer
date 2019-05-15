@@ -24,6 +24,7 @@ import { PopupSettingsComponent } from './components/popup-settings/popup-settin
 import { PopupComponent } from './components/popup/popup.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { PopupChartComponent } from './components/popup-chart/popup-chart.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -45,7 +46,8 @@ ArrayExtension.on();
     PopupSettingsComponent,
     PopupComponent,
     CheckboxComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    PopupChartComponent
   ],
   imports: [
     BrowserModule,

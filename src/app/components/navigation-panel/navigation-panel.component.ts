@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopupChartService } from 'src/app/services/popup-chart.service';
 
 @Component({
   selector: 'app-navigation-panel',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private popupChartService: PopupChartService) { }
 
   ngOnInit() {
+  }
+
+  openAllResults(){
+
+  }
+
+  openChart(){
+    this.popupChartService.openPopup();
   }
 
 }

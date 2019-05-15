@@ -22,10 +22,10 @@ export class SettingsService {
   constructor() { }
 
   //set/get
-  public set isOpen(newValue: boolean){
+  private set isOpen(newValue: boolean){
     this._isOpen.next(newValue);
   }
-  public get isOpen(): boolean{
+  private get isOpen(): boolean{
     return this._isOpen.getValue();
   }
 
@@ -43,6 +43,14 @@ export class SettingsService {
   }
   public get exerciseTypes(): ModelTypeExercise[]{
     return this._exerciseTypes.getValue();
+  }
+
+  public openPopup(){
+     this.isOpen = true;
+  }
+
+  public closePopup(){
+     this.isOpen = false;
   }
   
   /**
