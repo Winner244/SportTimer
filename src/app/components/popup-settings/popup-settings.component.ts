@@ -83,8 +83,10 @@ export class PopupSettingsComponent implements OnDestroy {
     this.settingsService.exerciseTypes = this.exerciseTypes;
 
     //scroll to bottom
-    const box = document.getElementsByClassName('popup-settings__list-exercises')[0];
-    box.scrollTo(0, box.scrollHeight);
+    setTimeout(() => {
+      const box = document.getElementsByClassName('popup-settings__list-exercises')[0];
+      box.scrollTo(0, box.scrollHeight);
+    }, 100);
   }
 
   connectGoogleDrive(){
