@@ -10,7 +10,6 @@ export class PopupChartService {
 
    //для внешнего использования
    public isOpen$ = this._isOpen.asObservable();
-   public dataChart = [];
 
    constructor() { }
 

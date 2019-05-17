@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Chart } from 'chart.js';
 import { PopupChartService } from 'src/app/services/popup-chart.service';
+import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
+import * as moment from 'moment';
 
 @Component({
    selector: 'app-popup-chart',
@@ -17,7 +19,10 @@ export class PopupChartComponent implements OnDestroy {
 
    private _destroyed: Subject<any> = new Subject();
 
-   constructor(private popupChartService: PopupChartService) {
+	constructor(
+		private popupChartService: PopupChartService,
+		private exerciseResultsService: ExerciseResultsService) 
+	{
       this.popupChartService.isOpen$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
@@ -34,89 +39,62 @@ export class PopupChartComponent implements OnDestroy {
    }
 
    drawChart(){
+		const selectedExervices = this.exerciseResultsService.getTypeSelectedExerciseResults();
       const ctx = (<any>this.exerciseSelectedChartElement.nativeElement).getContext('2d');
-      const chart = new Chart(ctx, {
-         type: 'line',
-         data: [{
-            x: 10,
-            y: 20
-        }, {
-            x: 15,
-            y: 10
-        }],
-         options: {}
-      });
 
-      /**
-       * 
-       * 
-		var lineChartData = {
-			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+		const lineChartData = {
+			labels: selectedExervices.map(x => moment(x.date).format('DD.MM.YYYY')),
 			datasets: [{
-				label: 'My First dataset',
-				borderColor: window.chartColors.red,
-				backgroundColor: window.chartColors.red,
+				label: 'Количество',
+				borderColor: 'rgb(1, 0, 187)',
+				backgroundColor: 'rgb(1, 0, 187)',
+				pointRadius: 4,
 				fill: false,
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				],
-				yAxisID: 'y-axis-1',
+				data: selectedExervices.map(x => x.results.sum(r => r.count)),
+				yAxisID: 'y-axis-1'
 			}, {
-				label: 'My Second dataset',
-				borderColor: window.chartColors.blue,
-				backgroundColor: window.chartColors.blue,
+				label: 'Поднятая масса',
+				borderColor: 'rgb(187, 0, 40)',
+				backgroundColor: 'rgb(187, 0, 40)',
+				pointStyle: 'triangle',
+				pointRadius: 5,
 				fill: false,
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				],
+				data: selectedExervices.map(x => x.results.sum(r => r.mass)),
 				yAxisID: 'y-axis-2'
 			}]
 		};
 
-			Chart.Line(ctx, {
-				data: lineChartData,
-				options: {
-					responsive: true,
-					hoverMode: 'index',
-					stacked: false,
-					title: {
-						display: true,
-						text: 'Chart.js Line Chart - Multi Axis'
-					},
-					scales: {
-						yAxes: [{
-							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'left',
-							id: 'y-axis-1',
-						}, {
-							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'right',
-							id: 'y-axis-2',
-
-							// grid line settings
-							gridLines: {
-								drawOnChartArea: false, // only want the grid lines for one axis to show up
-							},
-						}],
+		Chart.Line(ctx, {
+			data: lineChartData,
+			options: {
+				responsive: true,
+				hoverMode: 'index',
+				stacked: false,
+				legend: {
+					position: 'right',
+					labels: {
+						usePointStyle: true
 					}
+				},
+				elements: {
+				},
+				scales: {
+					yAxes: [{
+						type: 'linear', 
+						display: true,
+						position: 'left',
+						id: 'y-axis-1',
+					},
+					{
+						type: 'linear', 
+						display: false,
+						position: 'right',
+						id: 'y-axis-2',
+					}]
 				}
-			});
+			}
+		});
 	
-       */
    }
 
    onClose() {

@@ -66,6 +66,11 @@ export class ExerciseResultsService {
       return this._exerciseTypeUidSelected.getValue();
    }
 
+   /** Возвращает все результаты упражнений с выбранным типом */
+   public getTypeSelectedExerciseResults(){
+      return this.exerciseResults.filter(x => x.type === this.exerciseTypeUidSelected);
+   }
+
 
    public getLastExerciseResults(exerciseTypeUid: string) {
       if (!exerciseTypeUid) {
