@@ -41,9 +41,9 @@ export class PopupChartComponent implements OnDestroy {
    drawChart(){
 		const selectedExervices = this.exerciseResultsService.getTypeSelectedExerciseResults();
       const ctx = (<any>this.exerciseSelectedChartElement.nativeElement).getContext('2d');
+		const xAxis= selectedExervices.map(x => moment(x.date).format('DD.MM.YYYY'));
 
 		const lineChartData = {
-			labels: selectedExervices.map(x => moment(x.date).format('DD.MM.YYYY')),
 			datasets: [{
 				label: 'Количество',
 				borderColor: 'rgb(1, 0, 187)',
@@ -51,7 +51,8 @@ export class PopupChartComponent implements OnDestroy {
 				pointRadius: 4,
 				fill: false,
 				data: selectedExervices.map(x => x.results.sum(r => r.count)),
-				yAxisID: 'y-axis-1'
+				yAxisID: 'y-axis-1',
+				offset: true
 			}, {
 				label: 'Поднятая масса',
 				borderColor: 'rgb(187, 0, 40)',
@@ -60,8 +61,9 @@ export class PopupChartComponent implements OnDestroy {
 				pointRadius: 5,
 				fill: false,
 				data: selectedExervices.map(x => x.results.sum(r => r.mass)),
-				yAxisID: 'y-axis-2'
-			}]
+				yAxisID: 'y-axis-2',
+				offset: true
+			}],
 		};
 
 		Chart.Line(ctx, {
@@ -73,7 +75,9 @@ export class PopupChartComponent implements OnDestroy {
 				legend: {
 					position: 'right',
 					labels: {
-						usePointStyle: true
+						usePointStyle: true,
+						padding: 20,
+						fontSize: 14
 					}
 				},
 				elements: {
@@ -88,9 +92,13 @@ export class PopupChartComponent implements OnDestroy {
 					{
 						type: 'linear', 
 						display: false,
-						position: 'right',
 						id: 'y-axis-2',
-					}]
+					}],
+					xAxes: [{
+						type: 'category',
+						labels: xAxis,
+						offset: true
+				  }]
 				}
 			}
 		});
