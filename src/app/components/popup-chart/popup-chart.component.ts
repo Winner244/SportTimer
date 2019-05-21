@@ -42,6 +42,7 @@ export class PopupChartComponent implements OnDestroy {
 		const selectedExervices = this.exerciseResultsService.getTypeSelectedExerciseResults();
       const ctx = (<any>this.exerciseSelectedChartElement.nativeElement).getContext('2d');
 		const xAxis= selectedExervices.map(x => moment(x.date).format('DD.MM.YYYY'));
+		const mass = selectedExervices.map(x => x.results.sum(r => r.mass));
 
 		const lineChartData = {
 			datasets: [{
@@ -60,11 +61,16 @@ export class PopupChartComponent implements OnDestroy {
 				pointStyle: 'triangle',
 				pointRadius: 5,
 				fill: false,
-				data: selectedExervices.map(x => x.results.sum(r => r.mass)),
+				data: mass,
 				yAxisID: 'y-axis-2',
 				offset: true
 			}],
 		};
+
+		//hide mass if 0
+		if(mass.sum(x => x) === 0){
+			lineChartData.datasets = [lineChartData.datasets[0]];
+		}
 
 		Chart.Line(ctx, {
 			data: lineChartData,
