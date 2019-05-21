@@ -77,7 +77,8 @@ export class PopupChartComponent implements OnDestroy {
 					labels: {
 						usePointStyle: true,
 						padding: 20,
-						fontSize: 14
+						fontSize: 14,
+						boxWidth: 5
 					}
 				},
 				elements: {
