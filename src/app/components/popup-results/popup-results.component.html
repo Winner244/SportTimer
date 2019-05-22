@@ -18,10 +18,10 @@
 				<td>{{i + 1}}</td>
 				<td>{{getItemDate(item)}}</td>
 				<td>{{getExerciseLabel(item)}}</td>
-				<td>Продолжительность</td>
-				<td>Повторений</td>
-				<td>Кол-во</td>
-				<td>Поднятая масса</td>
+				<td>{{getDuration(item)}}</td>
+				<td>{{item.results.length}}</td>
+				<td>{{getSumCount(item)}}</td>
+				<td>{{getSumMass(item)}}</td>
 				<td>Удалить</td>
 				<td>Подробно</td>
 			</tr>

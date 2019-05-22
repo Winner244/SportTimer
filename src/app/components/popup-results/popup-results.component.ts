@@ -6,6 +6,7 @@ import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
 import * as moment from 'moment';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
+import { Helper } from 'src/app/Helper';
 
 @Component({
    selector: 'app-popup-results',
@@ -53,5 +54,21 @@ export class PopupResultsComponent implements OnDestroy {
 
    public getExerciseLabel(item: ModelExerciseResult) : string{
       return this.exerciseTypes.find(x => x.uid === item.type).name;
+   }
+
+   public getDuration(item: ModelExerciseResult) : string{
+      if(item.results.length > 1){
+         return Helper.betweenDate(item.results[0].timeStart, item.results.last().timeEnd);
+      }
+
+      return '';
+   }
+
+   public getSumCount(item: ModelExerciseResult) : number{
+      return item.results.sum(x => x.count);
+   }
+   
+   public getSumMass(item: ModelExerciseResult) : number{
+      return item.results.sum(x => x.mass);
    }
 }
