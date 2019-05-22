@@ -14,6 +14,7 @@ export class PopupComponent {
   @Input() height: string = '500px';
   @Input() left: string = 'calc(50% - 350px)';
   @Input() top: string = '100px';
+  @Input() paddingBody: string = '15px 20px';
 
   @Output() onClose = new EventEmitter<void>();
 

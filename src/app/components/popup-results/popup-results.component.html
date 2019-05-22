@@ -1,3 +1,30 @@
-<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0">
-  
+<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0">
+	<table class="exercise-results-table">
+		<thead>
+			<tr>
+				<td>№</td>
+				<td>Дата</td>
+				<td>Тип</td>
+				<td>Продолжительность</td>
+				<td>Повторений</td>
+				<td>Кол-во</td>
+				<td>Поднятая масса</td>
+				<td>Удалить</td>
+				<td>Подробно</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let item of items; index as i">
+				<td>{{i + 1}}</td>
+				<td>{{getItemDate(item)}}</td>
+				<td>{{getExerciseLabel(item)}}</td>
+				<td>Продолжительность</td>
+				<td>Повторений</td>
+				<td>Кол-во</td>
+				<td>Поднятая масса</td>
+				<td>Удалить</td>
+				<td>Подробно</td>
+			</tr>
+		</tbody>
+	</table>
 </app-popup>
