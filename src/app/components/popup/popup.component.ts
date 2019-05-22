@@ -9,8 +9,12 @@ export class PopupComponent {
 
   @Input() title: string;
   @Input() isOpen: boolean;
-  @Input() width: number = 700;
-  @Input() height: number = 500;
+
+  @Input() width: string = '700px';
+  @Input() height: string = '500px';
+  @Input() left: string = 'calc(50% - 350px)';
+  @Input() top: string = '100px';
+
   @Output() onClose = new EventEmitter<void>();
 
   close() {
