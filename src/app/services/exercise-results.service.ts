@@ -14,10 +14,15 @@ export class ExerciseResultsService {
    private _dateSave = new BehaviorSubject<number>(this._loadDateSave()); //время последнего изменения
    private _exerciseTypeUidSelected = new BehaviorSubject<string>(this._loadExerciseTypeSelected()); //выбранное упражнение в UI
 
+   private _isOpenPopupChart = new BehaviorSubject<boolean>(false); //окно с графиком открыто?
+   private _isOpenPopupResults = new BehaviorSubject<boolean>(false); //окно с результатами открыто?
+
    //для внешнего использования
    public exerciseResults$ = this._exerciseResults.asObservable();
    public exerciseCurrentResult$ = this._exerciseCurrentResult.asObservable();
    public exerciseTypeUidSelected$ = this._exerciseTypeUidSelected.asObservable();
+   public isOpenPopupChart$ = this._isOpenPopupChart.asObservable();
+   public isOpenPopupResults$ = this._isOpenPopupResults.asObservable();
 
    constructor(private timerService: TimerService) {
 
@@ -65,6 +70,20 @@ export class ExerciseResultsService {
    public get exerciseTypeUidSelected(): string {
       return this._exerciseTypeUidSelected.getValue();
    }
+   
+   private set isOpenPopupChart(newValue: boolean) {
+      this._isOpenPopupChart.next(newValue);
+   }
+   private get isOpenPopupChart(): boolean {
+      return this._isOpenPopupChart.getValue();
+   }
+
+   private set isOpenPopupResults(newValue: boolean) {
+      this._isOpenPopupResults.next(newValue);
+   }
+   private get isOpenPopupResults(): boolean {
+      return this._isOpenPopupResults.getValue();
+   }
 
    /** Возвращает все результаты упражнений с выбранным типом */
    public getTypeSelectedExerciseResults(){
@@ -108,6 +127,19 @@ export class ExerciseResultsService {
    }
    
 
+   public openPopupChart(){
+      this.isOpenPopupChart = true;
+   }
+   public closePopupChart(){
+      this.isOpenPopupChart = false;
+   }
+
+   public openPopupResults(){
+      this.isOpenPopupResults = true;
+   }
+   public closePopupResults(){
+      this.isOpenPopupResults = false;
+   }
 
    /** Загрузка результатов упражнений */
    private _loadExerciseResults(): ModelExerciseResult[] {

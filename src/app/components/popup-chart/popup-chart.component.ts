@@ -2,7 +2,6 @@ import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Chart } from 'chart.js';
-import { PopupChartService } from 'src/app/services/popup-chart.service';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 import * as moment from 'moment';
 
@@ -19,11 +18,9 @@ export class PopupChartComponent implements OnDestroy {
 
    private _destroyed: Subject<any> = new Subject();
 
-	constructor(
-		private popupChartService: PopupChartService,
-		private exerciseResultsService: ExerciseResultsService) 
+	constructor(private exerciseResultsService: ExerciseResultsService) 
 	{
-      this.popupChartService.isOpen$
+      this.exerciseResultsService.isOpenPopupChart$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.isOpen = value;
@@ -113,6 +110,6 @@ export class PopupChartComponent implements OnDestroy {
    }
 
    onClose() {
-      this.popupChartService.closePopup();
+      this.exerciseResultsService.closePopupChart();
    }
 }
