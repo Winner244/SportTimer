@@ -1,5 +1,5 @@
 <app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0">
-	<table class="exercise-results-table">
+	<table class="exercise-results-table popup-exercise-results__table">
 		<thead>
 			<tr>
 				<td>№</td>
@@ -9,8 +9,8 @@
 				<td>Повторений</td>
 				<td>Кол-во</td>
 				<td>Поднятая масса</td>
-				<td>Удалить</td>
 				<td>Подробно</td>
+				<td>Удалить</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,8 +22,16 @@
 				<td>{{item.results.length}}</td>
 				<td>{{getSumCount(item)}}</td>
 				<td>{{getSumMass(item)}}</td>
-				<td>Удалить</td>
-				<td>Подробно</td>
+				<td class="popup-exercise-results__table-tr-button">
+					<button class="btn popup-exercise-results__button popup-exercise-results__button-info" (click)="info(item)" >
+						<fa-icon [icon]="faInfo"></fa-icon>
+					</button>
+				</td>
+				<td class="popup-exercise-results__table-tr-button">
+					<button class="btn popup-exercise-results__button popup-exercise-results__button-remove" (click)="remove(item)" >
+						<fa-icon [icon]="faTrash"></fa-icon>
+					</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>

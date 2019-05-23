@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
 import { Helper } from 'src/app/Helper';
+import { faInfo, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
    selector: 'app-popup-results',
@@ -14,6 +15,8 @@ import { Helper } from 'src/app/Helper';
    styleUrls: ['./popup-results.component.less']
 })
 export class PopupResultsComponent implements OnDestroy {
+   faInfo = faInfo;
+   faTrash = faTrash;
 
    exerciseTypes: ModelTypeExercise[];
    isOpen: boolean;
@@ -36,6 +39,7 @@ export class PopupResultsComponent implements OnDestroy {
          .subscribe(value => {
             this.isOpen = value;
             this.items = this.exerciseResultsService.exerciseResults;
+            this.items = this.items.sortByField(x => x.date).reverse();
          });
    }
 
@@ -71,4 +75,13 @@ export class PopupResultsComponent implements OnDestroy {
    public getSumMass(item: ModelExerciseResult) : number{
       return item.results.sum(x => x.mass);
    }
+
+   public remove(item: ModelExerciseResult){
+
+   }
+   
+   public info(item: ModelExerciseResult){
+
+   }
+   
 }

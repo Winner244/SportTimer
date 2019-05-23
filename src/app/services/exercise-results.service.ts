@@ -56,6 +56,9 @@ export class ExerciseResultsService {
    }
 
    public set exerciseCurrentResult(newValue: ModelExerciseResult) {
+      if(newValue.results && newValue.results.last()){
+         newValue.results.last().timeEnd = Date.now();
+      }
       localStorage.setItem('ExerciseResultsService.exerciseCurrentResult', JSON.stringify(newValue));
       this._exerciseCurrentResult.next(newValue);
    }
