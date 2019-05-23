@@ -16,6 +16,7 @@ export class ExerciseResultsService {
 
    private _isOpenPopupChart = new BehaviorSubject<boolean>(false); //окно с графиком открыто?
    private _isOpenPopupResults = new BehaviorSubject<boolean>(false); //окно с результатами открыто?
+   private _isOpenPopupResultInfo = new BehaviorSubject<boolean>(false); //окно с информацией по результату открыто?
 
    //для внешнего использования
    public exerciseResults$ = this._exerciseResults.asObservable();
@@ -23,6 +24,9 @@ export class ExerciseResultsService {
    public exerciseTypeUidSelected$ = this._exerciseTypeUidSelected.asObservable();
    public isOpenPopupChart$ = this._isOpenPopupChart.asObservable();
    public isOpenPopupResults$ = this._isOpenPopupResults.asObservable();
+   public isOpenPopupResultInfo$ = this._isOpenPopupResultInfo.asObservable();
+
+   public popupResultInfoItem: ModelExerciseResult;
 
    constructor(private timerService: TimerService) {
 
@@ -88,6 +92,13 @@ export class ExerciseResultsService {
       return this._isOpenPopupResults.getValue();
    }
 
+   private set isOpenPopupResultInfo(newValue: boolean) {
+      this._isOpenPopupResultInfo.next(newValue);
+   }
+   private get isOpenPopupResultInfo(): boolean {
+      return this._isOpenPopupResultInfo.getValue();
+   }
+
    /** Возвращает все результаты упражнений с выбранным типом */
    public getTypeSelectedExerciseResults(){
       return this.exerciseResults.filter(x => x.type === this.exerciseTypeUidSelected);
@@ -142,6 +153,14 @@ export class ExerciseResultsService {
    }
    public closePopupResults(){
       this.isOpenPopupResults = false;
+   }
+
+   public openPopupResultInfo(item: ModelExerciseResult){
+      this.popupResultInfoItem = item;
+      this.isOpenPopupResultInfo = true;
+   }
+   public closePopupResultInfo(){
+      this.isOpenPopupResultInfo = false;
    }
 
 

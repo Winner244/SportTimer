@@ -89,7 +89,7 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public info(item: ModelExerciseResult){
-
+      this.exerciseResultsService.openPopupResultInfo(item);
    }
    
 }
