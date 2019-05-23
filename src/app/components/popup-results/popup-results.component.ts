@@ -21,6 +21,7 @@ export class PopupResultsComponent implements OnDestroy {
    exerciseTypes: ModelTypeExercise[];
    isOpen: boolean;
    items: ModelExerciseResult[];
+   selectedRow: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -29,6 +30,7 @@ export class PopupResultsComponent implements OnDestroy {
       private settingsService: SettingsService) 
    { 
       this.items = [];
+      this.selectedRow = -1;
 
       this.settingsService.exerciseTypes$
          .pipe(takeUntil(this._destroyed))
@@ -38,8 +40,11 @@ export class PopupResultsComponent implements OnDestroy {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.isOpen = value;
-            this.items = this.exerciseResultsService.exerciseResults;
-            this.items = this.items.sortByField(x => x.date).reverse();
+            if(value){
+               this.items = this.exerciseResultsService.exerciseResults;
+               this.items = this.items.sortByField(x => x.date).reverse();
+               console.log('PopupResultsComponent items', this.items);
+            }
          });
    }
 
@@ -77,9 +82,12 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public remove(item: ModelExerciseResult){
-
+      if(confirm('Вы действительно хотите удалить элемент?')){
+         this.exerciseResultsService.removeResult(item);
+         this.selectedRow = -1;
+      }
    }
-   
+
    public info(item: ModelExerciseResult){
 
    }

@@ -14,7 +14,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let item of items; index as i">
+			<tr *ngFor="let item of items; index as i" [class.popup-exercise-results__table-tr_selected]="selectedRow === i" (click)="selectedRow = i">
 				<td>{{i + 1}}</td>
 				<td>{{getItemDate(item)}}</td>
 				<td>{{getExerciseLabel(item)}}</td>
@@ -22,12 +22,12 @@
 				<td>{{item.results.length}}</td>
 				<td>{{getSumCount(item)}}</td>
 				<td>{{getSumMass(item)}}</td>
-				<td class="popup-exercise-results__table-tr-button">
+				<td class="popup-exercise-results__table-td-button">
 					<button class="btn popup-exercise-results__button popup-exercise-results__button-info" (click)="info(item)" >
 						<fa-icon [icon]="faInfo"></fa-icon>
 					</button>
 				</td>
-				<td class="popup-exercise-results__table-tr-button">
+				<td class="popup-exercise-results__table-td-button">
 					<button class="btn popup-exercise-results__button popup-exercise-results__button-remove" (click)="remove(item)" >
 						<fa-icon [icon]="faTrash"></fa-icon>
 					</button>

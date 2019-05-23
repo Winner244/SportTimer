@@ -144,6 +144,14 @@ export class ExerciseResultsService {
       this.isOpenPopupResults = false;
    }
 
+
+   public removeResult(item: ModelExerciseResult){
+      var results = this.exerciseResults;
+      var indexRemove = results.findIndex(x => x.date === item.date);
+      results.splice(indexRemove, 1);
+      this.exerciseResults = results;
+   }
+
    /** Загрузка результатов упражнений */
    private _loadExerciseResults(): ModelExerciseResult[] {
       return JSON.parse(localStorage.getItem('ExerciseResultsService.exerciseResults') || '[]') || [];
