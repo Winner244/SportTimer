@@ -19,6 +19,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
    exerciseCurrentResultCount: number;
    exerciseCurrentResultMass: number;
    exerciseCurrentResultDate: number;
+   exerciseCurrentResults: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -54,6 +55,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
             this.exerciseCurrentResultCount = value.results.sum(x => x.count);
             this.exerciseCurrentResultMass = value.results.sum(x => x.mass);
             this.exerciseCurrentResultDate = value.date;
+            this.exerciseCurrentResults = value.results.length;
          });
    }
 
@@ -63,7 +65,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
    }
 
    getDateStartCurrent(): string {
-      return this.exerciseCurrentResultDate
+      return this.exerciseCurrentResultDate && this.exerciseCurrentResults
          ? moment(this.exerciseCurrentResultDate).format('DD MMMM HH:mm')
          : '-';
    }

@@ -100,12 +100,12 @@ export class ExerciseResultsService {
    }
 
    /** Возвращает все результаты упражнений с выбранным типом */
-   public getTypeSelectedExerciseResults(){
+   public getTypeSelectedExerciseResults() : ModelExerciseResult[]{
       return this.exerciseResults.filter(x => x.type === this.exerciseTypeUidSelected);
    }
 
 
-   public getLastExerciseResults(exerciseTypeUid: string) {
+   public getLastExerciseResults(exerciseTypeUid: string) : ModelExerciseResult | null {
       if (!exerciseTypeUid) {
          return null;
       }
@@ -122,6 +122,9 @@ export class ExerciseResultsService {
          currentResult.results.last().timeEnd = Date.now();
          //копирование предыдущей массы
          oldMass = currentResult.results.last().mass;
+      }
+      else{
+         currentResult.date = Date.now();
       }
 
       //добавление нового подхода

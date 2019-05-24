@@ -15,21 +15,36 @@
 
 
 	&__button{
-		width: 38px;
-		height: 33px;
+		width: 35px;
+		height: 30px;
 		border-radius: 7px;
 		color: #fff;
+		line-height: 30px;
 
 		&-remove{
 			background: #ce5545;
-			border: 1px solid #ce5545;
-			border-bottom: 1px solid #b13e2f;
+			border: 1px solid #943326;
+
+			&:hover {
+				background-color: #af3d2d;
+			}
+			
+			&:focus {
+				background-color: #8d3024;
+		   }
 		}
 
 		&-info{
 			background: #3498db;
-			border: 1px solid #3498db;
-			border-bottom: 1px solid #268fd5;
+			border: 1px solid #2774a7;
+			
+			&:hover {
+				background-color: #1b6ca1;
+			}
+			
+			&:focus {
+				background-color: #15537c;
+		   }
 		}
 	}
 }
