@@ -39,7 +39,11 @@ export class GoogleDriveService {
         private http: HttpClient,
         private exerciseResultsService: ExerciseResultsService,
         private settingsService: SettingsService,
-        private notificationService: NotificationService) { }
+        private notificationService: NotificationService) 
+    { 
+        this.synchronizationDrive = this.synchronizationDrive.bind(this);
+        this.exerciseResultsService.addCallbackChangeExerciseResults(this.synchronizationDrive);
+    }
 
     
     //set/get
@@ -96,6 +100,7 @@ export class GoogleDriveService {
                             .then((dataFile: ModelExerciseResults) => {
                                 //сравниваем дату последнего сохранения с текущими данными
                                 const googleLastDate = dataFile.dateSave;
+                                console.info('GoogleDrive. dateGoogle: ' + googleLastDate + ' dateCurrent: ' + currentData.dateSave);
 
                                 //на диске более новые - перезаписываем локальные данные
                                 if (googleLastDate > currentData.dateSave) {

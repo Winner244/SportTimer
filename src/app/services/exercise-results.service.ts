@@ -17,6 +17,7 @@ export class ExerciseResultsService {
    private _isOpenPopupChart = new BehaviorSubject<boolean>(false); //окно с графиком открыто?
    private _isOpenPopupResults = new BehaviorSubject<boolean>(false); //окно с результатами открыто?
    private _isOpenPopupResultInfo = new BehaviorSubject<boolean>(false); //окно с информацией по результату открыто?
+   private _callbacksChangeExerciseResults: Array<Function>;
 
    //для внешнего использования
    public exerciseResults$ = this._exerciseResults.asObservable();
@@ -29,6 +30,7 @@ export class ExerciseResultsService {
    public popupResultInfoItem: ModelExerciseResult;
 
    constructor(private timerService: TimerService) {
+      this._callbacksChangeExerciseResults = [];
 
       this.exerciseTypeUidSelected$.subscribe(value => {
          const result = this.exerciseCurrentResult;
@@ -46,6 +48,8 @@ export class ExerciseResultsService {
    public set exerciseResults(newValue: ModelExerciseResult[]) {
       localStorage.setItem('ExerciseResultsService.exerciseResults', JSON.stringify(newValue));
       this._exerciseResults.next(newValue);
+      this._callbacksChangeExerciseResults.map(x => x());
+      this.dateSave = Date.now();
    }
    public get exerciseResults(): ModelExerciseResult[] {
       return this._exerciseResults.getValue();
@@ -172,6 +176,9 @@ export class ExerciseResultsService {
       var indexRemove = results.findIndex(x => x.date === item.date);
       results.splice(indexRemove, 1);
       this.exerciseResults = results;
+   }
+   public addCallbackChangeExerciseResults(callback: Function) {
+      this._callbacksChangeExerciseResults.push(callback);
    }
 
    /** Загрузка результатов упражнений */
