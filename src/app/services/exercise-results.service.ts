@@ -48,8 +48,8 @@ export class ExerciseResultsService {
    public set exerciseResults(newValue: ModelExerciseResult[]) {
       localStorage.setItem('ExerciseResultsService.exerciseResults', JSON.stringify(newValue));
       this._exerciseResults.next(newValue);
-      this._callbacksChangeExerciseResults.map(x => x());
       this.dateSave = Date.now();
+      this._callbacksChangeExerciseResults.map(x => x());
    }
    public get exerciseResults(): ModelExerciseResult[] {
       return this._exerciseResults.getValue();
