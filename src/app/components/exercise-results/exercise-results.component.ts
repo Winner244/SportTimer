@@ -15,6 +15,7 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
    exerciseCurrentResultOldCountSumAndMass: number;
    exerciseCurrentResultsOld: number;
    exerciseCurrentResult: ModelExerciseResult;
+   windowWidth: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -59,6 +60,8 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
             this.exerciseCurrentResult = Helper.clone(value);
             this.resizeTablesBox();
          });
+      
+      this.onResize();
    }
 
    ngOnDestroy() {
@@ -95,5 +98,10 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
          const heightTables = Math.max(tableOld.offsetHeight, tableCurrent.offsetHeight);
          this.tablesBoxElement.nativeElement.style.height = heightTables + 'px';
       }, 100);
+   }
+
+   public onResize(){
+      this.windowWidth = window.innerWidth;
+      console.log('onResize()', this.windowWidth);
    }
 }

@@ -14,7 +14,6 @@ import { TimerComponent } from './components/timer/timer.component';
 import { TimerControlComponent } from './components/timer-control/timer-control.component';
 import { TimerSettingsComponent } from './components/timer-settings/timer-settings.component';
 import { ExerciseResultsComponent } from './components/exercise-results/exercise-results.component';
-import { ExerciseResultsHeaderComponent } from './components/exercise-results-header/exercise-results-header.component';
 import { ExerciseResultsControlComponent } from './components/exercise-results-control/exercise-results-control.component';
 import { ExerciseResultsSettingsComponent } from './components/exercise-results-settings/exercise-results-settings.component';
 import { ExerciseResultsStatisticsComponent } from './components/exercise-results-statistics/exercise-results-statistics.component';
@@ -39,7 +38,6 @@ ArrayExtension.on();
     TimerControlComponent,
     TimerSettingsComponent,
     ExerciseResultsComponent,
-    ExerciseResultsHeaderComponent,
     ExerciseResultsControlComponent,
     ExerciseResultsSettingsComponent,
     ExerciseResultsStatisticsComponent,
