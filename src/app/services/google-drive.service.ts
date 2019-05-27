@@ -39,7 +39,10 @@ export class GoogleDriveService {
       private http: HttpClient,
       private exerciseResultsService: ExerciseResultsService,
       private settingsService: SettingsService,
-      private notificationService: NotificationService) {
+      private notificationService: NotificationService) 
+   {
+      this._countFailedLoadGoogle = 0;
+      this._countFailedLoginGoogle = 0;
       this.synchronizationDrive = this.synchronizationDrive.bind(this);
       this.exerciseResultsService.addCallbackChangeExerciseResults(this.synchronizationDrive);
    }
@@ -272,6 +275,12 @@ export class GoogleDriveService {
       });
    }
 
+   private _removeGoogleScript(){
+      var scripts = document.getElementsByTagName('script')
+      var googleScripts = Array.prototype.slice.call(scripts).filter(x => x.src.indexOf('https://apis.google.com/') === 0);
+      googleScripts.map(x => x.parentElement.removeChild(x));
+   }
+
    /**
     * Загрузка Google SDK авторизации
     * @return {Promise}
@@ -280,12 +289,19 @@ export class GoogleDriveService {
    private _auth2Load() {
       return new Promise((ok, err) => {
          if (!(<any>window).gapi) {
-            this._countFailedLoadGoogle++;
-            if (this._countFailedLoadGoogle > 5) { //3sec
-               err('Could not load google sdk!');
-               return null;
+            this._removeGoogleScript();
+            var script = document.createElement('script');
+            script.src = "https://apis.google.com/js/api.js";
+            document.body.appendChild(script);
+
+            if (this._countFailedLoadGoogle === 3) { //3sec
+               this.notificationService.addMessage(new ModelNotification('Не удалось подключиться к Google Drive, возможно, отсутствует интернет!', 'error', 5));
             }
-            setTimeout(() => this._auth2Load().then(ok).catch(err), 500);
+
+            if(this._countFailedLoadGoogle < 5){
+               this._countFailedLoadGoogle++;
+            }
+            setTimeout(() => this._auth2Load().then(ok).catch(err), 3000);
             return null;
          }
 
