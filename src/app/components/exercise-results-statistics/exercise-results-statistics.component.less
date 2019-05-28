@@ -11,9 +11,13 @@
     }
 
     &__item:first-child {
-        text-align: right;
+        @media (min-width: 1020px)  {
+            text-align: right;
+        }
     }
     &__item:last-child {
-        text-align: left;
+        @media (min-width: 1020px)  {
+            text-align: left;
+        }
     }
 }

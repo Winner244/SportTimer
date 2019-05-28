@@ -102,6 +102,5 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
 
    public onResize(){
       this.windowWidth = window.innerWidth;
-      console.log('onResize()', this.windowWidth);
    }
 }

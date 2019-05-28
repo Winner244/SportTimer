@@ -1,28 +1,38 @@
 .timer{
-    background-color: #dfdfe0;
-    padding: 35px 15px;
-    text-align: center;
-    position: relative;
+   background-color: #dfdfe0;
+   padding: 35px 15px;
+   text-align: center;
+   position: relative;
 
-    &__window{
+   &__window{
+      margin: auto;
+      @media (max-width: 825px)  {
+         margin-left: calc(90% - 450px);
+      }
+      @media (max-width: 760px)  {
+         margin-left: calc(95% - 450px);
+      }
+      @media (max-width: 685px)  {
+         margin-left: calc(100% - 450px);
+      }
+
       border-radius: 5px;
       background-color: white;
       font-size: 80px;
-      margin: auto;
       text-align: center;
       line-height: 1.7;
       color: #444;
       min-width: 450px;
       width: 35%;
-    }
+   }
 
-    &__control{
+   &__control{
       margin-top: 10px;
-    }
+   }
 
-    &__settings{
+   &__settings{
       position: absolute;
       left: 17px;
       top: 45px;
-    }
+   }
 }

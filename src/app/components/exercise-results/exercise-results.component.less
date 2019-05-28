@@ -1,4 +1,8 @@
 .exercise-results{
+    &__flex{
+        flex: 1;
+    }
+    
     &__panel{
         height: 38px;
         background-color: #006f92;
@@ -6,6 +10,12 @@
         position: relative;
         line-height: 38px;
         display: flex;
+
+        &_top{
+            @media (max-width: 825px)  {
+                background-color: #004361;
+            }
+        }
 
         &-statistics{
             flex-grow: 1;
