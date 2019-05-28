@@ -36,5 +36,53 @@
         &-label{
             flex: 1;
         }
+
+        &-block{
+            &-left{
+                background-color: #006f92;
+                position: relative;
+
+                &:after {
+                    background: inherit;
+                    content: '';
+                    display: block;
+            
+                    height: 100%;
+                    width: 50px;
+            
+                    position: absolute;
+                    bottom: -50px;
+                    right: -50px;
+            
+                    -webkit-transform: skewY(45deg);
+                    transform: skewY(45deg);
+                    -webkit-transform-origin: 100%;
+                    transform-origin: 100%;
+                }
+            }
+
+            &-right{
+                background-color: #006f92;
+                position: relative;
+                
+                &:after {
+                    background: inherit;
+                    content: '';
+                    display: block;
+            
+                    height: 100%;
+                    width: 50px;
+            
+                    position: absolute;
+                    bottom: 0;
+                    left: -50px;
+            
+                    -webkit-transform: skewY(-45deg);
+                    transform: skewY(-45deg);
+                    -webkit-transform-origin: 100%;
+                    transform-origin: 100%;
+                }
+            }
+        }
     }
 }

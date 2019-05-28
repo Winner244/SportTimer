@@ -1,7 +1,7 @@
 <div class="exercise-results__header" (window:resize)="onResize()">
-    <app-exercise-results-settings *ngIf="windowWidth <= 1450"></app-exercise-results-settings>
+    <app-exercise-results-settings *ngIf="windowWidth <= 1450" class="exercise-results__header-block-left"></app-exercise-results-settings>
     <div class="exercise-results__header-label">Упражнения</div>
-    <app-exercise-results-control *ngIf="windowWidth <= 1450"></app-exercise-results-control>
+    <app-exercise-results-control *ngIf="windowWidth <= 1450" class="exercise-results__header-block-right"></app-exercise-results-control>
 </div>
 
 <div class="exercise-results__panel">
