@@ -4,7 +4,19 @@
 			<tr>
 				<td>№</td>
 				<td>Дата</td>
-				<td>Тип</td>
+				<td>Тип 
+					<select 
+						(change)="onSelectTypeExercise($event.target.value)"
+						class="popup-exercise-results__select-exercise"
+					>
+						<option 
+							[value]="exerciseType.uid"
+							*ngFor="let exerciseType of [{name: '', uid: ''}].concat(exerciseTypes)" 
+							>
+							{{exerciseType.name}}
+						</option>
+					</select>
+				</td>
 				<td>Продолжительность</td>
 				<td>Повторений</td>
 				<td>Кол-во</td>
@@ -14,7 +26,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let item of items; index as i" [class.popup-exercise-results__table-tr_selected]="selectedRow === i" (click)="selectedRow = i">
+			<tr *ngFor="let item of filtereditems; index as i" [class.popup-exercise-results__table-tr_selected]="selectedRow === i" (click)="selectedRow = i">
 				<td>{{i + 1}}</td>
 				<td>{{getItemDate(item)}}</td>
 				<td>{{getExerciseLabel(item)}}</td>

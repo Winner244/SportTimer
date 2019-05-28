@@ -21,6 +21,7 @@ export class PopupResultsComponent implements OnDestroy {
    exerciseTypes: ModelTypeExercise[];
    isOpen: boolean;
    items: ModelExerciseResult[];
+   filtereditems: ModelExerciseResult[];
    selectedRow: number;
 
    private _destroyed: Subject<any> = new Subject();
@@ -43,6 +44,7 @@ export class PopupResultsComponent implements OnDestroy {
             if(value){
                this.items = [].concat(this.exerciseResultsService.exerciseResults);
                this.items = this.items.sortByField(x => x.date).reverse();
+               this.filtereditems = [].concat(this.items);
                console.log('PopupResultsComponent items', this.items);
             }
          });
@@ -91,5 +93,13 @@ export class PopupResultsComponent implements OnDestroy {
    public info(item: ModelExerciseResult){
       this.exerciseResultsService.openPopupResultInfo(item);
    }
-   
+
+   public onSelectTypeExercise(exerciseTypeUid: string){
+      if(exerciseTypeUid){
+         this.filtereditems = this.items.filter(x => x.type === exerciseTypeUid);
+      }
+      else{
+         this.filtereditems = [].concat(this.items);
+      }
+   }
 }
