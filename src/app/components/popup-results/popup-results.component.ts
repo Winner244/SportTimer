@@ -50,12 +50,7 @@ export class PopupResultsComponent implements OnDestroy {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.isOpen = value;
-            if(value){
-               this.items = [].concat(this.exerciseResultsService.exerciseResults);
-               this.items = this.items.sortByField(x => x.date).reverse();
-               this.selectedExerciseTypeUid = '';
-               this.filter();
-            }
+            this.selectedExerciseTypeUid = '';
          });
    }
 
