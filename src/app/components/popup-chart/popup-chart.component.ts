@@ -75,6 +75,8 @@ export class PopupChartComponent implements OnDestroy, OnInit {
 				}
 			}
 		});
+
+		this.onResize();
 	}
 
    drawChart(){
@@ -118,5 +120,9 @@ export class PopupChartComponent implements OnDestroy, OnInit {
 
    onClose() {
       this.exerciseResultsService.closePopupChart();
-   }
+	}
+	
+	onResize(){
+		this.chart.options.legend.position = window.innerWidth < 700 ? 'top' : 'right';
+	}
 }

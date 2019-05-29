@@ -1,5 +1,5 @@
-<div *ngIf="isOpen" class="popup__wall"></div>
-<div *ngIf="isOpen" class="popup" [ngStyle]="{'width': width, 'height': height, 'left': left, 'top': top, 'position': position}">
+<div *ngIf="isOpen" class="popup__wall" (window:resize)="onResize()"></div>
+<div *ngIf="isOpen" class="popup" [ngStyle]="{'width': width2, 'height': height, 'left': left2, 'top': top, 'position': position}">
   <div class="popup__header">
     <span>{{title}}</span>
     <button class="btn btn-style btn-popup popup__header-button-close" (click)="close()">x</button>
