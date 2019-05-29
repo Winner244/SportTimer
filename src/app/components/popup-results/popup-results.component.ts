@@ -19,6 +19,7 @@ export class PopupResultsComponent implements OnDestroy {
    faTrash = faTrash;
 
    exerciseTypes: ModelTypeExercise[];
+   selectedExerciseTypeUid: string;
    isOpen: boolean;
    items: ModelExerciseResult[];
    filtereditems: ModelExerciseResult[];
@@ -37,6 +38,14 @@ export class PopupResultsComponent implements OnDestroy {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => this.exerciseTypes = value);
 
+      this.exerciseResultsService.exerciseResults$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(newItems => {
+            this.items = [].concat(newItems);
+            this.items = this.items.sortByField(x => x.date).reverse();
+            this.filter();
+         });
+
       this.exerciseResultsService.isOpenPopupResults$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
@@ -44,8 +53,8 @@ export class PopupResultsComponent implements OnDestroy {
             if(value){
                this.items = [].concat(this.exerciseResultsService.exerciseResults);
                this.items = this.items.sortByField(x => x.date).reverse();
-               this.filtereditems = [].concat(this.items);
-               console.log('PopupResultsComponent items', this.items);
+               this.selectedExerciseTypeUid = '';
+               this.filter();
             }
          });
    }
@@ -95,11 +104,13 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public onSelectTypeExercise(exerciseTypeUid: string){
-      if(exerciseTypeUid){
-         this.filtereditems = this.items.filter(x => x.type === exerciseTypeUid);
-      }
-      else{
-         this.filtereditems = [].concat(this.items);
-      }
+      this.selectedExerciseTypeUid = exerciseTypeUid; 
+      this.filter();
+   }
+
+   filter(){
+      this.filtereditems = this.selectedExerciseTypeUid
+         ? this.items.filter(x => x.type === this.selectedExerciseTypeUid)
+         : this.filtereditems = [].concat(this.items);
    }
 }
