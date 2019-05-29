@@ -49,8 +49,8 @@ export class PopupResultsComponent implements OnDestroy {
       this.exerciseResultsService.isOpenPopupResults$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
-            this.isOpen = value;
             this.selectedExerciseTypeUid = '';
+            this.isOpen = value;
          });
    }
 
@@ -64,7 +64,7 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public getItemDate(item: ModelExerciseResult) : string{
-      return moment(item.date).format('DD.MM.YYYY hh:mm');
+      return moment(item.date).format('DD.MM.YYYY' + (window.innerWidth > 1150 ? ' hh:mm' : ''));
    }
 
    public getExerciseLabel(item: ModelExerciseResult) : string{
