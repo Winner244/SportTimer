@@ -1,7 +1,7 @@
 export class Helper{
 
     /** Разница между датами */
-    public static betweenDate(date1: number, date2: number): string{
+    public static betweenDate2(date1: number, date2: number, isFullFormat = true): string{
         let minDate = date1;
         let maxDate = date2;
 
@@ -47,6 +47,90 @@ export class Helper{
 
         //seconds
         const difSeconds = newDate.getUTCSeconds() - dateInit.getUTCSeconds();
+        if(difSeconds){
+            res += difSeconds + 'сек. ';
+        }
+
+        return res;
+    }
+
+    /** Разница между датами */
+    public static betweenDate(date1: number, date2: number, isFullFormat = true): string{
+        let minDate = date1;
+        let maxDate = date2;
+
+        if(date1 > date2){
+            maxDate = date1;
+            minDate = date2;
+        }
+
+        const newDate = new Date(maxDate - minDate);
+        const dateInit = new Date(0);
+
+        let res = '';
+
+        //year
+        const difYears = newDate.getUTCFullYear() - dateInit.getUTCFullYear();
+        const difMonths = newDate.getUTCMonth() - dateInit.getUTCMonth();
+        if(difYears){
+            res += difYears;
+            res += isFullFormat || !difMonths ? '' : (difMonths / 12).toFixed(1).substr(1);
+            res += 'г. ';
+
+            if(!isFullFormat){
+                return res;
+            }
+        }
+
+        //month
+        const difDays = newDate.getUTCDate() - dateInit.getUTCDate();
+        if(difMonths){
+            res += difMonths;
+            res += isFullFormat || !difDays ? '' : (difDays / 31).toFixed(1).substr(1);
+            res += 'мес. ';
+
+            if(!isFullFormat){
+                return res;
+            }
+        }
+
+        //day
+        const difHours = newDate.getUTCHours() - dateInit.getUTCHours();
+        if(difDays){
+            res += difDays;
+            res += isFullFormat || !difHours ? '' : (difHours / 24).toFixed(1).substr(1);
+            res += 'дн. ';
+
+            if(!isFullFormat){
+                return res;
+            }
+        }
+
+        //hour
+        const difMinutes = newDate.getUTCMinutes() - dateInit.getUTCMinutes();
+        if(difHours){
+            res += difHours;
+            res += isFullFormat || !difMinutes ? '' : (difMinutes / 60).toFixed(1).substr(1);
+            res += 'ч. ';
+
+            if(!isFullFormat){
+                return res;
+            }
+        }
+
+        //minutes
+        const difSeconds = newDate.getUTCSeconds() - dateInit.getUTCSeconds();
+        if(difMinutes){
+            res += difMinutes;
+            res += isFullFormat || !difSeconds ? '' : (difSeconds / 60).toFixed(1).substr(1);
+            res += 'м. ';
+
+            if(!isFullFormat){
+                return res;
+            }
+        }
+
+        //seconds
         if(difSeconds){
             res += difSeconds + 'сек. ';
         }

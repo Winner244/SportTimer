@@ -73,7 +73,7 @@ export class PopupResultsComponent implements OnDestroy {
 
    public getDuration(item: ModelExerciseResult) : string{
       if(item.results.length > 1){
-         return Helper.betweenDate(item.results[0].timeStart, item.results.last().timeEnd);
+         return Helper.betweenDate(item.results[0].timeStart, item.results.last().timeEnd, false);
       }
 
       return '';
