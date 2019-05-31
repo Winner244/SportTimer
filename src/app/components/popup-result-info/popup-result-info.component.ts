@@ -35,7 +35,9 @@ export class PopupResultInfoComponent implements OnDestroy {
          .subscribe(value => {
             this.isOpen = value;
             this.item = this.exerciseResultsService.popupResultInfoItem;
-            console.log('PopupResultInfoComponent this.item', this.item);
+            if(value){
+               console.log('PopupResultInfoComponent this.item', this.item);
+            }
          });
    }
 

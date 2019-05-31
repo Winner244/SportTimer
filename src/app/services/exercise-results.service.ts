@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/internal/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ModelExerciseResult } from '../models/ModelExerciseResult';
 import { ModelExerciseResultItem } from '../models/ModelExerciseResultItem';
 import { TimerService } from './timer.service';
+import { SettingsService } from './settings.service';
 
 @Injectable({
    providedIn: 'root'
 })
-export class ExerciseResultsService {
+export class ExerciseResultsService implements OnDestroy {
+   private _destroyed: Subject<any> = new Subject();
 
    private _exerciseResults = new BehaviorSubject<ModelExerciseResult[]>(this._loadExerciseResults()); //результаты всех упражнений
    private _exerciseCurrentResult = new BehaviorSubject<ModelExerciseResult>(this._loadExerciseCurrentResults()); //результаты текущего упражнения
@@ -29,9 +33,12 @@ export class ExerciseResultsService {
 
    public popupResultInfoItem: ModelExerciseResult;
 
-   constructor(private timerService: TimerService) {
+   constructor(
+      private timerService: TimerService,
+      private settingsService: SettingsService) {
       this._callbacksChangeExerciseResults = [];
 
+      //изменение типа упражнения
       this.exerciseTypeUidSelected$.subscribe(value => {
          const result = this.exerciseCurrentResult;
          result.type = value;
@@ -42,6 +49,21 @@ export class ExerciseResultsService {
 
       //добавляем вызов функции addCurrentResultItem на окончание таймера
       this.timerService.addCallbackEnd(this.addCurrentResultItem);
+
+      //изменение типов упражнений
+      this.settingsService.exerciseTypes$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(exerciseTypes => {
+            //если не задач выбранное упражнение или оно не актуально
+            if (exerciseTypes.length && (!this.exerciseTypeUidSelected || !exerciseTypes.find(x => x.uid === this.exerciseTypeUidSelected))) {
+               this.exerciseTypeUidSelected = exerciseTypes[0].uid;
+            }
+         });
+   }
+
+   ngOnDestroy() {
+      this._destroyed.next();
+      this._destroyed.complete();
    }
 
    //set/get
@@ -64,7 +86,7 @@ export class ExerciseResultsService {
    }
 
    public set exerciseCurrentResult(newValue: ModelExerciseResult) {
-      if(newValue.results && newValue.results.last()){
+      if (newValue.results && newValue.results.last()) {
          newValue.results.last().timeEnd = Date.now();
       }
       localStorage.setItem('ExerciseResultsService.exerciseCurrentResult', JSON.stringify(newValue));
@@ -81,7 +103,7 @@ export class ExerciseResultsService {
    public get exerciseTypeUidSelected(): string {
       return this._exerciseTypeUidSelected.getValue();
    }
-   
+
    private set isOpenPopupChart(newValue: boolean) {
       this._isOpenPopupChart.next(newValue);
    }
@@ -104,12 +126,12 @@ export class ExerciseResultsService {
    }
 
    /** Возвращает все результаты упражнений с выбранным типом */
-   public getTypeSelectedExerciseResults() : ModelExerciseResult[]{
+   public getTypeSelectedExerciseResults(): ModelExerciseResult[] {
       return this.exerciseResults.filter(x => x.type === this.exerciseTypeUidSelected);
    }
 
 
-   public getLastExerciseResults(exerciseTypeUid: string) : ModelExerciseResult | null {
+   public getLastExerciseResults(exerciseTypeUid: string): ModelExerciseResult | null {
       if (!exerciseTypeUid) {
          return null;
       }
@@ -127,7 +149,7 @@ export class ExerciseResultsService {
          //копирование предыдущей массы
          oldMass = currentResult.results.last().mass;
       }
-      else{
+      else {
          currentResult.date = Date.now();
       }
 
@@ -146,32 +168,32 @@ export class ExerciseResultsService {
       results.push(this.exerciseCurrentResult);
       this.exerciseResults = results;
    }
-   
 
-   public openPopupChart(){
+
+   public openPopupChart() {
       this.isOpenPopupChart = true;
    }
-   public closePopupChart(){
+   public closePopupChart() {
       this.isOpenPopupChart = false;
    }
 
-   public openPopupResults(){
+   public openPopupResults() {
       this.isOpenPopupResults = true;
    }
-   public closePopupResults(){
+   public closePopupResults() {
       this.isOpenPopupResults = false;
    }
 
-   public openPopupResultInfo(item: ModelExerciseResult){
+   public openPopupResultInfo(item: ModelExerciseResult) {
       this.popupResultInfoItem = item;
       this.isOpenPopupResultInfo = true;
    }
-   public closePopupResultInfo(){
+   public closePopupResultInfo() {
       this.isOpenPopupResultInfo = false;
    }
 
 
-   public removeResult(item: ModelExerciseResult){
+   public removeResult(item: ModelExerciseResult) {
       var results = this.exerciseResults;
       var indexRemove = results.findIndex(x => x.date === item.date);
       results.splice(indexRemove, 1);
