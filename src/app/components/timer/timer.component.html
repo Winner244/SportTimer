@@ -1,9 +1,9 @@
-<div class="timer">
+<div class="timer" (window:resize)="onResize()">
   <div class="timer__window">{{timeString}}</div>
   <div class="timer__control">
     <app-timer-control></app-timer-control>
   </div>
-  <div class="timer__settings">
+  <div class="timer__settings" *ngIf='windowWidth > 630'>
     <app-timer-settings></app-timer-settings>
   </div>
 </div>
