@@ -1,5 +1,10 @@
 <div class="timer" (window:resize)="onResize()">
-  <div class="timer__window">{{timeString}}</div>
+  <div class="timer__window">
+    {{timeString}}
+    <div class="btn timer__button-settings" *ngIf='windowWidth <= 630'>
+        <fa-icon [icon]="faCogs"></fa-icon>
+    </div>
+  </div>
   <div class="timer__control">
     <app-timer-control></app-timer-control>
   </div>

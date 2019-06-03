@@ -1,16 +1,18 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 
 import { Helper } from '../../Helper';
 import { TimerService } from 'src/app/services/timer.service';
+import { faCogs } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
    selector: 'app-timer',
    templateUrl: './timer.component.html',
    styleUrls: ['./timer.component.less']
 })
-export class TimerComponent implements OnDestroy {
+export class TimerComponent implements OnDestroy, OnInit {
+   faCogs = faCogs;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -26,6 +28,10 @@ export class TimerComponent implements OnDestroy {
    ngOnDestroy() {
       this._destroyed.next();
       this._destroyed.complete();
+   }
+
+   ngOnInit(){
+      this.onResize();
    }
 
    /**
