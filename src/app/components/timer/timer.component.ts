@@ -50,4 +50,8 @@ export class TimerComponent implements OnDestroy, OnInit {
    public onResize() {
       this.windowWidth = window.innerWidth;
    }
+
+   public openSettings(){
+      this.timerService.openSeettingsPopup();
+   }
 }

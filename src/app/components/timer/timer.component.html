@@ -1,7 +1,7 @@
 <div class="timer" (window:resize)="onResize()">
   <div class="timer__window">
     {{timeString}}
-    <div class="btn timer__button-settings" *ngIf='windowWidth <= 630'>
+    <div class="btn timer__button-settings" *ngIf='windowWidth <= 630' (click)="openSettings()">
         <fa-icon [icon]="faCogs"></fa-icon>
     </div>
   </div>
@@ -12,3 +12,4 @@
     <app-timer-settings></app-timer-settings>
   </div>
 </div>
+<app-popup-timer-settings></app-popup-timer-settings>

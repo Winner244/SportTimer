@@ -26,6 +26,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { PopupChartComponent } from './components/popup-chart/popup-chart.component';
 import { PopupResultsComponent } from './components/popup-results/popup-results.component';
 import { PopupResultInfoComponent } from './components/popup-result-info/popup-result-info.component';
+import { PopupTimerSettingsComponent } from './components/popup-timer-settings/popup-timer-settings.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -49,7 +50,8 @@ ArrayExtension.on();
     NotificationsComponent,
     PopupChartComponent,
     PopupResultsComponent,
-    PopupResultInfoComponent
+    PopupResultInfoComponent,
+    PopupTimerSettingsComponent
   ],
   imports: [
     BrowserModule,

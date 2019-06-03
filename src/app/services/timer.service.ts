@@ -22,9 +22,11 @@ export class TimerService {
    private _isPlaySoundInEnd: boolean; //проигрывать звук при окончании таймера?  
    private _callbacksStartTimer: Array<Function>;
    private _callbacksEndTimer: Array<Function>;
+   private _isOpenSeettings = new BehaviorSubject<boolean>(false); //окно с настройками таймера открыто? (для разрешения < 630px)
 
    //для внешнего использования
    public timer$ = this._timer.asObservable();
+   public isOpenSeettings$ = this._isOpenSeettings.asObservable();
    public isTimerRunning$ = this._isTimerRunning.asObservable();
 
 
@@ -91,6 +93,13 @@ export class TimerService {
    }
    public get isPlaySoundInEnd(): boolean {
       return this._isPlaySoundInEnd;
+   }
+
+   private set isOpenSeettings(newValue: boolean){
+     this._isOpenSeettings.next(newValue);
+   }
+   private get isOpenSeettings(): boolean{
+     return this._isOpenSeettings.getValue();
    }
 
 
@@ -181,6 +190,14 @@ export class TimerService {
    public addCallbackEnd(callback: Function) {
       this._callbacksEndTimer.push(callback);
    }
+
+   public openSeettingsPopup(){
+      this.isOpenSeettings = true;
+   }
+   public closeSeettingsPopup(){
+      this.isOpenSeettings = false;
+   }
+
 
    private _getDefaultMinutes() : number{
       const localValue = localStorage.getItem('TimerService.settingMinutes');
