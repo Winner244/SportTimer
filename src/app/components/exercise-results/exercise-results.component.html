@@ -1,21 +1,25 @@
 <div class="exercise-results__header" (window:resize)="onResize()">
-    <app-exercise-results-settings *ngIf="windowWidth <= 825 || windowWidth > 1020 && windowWidth <= 1450" class="exercise-results__header-block-left"></app-exercise-results-settings>
-    <div class="exercise-results__header-label">Упражнения</div>
-    <app-exercise-results-control *ngIf="windowWidth > 1020 && windowWidth <= 1450" class="exercise-results__header-block-right"></app-exercise-results-control>
+   <app-exercise-results-settings *ngIf="windowWidth > 516 && windowWidth <= 825 || windowWidth > 1020 && windowWidth <= 1450" class="exercise-results__header-block-left"></app-exercise-results-settings>
+   <div class="exercise-results__header-label">Упражнения</div>
+   <app-exercise-results-control *ngIf="windowWidth > 1020 && windowWidth <= 1450" class="exercise-results__header-block-right"></app-exercise-results-control>
 </div>
 
+<div class="exercise-results__panel exercise-results__panel_top" *ngIf="windowWidth <= 516">
+   <app-exercise-results-settings  class="exercise-results__header-block-left"></app-exercise-results-settings>
+</div>
+    
 <div class="exercise-results__panel exercise-results__panel_top" *ngIf="windowWidth <= 1020">
-  <app-exercise-results-settings class="exercise-results__flex" *ngIf="windowWidth > 825"></app-exercise-results-settings>
-  <app-exercise-results-control [class.exercise-results__header-block-left]="windowWidth <= 825"></app-exercise-results-control>
+   <app-exercise-results-settings class="exercise-results__flex" *ngIf="windowWidth > 825"></app-exercise-results-settings>
+   <app-exercise-results-control [class.exercise-results__header-block-left]="windowWidth <= 825"></app-exercise-results-control>
 </div>
 
 <div class="exercise-results__panel">
-  <app-exercise-results-settings *ngIf="windowWidth > 1450"></app-exercise-results-settings>
-  <app-exercise-results-statistics class="exercise-results__panel-statistics"></app-exercise-results-statistics>
-  <app-exercise-results-control *ngIf="windowWidth > 1450"></app-exercise-results-control>
+   <app-exercise-results-settings *ngIf="windowWidth > 1450"></app-exercise-results-settings>
+   <app-exercise-results-statistics class="exercise-results__panel-statistics"></app-exercise-results-statistics>
+   <app-exercise-results-control *ngIf="windowWidth > 1450"></app-exercise-results-control>
 </div>
 
 <div class="exercise-results__tables" #tablesBox>
-  <app-exercise-results-table [items]="(exerciseLastResults || {}).results || []"   class="exercise-results__table-results-old" isDisableInputs="true"></app-exercise-results-table>
-  <app-exercise-results-table [items]="(exerciseCurrentResult || {}).results || []" class="exercise-results__table-results" (onChangeModel)=changeModelTable()></app-exercise-results-table>
+   <app-exercise-results-table [items]="(exerciseLastResults || {}).results || []"   class="exercise-results__table-results-old" isDisableInputs="true"></app-exercise-results-table>
+   <app-exercise-results-table [items]="(exerciseCurrentResult || {}).results || []" class="exercise-results__table-results" (onChangeModel)=changeModelTable()></app-exercise-results-table>
 </div>

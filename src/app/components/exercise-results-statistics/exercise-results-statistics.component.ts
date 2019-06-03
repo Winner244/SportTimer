@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import * as moment from 'moment';
@@ -9,7 +9,7 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
    templateUrl: './exercise-results-statistics.component.html',
    styleUrls: ['./exercise-results-statistics.component.less']
 })
-export class ExerciseResultsStatisticsComponent implements OnDestroy {
+export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
    exerciseTypeUidSelected: string;
 
    exerciseLastResultCount: number;
@@ -20,6 +20,8 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
    exerciseCurrentResultMass: number;
    exerciseCurrentResultDate: number;
    exerciseCurrentResults: number;
+
+   windowWidth: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -59,6 +61,10 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
          });
    }
 
+   ngOnInit() {
+      this.onResize();
+   }
+
    ngOnDestroy() {
       this._destroyed.next();
       this._destroyed.complete();
@@ -72,5 +78,9 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy {
 
    getDateLast(): string {
       return moment(this.exerciseLastResultDate).format('DD MMMM');
+   }
+
+   public onResize(){
+      this.windowWidth = window.innerWidth;
    }
 }

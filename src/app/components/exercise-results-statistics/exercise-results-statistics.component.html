@@ -1,4 +1,4 @@
-<div class="exercise-results-statistics">
+<div class="exercise-results-statistics" (window:resize)="onResize()">
   <span class="exercise-results-statistics__item">
     Количество: {{exerciseCurrentResultCount}} 
     <small *ngIf="exerciseLastResultCount" class="exercise-results-statistics__item-last">/ {{exerciseLastResultCount}}</small>
@@ -7,7 +7,7 @@
     Поднятая масса: {{exerciseCurrentResultMass}} 
     <small *ngIf="exerciseLastResultMass" class="exercise-results-statistics__item-last">/ {{exerciseLastResultMass}}</small>
   </span>
-  <span class="exercise-results-statistics__item">
+  <span class="exercise-results-statistics__item" *ngIf="windowWidth > 600">
     Время начала: {{getDateStartCurrent()}} 
     <small *ngIf="exerciseLastResultDate" class="exercise-results-statistics__item-last">/ {{getDateLast()}}</small>
   </span>

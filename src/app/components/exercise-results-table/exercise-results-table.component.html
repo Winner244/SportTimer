@@ -1,22 +1,36 @@
-<table class="exercise-results-table">
-  <thead>
-    <tr>
-        <td>№</td>
-        <td width="20%">Время Начала</td>
-        <td width="20%">Время окончания</td>
-        <td width="20%">Продолжительность</td>
-        <td width="20%">Кол-во</td>
-        <td width="20%">Масса</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let exerciseResult of items; index as i">
-        <td>{{i + 1}}</td>
-        <td>{{getTimeStart(exerciseResult)}}</td>
-        <td>{{getTimeEnd(exerciseResult)}}</td>
-        <td>{{getTimeDuration(exerciseResult)}}</td>
-        <td><input type='number' class="exercise-results-table__input-count" [(ngModel)]="exerciseResult.count" (blur)="changeModel()" [disabled]="isDisableInputs"/></td>
-        <td><input type='number' class="exercise-results-table__input-mass" [(ngModel)]="exerciseResult.mass" (blur)="changeModel()" [disabled]="isDisableInputs"/></td>
-    </tr>
-  </tbody>
+<table class="exercise-results-table" (window:resize)="onResize()">
+   <thead>
+      <tr>
+         <td>№</td>
+         <td width="20%" *ngIf="windowWidth > 600">Время Начала</td>
+         <td width="20%" *ngIf="windowWidth > 600">Время окончания</td>
+         <td [width]="widthTd">Продолжительность</td>
+         <td [width]="widthTd">Кол-во</td>
+         <td [width]="widthTd">Масса</td>
+      </tr>
+   </thead>
+   <tbody>
+      <tr *ngFor="let exerciseResult of items; index as i">
+         <td>{{i + 1}}</td>
+         <td *ngIf="windowWidth > 600">{{getTimeStart(exerciseResult)}}</td>
+         <td *ngIf="windowWidth > 600">{{getTimeEnd(exerciseResult)}}</td>
+         <td>{{getTimeDuration(exerciseResult)}}</td>
+         <td>
+            <input 
+               type='number' 
+               class="exercise-results-table__input-count"
+               [(ngModel)]="exerciseResult.count"
+               (blur)="changeModel()" 
+               [disabled]="isDisableInputs" />
+         </td>
+         <td>
+            <input 
+               type='number' 
+               class="exercise-results-table__input-mass" 
+               [(ngModel)]="exerciseResult.mass"
+               (blur)="changeModel()" 
+               [disabled]="isDisableInputs" />
+         </td>
+      </tr>
+   </tbody>
 </table>

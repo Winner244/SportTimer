@@ -4,33 +4,41 @@ import { Helper } from '../../Helper';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-exercise-results-table',
-  templateUrl: './exercise-results-table.component.html',
-  styleUrls: ['./exercise-results-table.component.less']
+   selector: 'app-exercise-results-table',
+   templateUrl: './exercise-results-table.component.html',
+   styleUrls: ['./exercise-results-table.component.less']
 })
 export class ExerciseResultsTableComponent implements OnInit {
+   windowWidth: number;
+   widthTd: string;
 
-  @Input() items: ModelExerciseResultItem[];
-  @Input() isDisableInputs: boolean;
-  
-  @Output() onChangeModel = new EventEmitter<void>();
+   @Input() items: ModelExerciseResultItem[];
+   @Input() isDisableInputs: boolean;
 
-  constructor() { }
+   @Output() onChangeModel = new EventEmitter<void>();
 
-  ngOnInit() {
-  }
+   constructor() { }
 
-  getTimeStart(item: ModelExerciseResultItem): string{
-    return moment(item.timeStart).format('hh:mm:ss');
-  }
-  getTimeEnd(item: ModelExerciseResultItem): string{
-    return item.timeEnd ? moment(item.timeEnd).format('hh:mm:ss') : '';
-  }
-  getTimeDuration(item: ModelExerciseResultItem): string{
-    return item.timeEnd ? Helper.betweenDate(item.timeStart, item.timeEnd) : '';
-  }
+   ngOnInit() {
+      this.onResize();
+   }
 
-  changeModel(){
-    this.onChangeModel.emit();
+   getTimeStart(item: ModelExerciseResultItem): string {
+      return moment(item.timeStart).format('hh:mm:ss');
+   }
+   getTimeEnd(item: ModelExerciseResultItem): string {
+      return item.timeEnd ? moment(item.timeEnd).format('hh:mm:ss') : '';
+   }
+   getTimeDuration(item: ModelExerciseResultItem): string {
+      return item.timeEnd ? Helper.betweenDate(item.timeStart, item.timeEnd) : '';
+   }
+
+   changeModel() {
+      this.onChangeModel.emit();
+   }
+
+   public onResize() {
+      this.windowWidth = window.innerWidth;
+      this.widthTd = this.windowWidth > 600 ? '20%' : '33%';
   }
 }
