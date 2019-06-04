@@ -11,5 +11,8 @@
   <div class="timer__settings" *ngIf='windowWidth > 630'>
     <app-timer-settings></app-timer-settings>
   </div>
+
+  <div class="timer__decor-triangle-left" *ngIf='windowWidth <= 516'></div>
+  <div class="timer__decor-triangle-right" *ngIf='windowWidth <= 516'></div>
 </div>
 <app-popup-timer-settings></app-popup-timer-settings>

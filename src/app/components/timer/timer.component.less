@@ -1,4 +1,8 @@
 .timer{
+   @media (max-width: 516px)  {
+      background-color: #fff;
+   }
+
    background-color: #dfdfe0;
    padding: 35px 15px;
    text-align: center;
@@ -39,11 +43,11 @@
          margin: 0;
          width: 100%;
       }
-      @media (max-width: 500px)  {
-         font-size: 70px;
+      @media (max-width: 480px)  {
+         font-size: 75px;
       }
       @media (max-width: 400px)  {
-         font-size: 60px;
+         font-size: 70px;
       }
 
       border-radius: 5px;
@@ -60,11 +64,47 @@
       @media (min-width: 631px)  {
          margin-top: 10px;
       }
+
+      @media (max-width: 516px)  {
+         border-bottom: 80px solid #dfdfe0;
+         border-left: 50px solid transparent;
+         border-right: 50px solid transparent;
+         height: 0;
+         width: 170px; 
+         margin: auto;
+      }
+      @media (max-width: 480px)  {
+         border-bottom-width: 75px;
+      }
    }
 
    &__settings{
       position: absolute;
       left: 17px;
       top: 45px;
+   }
+
+   &__decor-triangle-left, &__decor-triangle-right{
+      @media (max-width: 480px)  {
+         top: 153px;
+      }
+
+      position: absolute;
+      top: 165px;
+      width: 0;
+      height: 0;
+      border: 0 solid #7c0000;
+      border-top: 50px solid transparent;
+      border-bottom: 50px solid transparent;
+   }
+
+   &__decor-triangle-left {
+      right: 0;
+      border-right-width: 100px;
+   }
+
+   &__decor-triangle-right {
+      left: 0;
+      border-left-width: 100px;
    }
 }
