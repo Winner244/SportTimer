@@ -1,4 +1,10 @@
-<div class="navigation-panel">
-    <button class="btn btn-style btn-base" (click)="openAllResults()">Просмотр всех результатов</button>
-    <button class="btn btn-style btn-base" (click)="openChart()">Динамика упражнения</button>
+<div class="navigation-panel" (window:resize)="onResize()">
+    <button class="btn btn-style btn-base" (click)="openAllResults()">
+        <span  *ngIf="windowWidth > 480">Просмотр всех результатов</span>
+        <span  *ngIf="windowWidth <= 480">Все результаты</span>
+    </button>
+    <button class="btn btn-style btn-base" (click)="openChart()">
+        <span  *ngIf="windowWidth > 400">Динамика упражнения</span>
+        <span  *ngIf="windowWidth <= 400">График</span>
+    </button>
 </div>

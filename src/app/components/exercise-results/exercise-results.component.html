@@ -5,12 +5,15 @@
 </div>
 
 <div class="exercise-results__panel exercise-results__panel_top" *ngIf="windowWidth <= 516">
-   <app-exercise-results-settings  class="exercise-results__header-block-left"></app-exercise-results-settings>
+   <app-exercise-results-settings  class="exercise-results__header-block-center"></app-exercise-results-settings>
 </div>
     
 <div class="exercise-results__panel exercise-results__panel_top" *ngIf="windowWidth <= 1020">
    <app-exercise-results-settings class="exercise-results__flex" *ngIf="windowWidth > 825"></app-exercise-results-settings>
-   <app-exercise-results-control [class.exercise-results__header-block-left]="windowWidth <= 825"></app-exercise-results-control>
+   <app-exercise-results-control 
+      [class.exercise-results__header-block-center]="windowWidth <= 516"
+      [class.exercise-results__header-block-left]="windowWidth > 516 && windowWidth <= 825">
+   </app-exercise-results-control>
 </div>
 
 <div class="exercise-results__panel">

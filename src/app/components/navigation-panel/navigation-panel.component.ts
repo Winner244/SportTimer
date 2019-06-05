@@ -7,10 +7,12 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
   styleUrls: ['./navigation-panel.component.less']
 })
 export class NavigationPanelComponent implements OnInit {
+  windowWidth: number;
 
   constructor(private exerciseResultsService: ExerciseResultsService) { }
 
   ngOnInit() {
+    this.onResize();
   }
 
   openAllResults(){
@@ -19,6 +21,10 @@ export class NavigationPanelComponent implements OnInit {
 
   openChart(){
     this.exerciseResultsService.openPopupChart();
+  }
+
+  public onResize() {
+     this.windowWidth = window.innerWidth;
   }
 
 }
