@@ -1,5 +1,8 @@
-<span class="exercise-results-control">
+<span class="exercise-results-control" (window:resize)="onResize()">
   <button class="btn btn-style btn-base" (click)="addResultItem()">Добавить</button>
-  <button class="btn btn-style btn-base" (click)="saveAndClear()">Сохранить и обнулить</button>
+  <button class="btn btn-style btn-base" (click)="saveAndClear()">
+    <span *ngIf="windowWidth > 470">Сохранить и обнулить</span>
+    <span *ngIf="windowWidth <= 470">Завершить</span>
+  </button>
   <button class="btn btn-style btn-danger" (click)="clear()">Очистить</button>
 </span>

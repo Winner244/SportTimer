@@ -1,5 +1,5 @@
-<span class="exercise-results-settings">
-  <span>Упражнение: </span>
+<span class="exercise-results-settings" (window:resize)="onResize()">
+  <span *ngIf="windowWidth > 470">Упражнение: </span>
   <select 
     (change)="onSelectTypeExercise($event.target.value)"
     class="exercise-results-settings__select-exercise"

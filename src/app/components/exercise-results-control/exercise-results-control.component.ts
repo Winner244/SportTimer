@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
@@ -6,10 +6,15 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
   templateUrl: './exercise-results-control.component.html',
   styleUrls: ['./exercise-results-control.component.less']
 })
-export class ExerciseResultsControlComponent {
+export class ExerciseResultsControlComponent implements OnInit {
+  windowWidth: number;
 
   constructor(private exerciseResultsService: ExerciseResultsService) 
   { 
+  }
+
+  ngOnInit(){
+    this.onResize();
   }
 
   addResultItem(){
@@ -23,5 +28,9 @@ export class ExerciseResultsControlComponent {
 
   clear(){
     this.exerciseResultsService.clearCurrentResult();
+  }
+
+  public onResize(){
+     this.windowWidth = window.innerWidth;
   }
 }

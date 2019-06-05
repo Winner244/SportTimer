@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -10,7 +10,9 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
   templateUrl: './exercise-results-settings.component.html',
   styleUrls: ['./exercise-results-settings.component.less']
 })
-export class ExerciseResultsSettingsComponent implements OnDestroy {
+export class ExerciseResultsSettingsComponent implements OnDestroy, OnInit {
+  windowWidth: number;
+
   exerciseTypes: ModelTypeExercise[];
   exerciseTypeSelected: ModelTypeExercise;
 
@@ -29,6 +31,10 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
       .subscribe(value => this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == value));
   }
 
+  ngOnInit(){
+    this.onResize();
+  }
+
   ngOnDestroy(){
     this._destroyed.next();
     this._destroyed.complete();
@@ -37,5 +43,9 @@ export class ExerciseResultsSettingsComponent implements OnDestroy {
   onSelectTypeExercise(exerciseTypeUid: string){
     this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == exerciseTypeUid);
     this.exerciseResultsService.exerciseTypeUidSelected = exerciseTypeUid;
+  }
+
+  public onResize(){
+     this.windowWidth = window.innerWidth;
   }
 }
