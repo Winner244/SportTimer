@@ -46,8 +46,11 @@
       @media (max-width: 480px)  {
          font-size: 75px;
       }
-      @media (max-width: 400px)  {
+      @media (max-width: 450px)  {
          font-size: 70px;
+      }
+      @media (max-width: 420px)  {
+         font-size: 65px;
       }
 
       border-radius: 5px;
@@ -56,7 +59,9 @@
       text-align: center;
       line-height: 1.7;
       color: #444;
-      min-width: 450px;
+      @media (min-width: 631px)  {
+         min-width: 450px;
+      }
       width: 35%;
    }
 
@@ -76,6 +81,9 @@
       @media (max-width: 480px)  {
          border-bottom-width: 75px;
       }
+      @media (max-width: 450px)  {
+         border-bottom-width: 70px;
+      }
    }
 
    &__settings{
@@ -87,6 +95,12 @@
    &__decor-triangle-left, &__decor-triangle-right{
       @media (max-width: 480px)  {
          top: 153px;
+      }
+      @media (max-width: 450px)  {
+         top: 140px;
+      }
+      @media (max-width: 420px)  {
+         top: 130px;
       }
 
       position: absolute;

@@ -34,7 +34,7 @@ export class PopupComponent implements OnInit {
 
    public onResize() {
       if(this.width.indexOf('px') > -1 && parseInt(this.width) > window.innerWidth){
-         this.width2 = window.innerWidth + 'px';
+         this.width2 = '100%';
          this.left2 = '0';
       }
       else{
