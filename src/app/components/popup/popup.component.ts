@@ -19,6 +19,7 @@ export class PopupComponent implements OnInit {
 
    width2: string; //it width changed in onResize 
    left2: string; //it left changed in onResize 
+   top2: string; //it top changed in onResize 
 
    @Output() onClose = new EventEmitter<void>();
 
@@ -36,10 +37,12 @@ export class PopupComponent implements OnInit {
       if(this.width.indexOf('px') > -1 && parseInt(this.width) > window.innerWidth){
          this.width2 = '100%';
          this.left2 = '0';
+         this.top2 = '0';
       }
       else{
          this.width2 = this.width;
          this.left2 = this.left;
+         this.top2 = this.top;
       }
    }
 }
