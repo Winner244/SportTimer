@@ -4,7 +4,9 @@
     <small *ngIf="exerciseLastResultCount" class="exercise-results-statistics__item-last">/ {{exerciseLastResultCount}}</small>
   </span>
   <span class="exercise-results-statistics__item">
-    Поднятая масса: {{exerciseCurrentResultMass}} 
+    <span *ngIf="windowWidth < 380">Масса</span> 
+    <span *ngIf="windowWidth >= 380">Поднятая масса</span>: 
+    {{exerciseCurrentResultMass}} 
     <small *ngIf="exerciseLastResultMass" class="exercise-results-statistics__item-last">/ {{exerciseLastResultMass}}</small>
   </span>
   <span class="exercise-results-statistics__item" *ngIf="windowWidth > 600">

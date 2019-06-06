@@ -19,6 +19,10 @@
       height: 35px;
       width: 35px;
       font-size: 20px;
+      @media (max-width: 350px)  {
+         right: 10%;
+         top: 92px;
+      }
 
       &:hover{
          background-color: #00000014;
@@ -52,6 +56,12 @@
       @media (max-width: 420px)  {
          font-size: 65px;
       }
+      @media (max-width: 390px)  {
+         font-size: 60px;
+      }
+      @media (max-width: 370px)  {
+         font-size: 55px;
+      }
 
       border-radius: 5px;
       background-color: white;
@@ -84,6 +94,22 @@
       @media (max-width: 450px)  {
          border-bottom-width: 70px;
       }
+      @media (max-width: 420px)  {
+         border-bottom-width: 67px;
+         width: 160px; 
+      }
+      @media (max-width: 390px)  {
+         border-bottom-width: 63px;
+         width: 150px; 
+      }
+      @media (max-width: 370px)  {
+         border-bottom-width: 60px;
+         width: 140px; 
+      }
+      @media (max-width: 340px)  {
+         border-bottom-width: 60px;
+         width: 130px; 
+      }
    }
 
    &__settings{
@@ -100,7 +126,24 @@
          top: 140px;
       }
       @media (max-width: 420px)  {
-         top: 130px;
+         top: 133px;
+         border-top-width: 45px;
+         border-bottom-width: 45px;
+      }
+      @media (max-width: 390px)  {
+         top: 123px;
+         border-top-width: 42px;
+         border-bottom-width: 42px;
+      }
+      @media (max-width: 370px)  {
+         top: 113px;
+         border-top-width: 40px;
+         border-bottom-width: 40px;
+      }
+      @media (max-width: 330px)  {
+         top: 118px;
+         border-top-width: 35px;
+         border-bottom-width: 35px;
       }
 
       position: absolute;
@@ -116,10 +159,28 @@
    &__decor-triangle-left {
       right: 0;
       border-right-width: 100px;
+      @media (max-width: 390px)  {
+         border-right-width: 90px;
+      }
+      @media (max-width: 370px)  {
+         border-right-width: 80px;
+      }
+      @media (max-width: 330px)  {
+         border-right-width: 70px;
+      }
    }
 
    &__decor-triangle-right {
       left: 0;
       border-left-width: 100px;
+      @media (max-width: 390px)  {
+         border-left-width: 90px;
+      }
+      @media (max-width: 370px)  {
+         border-left-width: 80px;
+      }
+      @media (max-width: 330px)  {
+         border-left-width: 70px;
+      }
    }
 }

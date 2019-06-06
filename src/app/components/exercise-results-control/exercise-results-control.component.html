@@ -4,5 +4,8 @@
     <span *ngIf="windowWidth > 470">Сохранить и обнулить</span>
     <span *ngIf="windowWidth <= 470">Завершить</span>
   </button>
-  <button class="btn btn-style btn-danger" (click)="clear()">Очистить</button>
+  <button class="btn btn-style btn-danger exercise-results-control__button-clean" (click)="clear()">
+    <span *ngIf="windowWidth >= 400">Очистить</span>
+    <img *ngIf="windowWidth < 400" src="/assets/clean.png" width="17px">
+  </button>
 </span>
