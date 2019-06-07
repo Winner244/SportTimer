@@ -1,8 +1,8 @@
-<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0" position="absolute">
+<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0" position="absolute" (window:resize)="onResize()">
 	<table class="exercise-results-table popup-exercise-results__table">
 		<thead>
 			<tr>
-				<td>№</td>
+				<td *ngIf='windowWidth >= 580'>№</td>
 				<td>Дата</td>
 				<td>Тип 
 					<select 
@@ -17,23 +17,23 @@
 						</option>
 					</select>
 				</td>
-				<td>Длительность</td>
-				<td>Подходов</td>
-				<td>Кол-во</td>
-				<td>Масса</td>
+				<td *ngIf='windowWidth >= 540'>Длительность</td>
+				<td *ngIf='windowWidth >= 480'>Подходов</td>
+				<td *ngIf='windowWidth >= 390'>Кол-во</td>
+				<td *ngIf='windowWidth >= 440'>Масса</td>
 				<td>Подробно</td>
 				<td>Удалить</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr *ngFor="let item of filtereditems; index as i" [class.popup-exercise-results__table-tr_selected]="selectedRow === i" (click)="selectedRow = i">
-				<td>{{i + 1}}</td>
+				<td *ngIf='windowWidth >= 580'>{{i + 1}}</td>
 				<td>{{getItemDate(item)}}</td>
 				<td>{{getExerciseLabel(item)}}</td>
-				<td>{{getDuration(item)}}</td>
-				<td>{{item.results.length}}</td>
-				<td>{{getSumCount(item)}}</td>
-				<td>{{getSumMass(item)}}</td>
+				<td *ngIf='windowWidth >= 540'>{{getDuration(item)}}</td>
+				<td *ngIf='windowWidth >= 480'>{{item.results.length}}</td>
+				<td *ngIf='windowWidth >= 390'>{{getSumCount(item)}}</td>
+				<td *ngIf='windowWidth >= 440'>{{getSumMass(item)}}</td>
 				<td class="popup-exercise-results__table-td-button">
 					<button class="btn popup-exercise-results__button popup-exercise-results__button-info" (click)="info(item)" >
 						<fa-icon [icon]="faInfo"></fa-icon>

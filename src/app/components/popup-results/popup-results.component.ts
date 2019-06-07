@@ -24,6 +24,7 @@ export class PopupResultsComponent implements OnDestroy {
    items: ModelExerciseResult[];
    filtereditems: ModelExerciseResult[];
    selectedRow: number;
+   windowWidth: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -33,6 +34,7 @@ export class PopupResultsComponent implements OnDestroy {
    { 
       this.items = [];
       this.selectedRow = -1;
+      this.onResize = this.onResize.bind(this);
 
       this.settingsService.exerciseTypes$
          .pipe(takeUntil(this._destroyed))
@@ -51,6 +53,9 @@ export class PopupResultsComponent implements OnDestroy {
          .subscribe(value => {
             this.selectedExerciseTypeUid = '';
             this.isOpen = value;
+            if(value){
+               setTimeout(this.onResize, 100);
+            }
          });
    }
 
@@ -64,7 +69,7 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public getItemDate(item: ModelExerciseResult) : string{
-      return moment(item.date).format('DD.MM.YYYY' + (window.innerWidth > 1150 ? ' hh:mm' : ''));
+      return moment(item.date).format('DD.MM.' + (window.innerWidth > 340 ? 'YYYY' : 'YYг') + (window.innerWidth > 1150 ? ' hh:mm' : ''));
    }
 
    public getExerciseLabel(item: ModelExerciseResult) : string{
@@ -107,5 +112,9 @@ export class PopupResultsComponent implements OnDestroy {
       this.filtereditems = this.selectedExerciseTypeUid
          ? this.items.filter(x => x.type === this.selectedExerciseTypeUid)
          : this.filtereditems = [].concat(this.items);
+   }
+
+   public onResize() {
+      this.windowWidth = window.innerWidth;
    }
 }
