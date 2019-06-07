@@ -5,19 +5,35 @@
 			float: left;
 			overflow: auto;
 			height: 365px;
+			@media (max-width: 499px)  {
+				width: 60%;
+			}
 		}
 	}
 
 	&__box-info{
-		width: calc(50% - 60px);
-		padding: 20px 30px;
+		width: calc(50% - 50px);
+		padding: 20px 20px 20px 30px;
 		float: right;
+
+		@media (max-width: 549px) {
+			padding: 15px 0 15px 20px;
+			width: calc(50% - 20px);
+		}
+		@media (max-width: 499px) {
+			padding: 10px 0 10px 15px;
+			width: calc(40% - 15px);
+		}
 
 		&-item{
 			margin-bottom: 10px;
 
 			& > b{
 				margin-right: 5px;
+
+				@media (max-width: 499px)  {
+					display: block;
+				}
 			}
 		}
 	}

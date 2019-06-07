@@ -19,6 +19,7 @@ export class PopupResultInfoComponent implements OnDestroy {
    exerciseTypes: ModelTypeExercise[];
    isOpen: boolean;
    item: ModelExerciseResult;
+   windowWidth: number;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -26,6 +27,8 @@ export class PopupResultInfoComponent implements OnDestroy {
       private exerciseResultsService: ExerciseResultsService,
       private settingsService: SettingsService) 
    {
+      this.onResize = this.onResize.bind(this);
+      
       this.settingsService.exerciseTypes$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => this.exerciseTypes = value);
@@ -36,7 +39,7 @@ export class PopupResultInfoComponent implements OnDestroy {
             this.isOpen = value;
             this.item = this.exerciseResultsService.popupResultInfoItem;
             if(value){
-               console.log('PopupResultInfoComponent this.item', this.item);
+               setTimeout(this.onResize, 100);
             }
          });
    }
@@ -69,5 +72,9 @@ export class PopupResultInfoComponent implements OnDestroy {
    }
    public getSumMass() : number{
       return this.item.results.sum(x => x.mass);
+   }
+
+   public onResize() {
+      this.windowWidth = window.innerWidth;
    }
 }

@@ -1,12 +1,12 @@
-<app-popup title="Просмотр результата" [isOpen]="isOpen" (onClose)="onClose()" paddingBody="0" height="400px">
+<app-popup title="Просмотр результата" [isOpen]="isOpen" (onClose)="onClose()" paddingBody="0" height="400px" (window:resize)="onResize()">
    <div class="popup-result-info__table-box" *ngIf='item'>
 			<table class="exercise-results-table popup-result-info__table">
 					<thead>
 						<tr>
 							<td>№</td>
-							<td width="20%">Продолжительность</td>
-							<td width="20%">Кол-во</td>
-							<td width="20%">Масса</td>
+							<td width="50%">Длительность</td>
+							<td width="25%">Кол-во</td>
+							<td width="25%">Масса</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,7 +29,8 @@
 			 <span>{{getExerciseLabel()}}</span>
 		 </div>
 		 <div class="popup-result-info__box-info-item">
-			 <b>Продолжительность:</b>
+			 <b *ngIf='windowWidth >= 500'>Продолжительность:</b>
+			 <b *ngIf='windowWidth < 500'>Длительность:</b>
 			 <span>{{getTimeDuration()}}</span>
 		 </div>
 		 <div class="popup-result-info__box-info-item">
