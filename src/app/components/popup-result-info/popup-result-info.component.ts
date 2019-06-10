@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
@@ -20,6 +20,11 @@ export class PopupResultInfoComponent implements OnDestroy {
    isOpen: boolean;
    item: ModelExerciseResult;
    windowWidth: number;
+   heightTable: string; //for < heightComponent resolution
+   heightComponent: string = '400px';
+
+   @ViewChild('table') tableElement: ElementRef;
+   @ViewChild('component') componentElement: ElementRef;
 
    private _destroyed: Subject<any> = new Subject();
 
@@ -76,5 +81,12 @@ export class PopupResultInfoComponent implements OnDestroy {
 
    public onResize() {
       this.windowWidth = window.innerWidth;
+
+      if(this.tableElement){
+         var height = window.innerWidth < 400 
+            ? window.innerHeight 
+            : Math.min(window.innerHeight, parseInt(this.heightComponent));
+         this.heightTable = height - 35 - this.tableElement.nativeElement.offsetTop + 'px'; 
+      }
    }
 }

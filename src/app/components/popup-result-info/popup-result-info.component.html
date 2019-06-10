@@ -1,45 +1,47 @@
-<app-popup title="Просмотр результата" [isOpen]="isOpen" (onClose)="onClose()" paddingBody="0" height="400px" (window:resize)="onResize()">
-   <div class="popup-result-info__table-box" *ngIf='item'>
+<app-popup title="Просмотр результата" [isOpen]="isOpen" (onClose)="onClose()" paddingBody="0" [height]="heightComponent" (window:resize)="onResize()">
+	<div class="popup-result-info" #component>
+		<div class="popup-result-info__table-box" *ngIf='item' #table [ngStyle]="{'height': heightTable}">
 			<table class="exercise-results-table popup-result-info__table">
-					<thead>
-						<tr>
-							<td>№</td>
-							<td width="50%">Длительность</td>
-							<td width="25%">Кол-во</td>
-							<td width="25%">Масса</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let result of item.results; index as i">
-							<td>{{i + 1}}</td>
-							<td>{{getTimeDurationResult(result)}}</td>
-							<td>{{result.count}}</td>
-							<td>{{result.mass}}</td>
-						</tr>
-					</tbody>
-				 </table>
-	 </div>
-	 <div class="popup-result-info__box-info" *ngIf='item'>
-		 <div class="popup-result-info__box-info-item">
-			 <b>Дата:</b>
-			 <span>{{getItemDate()}}</span>
-		 </div>
-		 <div class="popup-result-info__box-info-item">
-			 <b>Тип:</b>
-			 <span>{{getExerciseLabel()}}</span>
-		 </div>
-		 <div class="popup-result-info__box-info-item">
-			 <b *ngIf='windowWidth >= 500'>Продолжительность:</b>
-			 <b *ngIf='windowWidth < 500'>Длительность:</b>
-			 <span>{{getTimeDuration()}}</span>
-		 </div>
-		 <div class="popup-result-info__box-info-item">
-			 <b>Кол-во:</b>
-			 <span>{{getSumCount()}}</span>
-		 </div>
-		 <div class="popup-result-info__box-info-item">
-			 <b>Поднятая масса:</b>
-			 <span>{{getSumMass()}}</span>
-		 </div>
-	 </div>
+				<thead>
+					<tr>
+						<td>№</td>
+						<td width="50%">Длительность</td>
+						<td width="25%">Кол-во</td>
+						<td width="25%">Масса</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let result of item.results; index as i">
+						<td>{{i + 1}}</td>
+						<td>{{getTimeDurationResult(result)}}</td>
+						<td>{{result.count}}</td>
+						<td>{{result.mass}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="popup-result-info__box-info" *ngIf='item'>
+			<div class="popup-result-info__box-info-item">
+				<b>Дата:</b>
+				<span>{{getItemDate()}}</span>
+			</div>
+			<div class="popup-result-info__box-info-item">
+				<b>Тип:</b>
+				<span>{{getExerciseLabel()}}</span>
+			</div>
+			<div class="popup-result-info__box-info-item">
+				<b *ngIf='windowWidth >= 500'>Продолжительность:</b>
+				<b *ngIf='windowWidth < 500'>Длительность:</b>
+				<span>{{getTimeDuration()}}</span>
+			</div>
+			<div class="popup-result-info__box-info-item">
+				<b>Кол-во:</b>
+				<span>{{getSumCount()}}</span>
+			</div>
+			<div class="popup-result-info__box-info-item">
+				<b>Поднятая масса:</b>
+				<span>{{getSumMass()}}</span>
+			</div>
+		</div>
+	</div>
 </app-popup>
