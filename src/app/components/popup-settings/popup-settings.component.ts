@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -23,13 +23,15 @@ export class PopupSettingsComponent implements OnDestroy {
    googleDriveEmail: string;
    exerciseTypes: ModelTypeExercise[];
    heightList: string;
+   countResults: number;
 
    private _destroyed: Subject<any> = new Subject();
 
    constructor(
       private settingsService: SettingsService,
       private googleDriveService: GoogleDriveService,
-      private exerciseResultsService: ExerciseResultsService) 
+      private exerciseResultsService: ExerciseResultsService,
+      private ngzone: NgZone) 
    {
       this.onResize = this.onResize.bind(this);
       this.settingsService.isOpen$
@@ -41,7 +43,14 @@ export class PopupSettingsComponent implements OnDestroy {
                this.isOnPushNotification = this.settingsService.isOnPushNotification;
                this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
                this.exerciseTypes = this.settingsService.exerciseTypes;
+               this.countResults = this.exerciseResultsService.exerciseResults.length;
             }
+         });
+
+      this.settingsService.exerciseTypes$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.ngzone.run(() => this.exerciseTypes = value);
          });
 
       this.googleDriveService.googleUser$
@@ -73,8 +82,21 @@ export class PopupSettingsComponent implements OnDestroy {
    }
 
    removeExerciseType(index: number) {
-      this.exerciseTypes.splice(index, 1);
-      this.settingsService.exerciseTypes = this.exerciseTypes;
+      var type = this.exerciseTypes[index];
+      var message = 'Вы действительно хотите удалить тип "' + type.name + '"';
+      var countExercises = this.getCountExercisesByType(type);
+      if(countExercises){
+         message += ' и ' + countExercises + ' упражнений этого типа';
+      }
+      message += '?';
+
+      if(confirm(message)){
+         this.exerciseTypes.splice(index, 1);
+         this.settingsService.exerciseTypes = this.exerciseTypes;
+
+         //удаление результатов данного типа
+         this.exerciseResultsService.exerciseResults = this.exerciseResultsService.exerciseResults.filter(x => x.type !== type.uid);
+      }
    }
 
    addExercise() {
@@ -109,6 +131,18 @@ export class PopupSettingsComponent implements OnDestroy {
    /** для починки ngModel внутри ngFor (устсраняет баг ангуляра) */
    trackByIndex(index: number): any {
       return index;
+   }
+
+   clearAllExcercises(){
+      const message = this.googleDriveEmail 
+         ? 'Будут удалены и локальные результаты и результаты этого приложения на Google диске, ' + 
+            'если хотите удалить только локальные результаты, то отключите Google диск. Удалить все результаты?' 
+         : 'Вы действительно хотите удалить все локальные результаты?';
+
+      if(confirm(message)){
+         this.exerciseResultsService.exerciseResults = [];
+         this.exerciseResultsService.dateSave = 0; //удалённые данные не имеют силы на перезатирание данных в Google Drive
+      }
    }
 
    public onResize() {

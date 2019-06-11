@@ -73,7 +73,8 @@ export class PopupResultsComponent implements OnDestroy {
    }
 
    public getExerciseLabel(item: ModelExerciseResult) : string{
-      return this.exerciseTypes.find(x => x.uid === item.type).name;
+      var type = this.exerciseTypes.find(x => x.uid === item.type);
+      return type ? type.name : item.type;
    }
 
    public getDuration(item: ModelExerciseResult) : string{

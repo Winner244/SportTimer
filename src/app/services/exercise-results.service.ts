@@ -54,7 +54,7 @@ export class ExerciseResultsService implements OnDestroy {
       this.settingsService.exerciseTypes$
          .pipe(takeUntil(this._destroyed))
          .subscribe(exerciseTypes => {
-            //если не задач выбранное упражнение или оно не актуально
+            //если не выбрано упражнение или оно не актуально
             if (exerciseTypes.length && (!this.exerciseTypeUidSelected || !exerciseTypes.find(x => x.uid === this.exerciseTypeUidSelected))) {
                this.exerciseTypeUidSelected = exerciseTypes[0].uid;
             }
@@ -207,7 +207,7 @@ export class ExerciseResultsService implements OnDestroy {
    private _loadExerciseResults(): ModelExerciseResult[] {
       return JSON.parse(localStorage.getItem('ExerciseResultsService.exerciseResults') || '[]') || [];
    }
-   /** Загрузка результатов упражнений */
+   /** Загрузка последнего времени сохранения данных */
    private _loadDateSave(): number {
       return JSON.parse(localStorage.getItem('ExerciseResultsService.dateSave') || '0') || 0;
    }

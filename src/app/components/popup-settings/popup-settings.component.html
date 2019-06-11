@@ -14,6 +14,8 @@
     </button>
   </div>
 
+  <button *ngIf="countResults" class="btn btn-style btn-popup" (click)="clearAllExcercises()">Удалить все результаты упражнений</button>
+
   <h3>Упражнения:</h3>
   <div class="popup-settings__list-exercises" [ngStyle]="{'height': heightList}" #listExercises>
     <div class="popup-settings__exercise"

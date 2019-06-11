@@ -6,46 +6,51 @@ import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 
 @Component({
-  selector: 'app-exercise-results-settings',
-  templateUrl: './exercise-results-settings.component.html',
-  styleUrls: ['./exercise-results-settings.component.less']
+   selector: 'app-exercise-results-settings',
+   templateUrl: './exercise-results-settings.component.html',
+   styleUrls: ['./exercise-results-settings.component.less']
 })
 export class ExerciseResultsSettingsComponent implements OnDestroy, OnInit {
-  windowWidth: number;
+   windowWidth: number;
 
-  exerciseTypes: ModelTypeExercise[];
-  exerciseTypeSelected: ModelTypeExercise;
+   exerciseTypes: ModelTypeExercise[];
+   exerciseTypeSelected: ModelTypeExercise;
 
-  private _destroyed: Subject<any> = new Subject();
+   private _destroyed: Subject<any> = new Subject();
 
-  constructor(
-    private settingsService: SettingsService,
-    private exerciseResultsService: ExerciseResultsService) 
-  { 
-    this.settingsService.exerciseTypes$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseTypes = value);
+   constructor(
+      private settingsService: SettingsService,
+      private exerciseResultsService: ExerciseResultsService) {
+      this.settingsService.exerciseTypes$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.exerciseTypes = value;
+            if(value.length && (!this.exerciseTypeSelected || !this.exerciseTypes.find(x => x.uid == this.exerciseTypeSelected.uid))){
+               this.exerciseTypeSelected = value[0]; //временное решение до смены  exerciseTypeUidSelected на имеющийся
+            }
+            
+         });
 
-    this.exerciseResultsService.exerciseTypeUidSelected$
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(value => this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == value));
-  }
+      this.exerciseResultsService.exerciseTypeUidSelected$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == value));
+   }
 
-  ngOnInit(){
-    this.onResize();
-  }
+   ngOnInit() {
+      this.onResize();
+   }
 
-  ngOnDestroy(){
-    this._destroyed.next();
-    this._destroyed.complete();
-  }
+   ngOnDestroy() {
+      this._destroyed.next();
+      this._destroyed.complete();
+   }
 
-  onSelectTypeExercise(exerciseTypeUid: string){
-    this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == exerciseTypeUid);
-    this.exerciseResultsService.exerciseTypeUidSelected = exerciseTypeUid;
-  }
+   onSelectTypeExercise(exerciseTypeUid: string) {
+      this.exerciseTypeSelected = this.exerciseTypes.find(x => x.uid == exerciseTypeUid);
+      this.exerciseResultsService.exerciseTypeUidSelected = exerciseTypeUid;
+   }
 
-  public onResize(){
-     this.windowWidth = window.innerWidth;
-  }
+   public onResize() {
+      this.windowWidth = window.innerWidth;
+   }
 }
