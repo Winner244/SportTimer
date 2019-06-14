@@ -51,6 +51,17 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
             }
          });
 
+      this.exerciseResultsService.exerciseResults$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            const exerciseLastResult = this.exerciseResultsService.getLastExerciseResults(this.exerciseTypeUidSelected);
+            if(exerciseLastResult){
+               this.exerciseLastResultCount = exerciseLastResult.results.sum(x => x.count);
+               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.mass);
+               this.exerciseLastResultDate = exerciseLastResult.date;
+            }
+         });
+
       this.exerciseResultsService.exerciseCurrentResult$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
