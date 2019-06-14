@@ -56,6 +56,13 @@ export class PopupSettingsComponent implements OnDestroy {
       this.googleDriveService.googleUser$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => this.googleDriveEmail = value ? value.email : '');
+
+      this.exerciseResultsService.exerciseResults$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.countResults = value.length;
+            setTimeout(this.onResize, 100);
+         });
    }
 
    ngOnDestroy() {
@@ -146,6 +153,6 @@ export class PopupSettingsComponent implements OnDestroy {
    }
 
    public onResize() {
-      this.heightList = 500 - this.listExercisesElement.nativeElement.offsetTop - 80 + 'px';
+      this.ngzone.run(() => this.heightList = 500 - this.listExercisesElement.nativeElement.offsetTop - 80 + 'px');
    }
 }
