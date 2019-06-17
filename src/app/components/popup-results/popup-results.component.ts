@@ -6,7 +6,7 @@ import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
 import * as moment from 'moment';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';
-import { Helper } from 'src/app/Helper';
+import { Helper } from 'src/app/helpers/Helper';
 import { faInfo, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

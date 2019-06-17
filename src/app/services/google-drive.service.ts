@@ -78,14 +78,14 @@ export class GoogleDriveService {
     * Если на диске есть данные и в вебе -> сверяем время последнего сохранения данных и копируем последние данные в старые
     * Если нигде данных нету -> ничего не делаем
     */
-   synchronizationDrive() {
+   synchronizationDrive(): Promise<any>  {
       //is exist connect drive?
       if (!this.googleUser) {
-         return null;
+         return Promise.resolve(null);
       }
 
       //get access token
-      this._refreshToken().then(() => {
+      return this._refreshToken().then(() => {
 
          //found file on google drive
          return this._getIdDriveFile()
@@ -139,21 +139,22 @@ export class GoogleDriveService {
 
    /** Создаёт Google Drive файл с содержимым */
    private _createDriveFile(dataFile: ModelExerciseResults) {
-      const data = {
-         metadata: {
-            'name': this._fileDriveName,
-            'mimeType': 'text/plain',
-         },
-         file: JSON.stringify(dataFile)
-      };
+      const metadata = {
+         'name': this._fileDriveName,
+         'mimeType': 'text/plain',
+     };
 
-      console.info('GoogleDrive. create data drive file', dataFile);
-      return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart&fields=id', data, this._getHeader())
-         .toPromise()
-         .then(res => {
-            this.notificationService.addMessage(new ModelNotification('Данные успешно сохранены в Google Drive.', 'success', 5));
-            return res;
-         });
+     const form = new FormData();
+     form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+     form.append('file', new Blob([JSON.stringify(dataFile)], {type: 'text/plain'}));
+
+     console.info('GoogleDrive. create data drive file', dataFile);
+     return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart', form, this._getHeader())
+     .toPromise()
+     .then(res => {
+        this.notificationService.addMessage(new ModelNotification('Данные успешно сохранены в Google Drive.', 'success', 5));
+        return res;
+     });
    }
 
    /** Обновляет данные в Google Drive */
@@ -176,7 +177,7 @@ export class GoogleDriveService {
          .toPromise()
          .then((dataFile: any) => {
             console.info('GoogleDrive. loaded from drive:', dataFile);
-            return JSON.parse(dataFile.file);
+            return dataFile;
          })
    }
 

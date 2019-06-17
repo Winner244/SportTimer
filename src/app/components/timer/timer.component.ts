@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 
-import { Helper } from '../../Helper';
+import { Helper } from '../../helpers/Helper';
 import { TimerService } from 'src/app/services/timer.service';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
 

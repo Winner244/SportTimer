@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
 import { ModelExerciseResultItem } from 'src/app/models/ModelExerciseResultItem';
-import { Helper } from 'src/app/Helper';
+import { Helper } from 'src/app/helpers/Helper';
 import * as moment from 'moment';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from 'src/app/models/ModelTypeExercise';

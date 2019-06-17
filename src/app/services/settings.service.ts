@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Helper } from '../Helper';
+import { Helper } from '../helpers/Helper';
 import { ModelTypeExercise } from '../models/ModelTypeExercise';
 
 @Injectable({

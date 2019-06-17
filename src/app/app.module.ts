@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { StringExtension } from './StringExtension';
-import { ArrayExtension } from './ArrayExtension';
+import { StringExtension } from './helpers/StringExtension';
+import { ArrayExtension } from './helpers/ArrayExtension';
 
 import { HeaderComponent } from './components/header/header.component';
 import { AppComponent } from './components/app/app.component';

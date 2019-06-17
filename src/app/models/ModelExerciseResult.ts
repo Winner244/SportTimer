@@ -1,5 +1,4 @@
 import { ModelExerciseResultItem } from './ModelExerciseResultItem';
-import { ModelTypeExercise } from './ModelTypeExercise';
 
 /**
  * Результат упражнения

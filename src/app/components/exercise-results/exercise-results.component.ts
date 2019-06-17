@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
-import { Helper } from 'src/app/Helper';
+import { Helper } from 'src/app/helpers/Helper';
 
 @Component({
    selector: 'app-exercise-results',

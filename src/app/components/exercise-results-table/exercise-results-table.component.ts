@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ModelExerciseResultItem } from 'src/app/models/ModelExerciseResultItem';
-import { Helper } from '../../Helper';
+import { Helper } from '../../helpers/Helper';
 import * as moment from 'moment';
 
 @Component({
