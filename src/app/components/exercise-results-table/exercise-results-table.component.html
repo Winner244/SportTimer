@@ -1,5 +1,5 @@
 <table class="exercise-results-table" (window:resize)="onResize()">
-   <thead>
+   <thead [class.hide]="isHideHeader">
       <tr>
          <td>№</td>
          <td width="20%" *ngIf="windowWidth > 600">Время Начала</td>

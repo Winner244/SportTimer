@@ -14,7 +14,8 @@ export class ExerciseResultsTableComponent implements OnInit {
 
    @Input() items: ModelExerciseResultItem[];
    @Input() isDisableInputs: boolean;
-
+   @Input() isHideHeader: boolean;
+   
    @Output() onChangeModel = new EventEmitter<void>();
 
    constructor() { }
