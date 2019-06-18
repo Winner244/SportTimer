@@ -15,6 +15,8 @@ export class PopupChartComponent implements OnDestroy, OnInit {
 
 	isOpen: boolean;
 	chart : Chart;
+	paddingBody: string = '15px 20px';
+	height: string = '400px';
 
    @ViewChild('exerciseSelectedChart') exerciseSelectedChartElement: ElementRef;
 
@@ -124,5 +126,10 @@ export class PopupChartComponent implements OnDestroy, OnInit {
 	
 	onResize(){
 		this.chart.options.legend.position = window.innerWidth < 700 ? 'top' : 'right';
+		this.paddingBody = window.innerWidth < 600 ? '10px 10px' : '15px 20px';
+		this.height = window.innerWidth < 700 ? window.innerWidth * 0.6 + 'px' : '400px';
+		if(window.innerWidth < 450){
+			this.paddingBody = '0';
+		}
 	}
 }
