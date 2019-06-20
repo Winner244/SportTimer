@@ -1,10 +1,8 @@
-<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0" position="absolute" 
-	(window:resize)="onResize()"
->
+<app-popup title="Все результаты" [isOpen]="isOpen" (onClose)="onClose()" height="100%" width="100%" left="0" top="0" paddingBody="0" position="absolute">
 	<table class="exercise-results-table popup-exercise-results__table">
 		<thead>
 			<tr>
-				<td *ngIf='windowWidth >= 580'>№</td>
+				<td class='popup-exercise-results__table-td-number'>№</td>
 				<td>Дата</td>
 				<td>Тип 
 					<select 
@@ -19,23 +17,23 @@
 						</option>
 					</select>
 				</td>
-				<td *ngIf='windowWidth >= 540'>Длительность</td>
-				<td *ngIf='windowWidth >= 480'>Подходов</td>
-				<td *ngIf='windowWidth >= 390'>Кол-во</td>
-				<td *ngIf='windowWidth >= 440'>Масса</td>
+				<td class='popup-exercise-results__table-td-duration'>Длительность</td>
+				<td class='popup-exercise-results__table-td-count'>Подходов</td>
+				<td class='popup-exercise-results__table-td-sum'>Кол-во</td>
+				<td class='popup-exercise-results__table-td-mass'>Масса</td>
 				<td>Подробно</td>
 				<td>Удалить</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr *ngFor="let item of filtereditems; index as i" [class.popup-exercise-results__table-tr_selected]="selectedRow === i" (click)="selectedRow = i">
-				<td *ngIf='windowWidth >= 580'>{{i + 1}}</td>
+				<td class='popup-exercise-results__table-td-number'>{{i + 1}}</td>
 				<td>{{getItemDate(item)}}</td>
 				<td>{{getExerciseLabel(item)}}</td>
-				<td *ngIf='windowWidth >= 540'>{{getDuration(item)}}</td>
-				<td *ngIf='windowWidth >= 480'>{{item.results.length}}</td>
-				<td *ngIf='windowWidth >= 390'>{{getSumCount(item)}}</td>
-				<td *ngIf='windowWidth >= 440'>{{getSumMass(item)}}</td>
+				<td class='popup-exercise-results__table-td-duration'>{{getDuration(item)}}</td>
+				<td class='popup-exercise-results__table-td-count'>{{item.results.length}}</td>
+				<td class='popup-exercise-results__table-td-sum'>{{getSumCount(item)}}</td>
+				<td class='popup-exercise-results__table-td-mass'>{{getSumMass(item)}}</td>
 				<td class="popup-exercise-results__table-td-button">
 					<button class="btn popup-exercise-results__button popup-exercise-results__button-info" (click)="info(item)" >
 						<fa-icon [icon]="faInfo"></fa-icon>
