@@ -39,8 +39,7 @@ export class GoogleDriveService {
       private http: HttpClient,
       private exerciseResultsService: ExerciseResultsService,
       private settingsService: SettingsService,
-      private notificationService: NotificationService) 
-   {
+      private notificationService: NotificationService) {
       this._countFailedLoadGoogle = 0;
       this._countFailedLoginGoogle = 0;
       this.synchronizationDrive = this.synchronizationDrive.bind(this);
@@ -78,7 +77,7 @@ export class GoogleDriveService {
     * Если на диске есть данные и в вебе -> сверяем время последнего сохранения данных и копируем последние данные в старые
     * Если нигде данных нету -> ничего не делаем
     */
-   synchronizationDrive(): Promise<any>  {
+   synchronizationDrive(): Promise<any> {
       //is exist connect drive?
       if (!this.googleUser) {
          return Promise.resolve(null);
@@ -142,19 +141,19 @@ export class GoogleDriveService {
       const metadata = {
          'name': this._fileDriveName,
          'mimeType': 'text/plain',
-     };
+      };
 
-     const form = new FormData();
-     form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
-     form.append('file', new Blob([JSON.stringify(dataFile)], {type: 'text/plain'}));
+      const form = new FormData();
+      form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+      form.append('file', new Blob([JSON.stringify(dataFile)], { type: 'text/plain' }));
 
-     console.info('GoogleDrive. create data drive file', dataFile);
-     return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart', form, this._getHeader())
-     .toPromise()
-     .then(res => {
-        this.notificationService.addMessage(new ModelNotification('Данные успешно сохранены в Google Drive.', 'success', 5));
-        return res;
-     });
+      console.info('GoogleDrive. create data drive file', dataFile);
+      return this.http.post(this._apiPath + '/upload/drive/v3/files?uploadType=multipart', form, this._getHeader())
+         .toPromise()
+         .then(res => {
+            this.notificationService.addMessage(new ModelNotification('Данные успешно сохранены в Google Drive.', 'success', 5));
+            return res;
+         });
    }
 
    /** Обновляет данные в Google Drive */
@@ -177,6 +176,17 @@ export class GoogleDriveService {
          .toPromise()
          .then((dataFile: any) => {
             console.info('GoogleDrive. loaded from drive:', dataFile);
+            
+            if (typeof (dataFile) === 'object') {
+               if (dataFile.file && typeof (dataFile.file) === 'string') {
+                  return JSON.parse(dataFile.file);
+               }
+
+               if (dataFile.file && typeof (dataFile.file) === 'object') {
+                  return dataFile.file;
+               }
+            }
+
             return dataFile;
          })
    }
@@ -276,7 +286,7 @@ export class GoogleDriveService {
       });
    }
 
-   private _removeGoogleScript(){
+   private _removeGoogleScript() {
       var scripts = document.getElementsByTagName('script')
       var googleScripts = Array.prototype.slice.call(scripts).filter(x => x.src.indexOf('https://apis.google.com/') === 0);
       googleScripts.map(x => x.parentElement.removeChild(x));
@@ -299,7 +309,7 @@ export class GoogleDriveService {
                this.notificationService.addMessage(new ModelNotification('Не удалось подключиться к Google Drive, возможно, отсутствует интернет!', 'error', 5));
             }
 
-            if(this._countFailedLoadGoogle < 5){
+            if (this._countFailedLoadGoogle < 5) {
                this._countFailedLoadGoogle++;
             }
             setTimeout(() => this._auth2Load().then(ok).catch(err), 3000);

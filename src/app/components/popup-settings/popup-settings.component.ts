@@ -15,14 +15,11 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
 export class PopupSettingsComponent implements OnDestroy {
    faTimes = faTimes;
 
-   @ViewChild('listExercises') listExercisesElement: ElementRef;
-
    isOpen: boolean;
    isDisplayOldResults: boolean;
    isOnPushNotification: boolean;
    googleDriveEmail: string;
    exerciseTypes: ModelTypeExercise[];
-   heightList: string;
    countResults: number;
 
    private _destroyed: Subject<any> = new Subject();
@@ -33,13 +30,11 @@ export class PopupSettingsComponent implements OnDestroy {
       private exerciseResultsService: ExerciseResultsService,
       private ngzone: NgZone) 
    {
-      this.onResize = this.onResize.bind(this);
       this.settingsService.isOpen$
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.isOpen = value;
             if (value) {
-               setTimeout(this.onResize, 100);
                this.isOnPushNotification = this.settingsService.isOnPushNotification;
                this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
                this.exerciseTypes = this.settingsService.exerciseTypes;
@@ -61,7 +56,6 @@ export class PopupSettingsComponent implements OnDestroy {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.countResults = value.length;
-            setTimeout(this.onResize, 100);
          });
    }
 
@@ -150,9 +144,5 @@ export class PopupSettingsComponent implements OnDestroy {
          this.exerciseResultsService.exerciseResults = [];
          this.exerciseResultsService.dateSave = 0; //удалённые данные не имеют силы на перезатирание данных в Google Drive
       }
-   }
-
-   public onResize() {
-      this.ngzone.run(() => this.heightList = 500 - this.listExercisesElement.nativeElement.offsetTop - 80 + 'px');
    }
 }

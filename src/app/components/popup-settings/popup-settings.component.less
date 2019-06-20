@@ -1,13 +1,22 @@
 .popup-settings{
+    display: flex;
+    height: 450px;
+    flex-direction: column;
+
     &__item{
         margin-bottom: 10px;
     }
 
+    &__button-remove-all{
+        max-width: 320px;
+    }
+
     &__list-exercises{
-        height: 280px;
         width: 100%;
         overflow-y: auto;
         margin-bottom: 10px;
+        display: grid;
+        flex-grow: 1;
     }
 
     &__exercise{

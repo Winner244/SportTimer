@@ -1,35 +1,37 @@
-<app-popup title="Настройки" [isOpen]="isOpen" (onClose)="onClose()" (window:resize)="onResize()" height="500px">
-  <div class="popup-settings__item">
-    <app-checkbox text="Отображать предыдущие результаты рядом с текущими" [value]="isDisplayOldResults" (onToggle)="toggleDisplayOldResults()"></app-checkbox>
-  </div>
-
-  <div class="popup-settings__item">
-    <app-checkbox text="Включить push-уведомления" [value]="isOnPushNotification" (onToggle)="toggleOnPushNotification()"></app-checkbox>
-  </div>
-  
-  <div class="popup-settings__item">
-    <button *ngIf="!googleDriveEmail" class="btn btn-style btn-popup" (click)="connectGoogleDrive()">Подключить Google Drive</button>
-    <button *ngIf="googleDriveEmail" class="btn btn-style btn-popup-danger" (click)="disconnectGoogleDrive()">
-      Отключить Google Drive - {{googleDriveEmail}}
-    </button>
-  </div>
-
-  <button *ngIf="countResults" class="btn btn-style btn-popup" (click)="clearAllExcercises()">Удалить все результаты упражнений</button>
-
-  <h3>Упражнения:</h3>
-  <div class="popup-settings__list-exercises" [ngStyle]="{'height': heightList}" #listExercises>
-    <div class="popup-settings__exercise"
-      *ngFor="let exerciseType of exerciseTypes; index as i;trackBy:trackByIndex;" 
-    >
-      <div class="popup-settings__exercise-name"><input [(ngModel)]="exerciseType.name" (blur)="blurExerciseType()"></div>
-      <div class="popup-settings__exercise-count">{{getCountExercisesByType(exerciseType)}}</div>
-      <div class="popup-settings__exercise-button" (click)="removeExerciseType(i)">
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </div>
-    </div>
-  </div>
-
-  <div class="popup-settings__item">
-    <button class="btn btn-style btn-popup" (click)="addExercise()">Добавить упражнение</button>
-  </div>
+<app-popup title="Настройки" [isOpen]="isOpen" (onClose)="onClose()" height="500px">
+   <div class="popup-settings">
+      <div class="popup-settings__item">
+         <app-checkbox text="Отображать предыдущие результаты рядом с текущими" [value]="isDisplayOldResults" (onToggle)="toggleDisplayOldResults()"></app-checkbox>
+       </div>
+     
+       <div class="popup-settings__item">
+         <app-checkbox text="Включить push-уведомления" [value]="isOnPushNotification" (onToggle)="toggleOnPushNotification()"></app-checkbox>
+       </div>
+       
+       <div class="popup-settings__item">
+         <button *ngIf="!googleDriveEmail" class="btn btn-style btn-popup" (click)="connectGoogleDrive()">Подключить Google Drive</button>
+         <button *ngIf="googleDriveEmail" class="btn btn-style btn-popup-danger" (click)="disconnectGoogleDrive()">
+           Отключить Google Drive - {{googleDriveEmail}}
+         </button>
+       </div>
+     
+       <button *ngIf="countResults" class="btn btn-style btn-popup popup-settings__button-remove-all" (click)="clearAllExcercises()">Удалить все результаты упражнений</button>
+     
+       <h3>Упражнения:</h3>
+       <div class="popup-settings__list-exercises">
+         <div class="popup-settings__exercise"
+           *ngFor="let exerciseType of exerciseTypes; index as i;trackBy:trackByIndex;" 
+         >
+           <div class="popup-settings__exercise-name"><input [(ngModel)]="exerciseType.name" (blur)="blurExerciseType()"></div>
+           <div class="popup-settings__exercise-count">{{getCountExercisesByType(exerciseType)}}</div>
+           <div class="popup-settings__exercise-button" (click)="removeExerciseType(i)">
+             <fa-icon [icon]="faTimes"></fa-icon>
+           </div>
+         </div>
+       </div>
+     
+       <div class="popup-settings__item">
+         <button class="btn btn-style btn-popup" (click)="addExercise()">Добавить упражнение</button>
+       </div>
+   </div>
 </app-popup>
