@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
    title = 'sportTimer';
 
    constructor(
-      private googleDriveService: GoogleDriveService, 
+      private googleDriveService: GoogleDriveService,
       private antiHostAdService: AntiHostAdService) {
 
       //синхронизация данных при старте
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
       const language = window.navigator ? window.navigator.language : 'en';
       moment.locale(language.substr(0, 2));
 
+      //удаление рекламы хоста
       setTimeout(() => this.antiHostAdService.removeAd(), 500);
    }
 

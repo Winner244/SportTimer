@@ -71,7 +71,6 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
 
    focusOnLastInputCount() {
       setTimeout(() => {
-         document.getElementsByClassName('exercise-results__table-results')
          const inputs = document.getElementsByClassName('exercise-results-table__input-count');
          if(inputs.length){
             const lastInput = inputs[inputs.length - 1];
