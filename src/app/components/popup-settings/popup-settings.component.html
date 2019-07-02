@@ -19,11 +19,6 @@
          </button>
       </div>
 
-      <button *ngIf="countResults" class="btn btn-style btn-popup popup-settings__button-remove-all"
-         (click)="clearAllExcercises()">
-         Удалить все результаты упражнений
-      </button>
-
       <h3>Упражнения:</h3>
       <div class="popup-settings__list-exercises">
          <div class="popup-settings__exercise"
@@ -38,7 +33,11 @@
       </div>
 
       <div class="popup-settings__item">
-         <button class="btn btn-style btn-popup" (click)="addExercise()">Добавить упражнение</button>
+         <button class="btn btn-style btn-popup popup-settings__button-add-exercise" (click)="addExercise()">Добавить упражнение</button>
+         <button *ngIf="countResults" class="btn btn-style btn-popup popup-settings__button-remove-all"
+            (click)="clearAllExcercises()">
+            Удалить все результаты упражнений
+         </button>
       </div>
    </div>
 </app-popup>
