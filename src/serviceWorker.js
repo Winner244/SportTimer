@@ -1,3 +1,5 @@
+console.log('serviceWorker');
+
 const CACHE_NAME = 'app_serviceworker_v_1';
 const needCaches = [ 
 	'/',
@@ -21,11 +23,13 @@ self.addEventListener('fetch', fetchEvent => {
 	
 	//Если файл в списке
 	if(needCaches.find(x => location.origin + x === request.url)){
+		console.log('ServiceWorker. fetch. is in white list: ' + request.url);
 		fetchEvent.respondWith(
 			//Запрашиваем данные из интернета
 			fetch(request)
 				.then(responseFromFetch => { 
 					const responce = responseFromFetch.clone();
+					console.log('ServiceWorker. fetch. Get Responce: ' + request.url, responce);
 					
 					//Обновляем кэш
 					caches.open(CACHE_NAME)
@@ -37,6 +41,8 @@ self.addEventListener('fetch', fetchEvent => {
 					return responseFromFetch;
 				})
 				.catch(fetchError => { //Нет интернета
+					console.log('ServiceWorker. not network: ' + request.url);
+					
 					//Достаём из кеша
 					return caches.match(request)
 						.then(responseFromCache => {
