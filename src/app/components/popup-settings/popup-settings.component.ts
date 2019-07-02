@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ModelTypeExercise } from '../../models/ModelTypeExercise';
 import { GoogleDriveService } from 'src/app/services/google-drive.service';
@@ -14,10 +14,12 @@ import { ExerciseResultsService } from 'src/app/services/exercise-results.servic
 })
 export class PopupSettingsComponent implements OnDestroy {
    faTimes = faTimes;
+   faSpinner = faSpinner;
 
    isOpen: boolean;
    isDisplayOldResults: boolean;
    isOnPushNotification: boolean;
+   isWaitGoogleDrive: boolean;
    googleDriveEmail: string;
    exerciseTypes: ModelTypeExercise[];
    countResults: number;
@@ -39,6 +41,7 @@ export class PopupSettingsComponent implements OnDestroy {
                this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
                this.exerciseTypes = this.settingsService.exerciseTypes;
                this.countResults = this.exerciseResultsService.exerciseResults.length;
+               this.isWaitGoogleDrive = false;
             }
          });
 
@@ -118,11 +121,17 @@ export class PopupSettingsComponent implements OnDestroy {
    }
 
    connectGoogleDrive() {
-      this.googleDriveService.connectDrive();
+      this.isWaitGoogleDrive = true;
+      this.googleDriveService.connectDrive()
+         .then(() => this.isWaitGoogleDrive = false)
+         .catch(() => this.isWaitGoogleDrive = false);
    }
 
    disconnectGoogleDrive() {
-      this.googleDriveService.disconnectDrive();
+      this.isWaitGoogleDrive = true;
+      this.googleDriveService.disconnectDrive()
+         .then(() => this.isWaitGoogleDrive = false)
+         .catch(() => this.isWaitGoogleDrive = false);
    }
 
    getCountExercisesByType(exerciseType: ModelTypeExercise) {
