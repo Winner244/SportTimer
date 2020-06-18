@@ -1,11 +1,11 @@
-import { Component, OnDestroy, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnDestroy, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { SettingsService } from 'src/app/services/settings.service';
+import { SettingsService } from '../../services/settings.service';
 import { ModelTypeExercise } from '../../models/ModelTypeExercise';
-import { GoogleDriveService } from 'src/app/services/google-drive.service';
-import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
+import { GoogleDriveService } from '../../services/google-drive.service';
+import { ExerciseResultsService } from '../../services/exercise-results.service';
 
 @Component({
    selector: 'app-popup-settings',

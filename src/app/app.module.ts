@@ -20,6 +20,7 @@ import { ExerciseResultsStatisticsComponent } from './components/exercise-result
 import { ExerciseResultsTableComponent } from './components/exercise-results-table/exercise-results-table.component';
 import { NavigationPanelComponent } from './components/navigation-panel/navigation-panel.component';
 import { PopupSettingsComponent } from './components/popup-settings/popup-settings.component';
+import { PopupFAQComponent } from './components/popup-faq/popup-faq.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -27,6 +28,7 @@ import { PopupChartComponent } from './components/popup-chart/popup-chart.compon
 import { PopupResultsComponent } from './components/popup-results/popup-results.component';
 import { PopupResultInfoComponent } from './components/popup-result-info/popup-result-info.component';
 import { PopupTimerSettingsComponent } from './components/popup-timer-settings/popup-timer-settings.component';
+import { FaqCanvasComponent } from './components/faq-canvas/faq-canvas.component';
 
 StringExtension.on();
 ArrayExtension.on();
@@ -45,13 +47,15 @@ ArrayExtension.on();
     ExerciseResultsTableComponent,
     NavigationPanelComponent,
     PopupSettingsComponent,
+    PopupFAQComponent,
     PopupComponent,
     CheckboxComponent,
     NotificationsComponent,
     PopupChartComponent,
     PopupResultsComponent,
     PopupResultInfoComponent,
-    PopupTimerSettingsComponent
+    PopupTimerSettingsComponent,
+    FaqCanvasComponent
   ],
   imports: [
     BrowserModule,

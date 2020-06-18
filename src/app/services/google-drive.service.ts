@@ -99,6 +99,10 @@ export class GoogleDriveService {
                   //файл есть - получаем его данные
                   return this._getDataDriveFile(idFile)
                      .then((dataFile: ModelExerciseResults) => {
+
+                        //TODO: добавить более умную систему синхронизации данных в случае, если новые данные появились одновременно в Google Drive и в браузере пользователя
+                        //TODO: спросить пользователя какие данные оставить с показом отличий + вариант: объединить данные 
+
                         //сравниваем дату последнего сохранения с текущими данными
                         const googleLastDate = dataFile.dateSave;
                         console.info('GoogleDrive. dateGoogle: ' + googleLastDate + ' dateCurrent: ' + currentData.dateSave);

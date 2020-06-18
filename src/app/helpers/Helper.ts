@@ -158,4 +158,25 @@ export class Helper{
         }
         return JSON.parse(JSON.stringify(object));
     }
+
+    /** Get Url Parameters */
+    public static getUrlParameters(): any{
+        let result = {};
+
+        if(!location.search || !location.search.length){
+            return result;
+        }
+
+        location.search
+            .substr(1)
+            .split('&')
+            .forEach(x => {
+                let parts = x.split('=');
+                if(parts.length == 2){
+                    result[parts[0]] = parts[1];
+                }
+            });
+
+        return result;
+    }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleDriveService } from 'src/app/services/google-drive.service';
+import { GoogleDriveService } from '../../services/google-drive.service';
 import * as moment from 'moment';
-import { AntiHostAdService } from 'src/app/services/anti-host-ad.service';
+import { AntiHostAdService } from '../../services/anti-host-ad.service';
 
 @Component({
    selector: 'app-root',
