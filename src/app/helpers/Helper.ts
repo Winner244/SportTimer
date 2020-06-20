@@ -184,11 +184,11 @@ export class Helper{
 
     /** Get Element Compared Parameters in one string */
     public static getElementHash(ref: ElementRef): string{
-        let el = ref.nativeElement;
-        if(!el){
+        if(!ref || !ref.nativeElement){
             return '';
         }
-        
+
+        let el = ref.nativeElement;
         return [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight].join('|');
     }
 }

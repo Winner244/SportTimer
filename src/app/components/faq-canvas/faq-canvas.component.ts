@@ -66,29 +66,29 @@ export class FaqCanvasComponent implements OnInit {
    drawFaqButtonSettings(){
       if(this.buttonSettings){
          let pointFrom = {x: window.innerWidth / 1.5, y: window.innerHeight / 3};
-         let pointTo = {
-            x: this.buttonSettings.nativeElement.offsetLeft + this.buttonSettings.nativeElement.offsetWidth / 2, 
-            y: this.buttonSettings.nativeElement.offsetTop + this.buttonSettings.nativeElement.offsetHeight / 2
-         };
-         this.drawRedArrow(pointFrom, pointTo, 7, 20);
+         this.drawRedArrow2(pointFrom, this.buttonSettings);
       }
    }
 
    drawFaqSettings(){
       if(this.buttonSettings){
          this.buttonSettings.nativeElement.click();
+
          if(this.buttonAddExercise){
             let pointFrom = {x: window.innerWidth / 1.5, y: window.innerHeight / 3};
-            let pointTo = {
-               x: this.buttonAddExercise.nativeElement.offsetLeft + this.buttonAddExercise.nativeElement.offsetWidth / 2, 
-               y: this.buttonAddExercise.nativeElement.offsetTop + this.buttonAddExercise.nativeElement.offsetHeight / 2
-            };
-            console.log('drawFaqSettings', this.buttonAddExercise.nativeElement, this.buttonAddExercise.nativeElement.offsetLeft, this.buttonAddExercise.nativeElement.offsetWidth);
-            this.drawRedArrow(pointFrom, pointTo, 7, 20);
+            this.drawRedArrow2(pointFrom, this.buttonAddExercise);
          }
       }
    }
 
+   drawRedArrow2(p1 : {x: number, y: number}, element : ElementRef){
+      let data = element.nativeElement.getBoundingClientRect();
+      let pointTo = {
+         x: data.x + data.width / 2, 
+         y: data.y + data.height / 2
+      };
+      this.drawRedArrow(p1, pointTo, 7, 20);
+   }
 
    drawRedArrow(p1 : {x: number, y: number}, p2: {x: number, y: number}, size : number, distanseToEnd : number) {
       let angle = Math.atan2((p2.y - p1.y) , (p2.x - p1.x));
