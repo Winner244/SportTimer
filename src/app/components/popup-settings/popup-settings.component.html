@@ -33,7 +33,7 @@
       </div>
 
       <div class="popup-settings__item">
-         <button class="btn btn-style btn-popup popup-settings__button-add-exercise" (click)="addExercise()">Добавить упражнение</button>
+         <button class="btn btn-style btn-popup popup-settings__button-add-exercise" (click)="addExercise()" #buttonAddExercise>Добавить упражнение</button>
          <button *ngIf="countResults" class="btn btn-style btn-popup popup-settings__button-remove-all"
             (click)="clearAllExcercises()">
             Удалить все результаты упражнений

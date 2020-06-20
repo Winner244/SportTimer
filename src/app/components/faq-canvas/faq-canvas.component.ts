@@ -14,6 +14,7 @@ export class FaqCanvasComponent implements OnInit {
    ctx: any;
 
    buttonSettings: ElementRef;
+   buttonAddExercise: ElementRef;
 
    @ViewChild('canvas')
    canvas: ElementRef<HTMLCanvasElement>;
@@ -27,7 +28,7 @@ export class FaqCanvasComponent implements OnInit {
       let urlParameters = Helper.getUrlParameters();
 
       if(urlParameters.faq){
-         //TODO: body.style.owerflow = hidden  !!!!!!!!!!!!!!
+         document.getElementsByTagName('body')[0].style.overflow = 'hidden';
          this.isShow = true;
          this.ctx = this.canvas.nativeElement.getContext('2d');
 
@@ -38,6 +39,14 @@ export class FaqCanvasComponent implements OnInit {
                this.buttonSettings = value;
                this.draw();
             });
+
+         //подписка на появление и измнение кнопки добавления упражнения в настройках
+         this.refsService.buttonAddExercise$
+            .pipe(takeUntil(this._destroyed))
+            .subscribe(value => {
+               this.buttonAddExercise = value;
+               this.draw();
+            });
       }
    }
 
@@ -46,19 +55,37 @@ export class FaqCanvasComponent implements OnInit {
       this.canvas.nativeElement.height = window.innerHeight;
 
       let urlParameters = Helper.getUrlParameters();
-      if(urlParameters.faq == 'settings'){
+      if(urlParameters.faq == 'button-settings'){
+         this.drawFaqButtonSettings();
+      }
+      else if(urlParameters.faq == 'settings'){
          this.drawFaqSettings();
+      }
+   }
+
+   drawFaqButtonSettings(){
+      if(this.buttonSettings){
+         let pointFrom = {x: window.innerWidth / 1.5, y: window.innerHeight / 3};
+         let pointTo = {
+            x: this.buttonSettings.nativeElement.offsetLeft + this.buttonSettings.nativeElement.offsetWidth / 2, 
+            y: this.buttonSettings.nativeElement.offsetTop + this.buttonSettings.nativeElement.offsetHeight / 2
+         };
+         this.drawRedArrow(pointFrom, pointTo, 7, 20);
       }
    }
 
    drawFaqSettings(){
       if(this.buttonSettings){
-         let pointFrom = {x: window.innerWidth / 1.5, y: window.innerHeight / 3};
-         let pointTo = {
-            x: this.buttonSettings.nativeElement.offsetLeft + this.buttonSettings.nativeElement.offsetWidth / 2, 
-            y: this.buttonSettings.nativeElement.clientHeight - this.buttonSettings.nativeElement.offsetHeight / 2
-         };
-         this.drawRedArrow(pointFrom, pointTo, 7, 20);
+         this.buttonSettings.nativeElement.click();
+         if(this.buttonAddExercise){
+            let pointFrom = {x: window.innerWidth / 1.5, y: window.innerHeight / 3};
+            let pointTo = {
+               x: this.buttonAddExercise.nativeElement.offsetLeft + this.buttonAddExercise.nativeElement.offsetWidth / 2, 
+               y: this.buttonAddExercise.nativeElement.offsetTop + this.buttonAddExercise.nativeElement.offsetHeight / 2
+            };
+            console.log('drawFaqSettings', this.buttonAddExercise.nativeElement, this.buttonAddExercise.nativeElement.offsetLeft, this.buttonAddExercise.nativeElement.offsetWidth);
+            this.drawRedArrow(pointFrom, pointTo, 7, 20);
+         }
       }
    }
 

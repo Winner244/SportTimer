@@ -1,4 +1,4 @@
-import { Component, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnDestroy, NgZone, DoCheck, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,13 +6,15 @@ import { SettingsService } from '../../services/settings.service';
 import { ModelTypeExercise } from '../../models/ModelTypeExercise';
 import { GoogleDriveService } from '../../services/google-drive.service';
 import { ExerciseResultsService } from '../../services/exercise-results.service';
+import { RefsService } from '../../services/refs.service';
+import { Helper } from '../../helpers/Helper';
 
 @Component({
    selector: 'app-popup-settings',
    templateUrl: './popup-settings.component.html',
    styleUrls: ['./popup-settings.component.less']
 })
-export class PopupSettingsComponent implements OnDestroy {
+export class PopupSettingsComponent implements OnDestroy, DoCheck {
    faTimes = faTimes;
    faSpinner = faSpinner;
 
@@ -24,12 +26,16 @@ export class PopupSettingsComponent implements OnDestroy {
    exerciseTypes: ModelTypeExercise[];
    countResults: number;
 
+   @ViewChild('buttonAddExercise') buttonAddExerciseElement: ElementRef;
+   buttonAddExerciseHash: string;
+
    private _destroyed: Subject<any> = new Subject();
 
    constructor(
       private settingsService: SettingsService,
       private googleDriveService: GoogleDriveService,
       private exerciseResultsService: ExerciseResultsService,
+      private refsService: RefsService,
       private ngzone: NgZone) 
    {
       this.settingsService.isOpen$
@@ -60,6 +66,14 @@ export class PopupSettingsComponent implements OnDestroy {
          .subscribe(value => {
             this.countResults = value.length;
          });
+   }
+
+   ngDoCheck(){
+      let buttonAddExerciseNewHash = Helper.getElementHash(this.buttonAddExerciseElement);
+      if(!this.buttonAddExerciseHash || this.buttonAddExerciseHash != buttonAddExerciseNewHash){
+         this.buttonAddExerciseHash = buttonAddExerciseNewHash;
+         this.refsService.buttonAddExercise = this.buttonAddExerciseElement;
+      }
    }
 
    ngOnDestroy() {

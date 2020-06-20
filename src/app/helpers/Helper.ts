@@ -1,3 +1,5 @@
+import { ElementRef } from '@angular/core';
+
 export class Helper{
 
     /** Разница между датами */
@@ -178,5 +180,15 @@ export class Helper{
             });
 
         return result;
+    }
+
+    /** Get Element Compared Parameters in one string */
+    public static getElementHash(ref: ElementRef): string{
+        let el = ref.nativeElement;
+        if(!el){
+            return '';
+        }
+        
+        return [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight].join('|');
     }
 }
