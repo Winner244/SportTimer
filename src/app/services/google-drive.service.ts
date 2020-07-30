@@ -108,7 +108,7 @@ export class GoogleDriveService {
                         console.info('GoogleDrive. dateGoogle: ' + googleLastDate + ' dateCurrent: ' + currentData.dateSave);
 
                         //на диске более новые - перезаписываем локальные данные
-                        if (googleLastDate > currentData.dateSave) {
+                        if (googleLastDate > currentData.dateSave || !currentData.data.length) {
                            console.info('GoogleDrive. update local data', { googleLastDate: googleLastDate, currentLastDate: currentData.dateSave });
                            this.exerciseResultsService.exerciseResults = dataFile.data;
                            this.exerciseResultsService.dateSave = dataFile.dateSave;
@@ -355,7 +355,7 @@ export class GoogleDriveService {
          }
       })
          .catch(err => {
-            console.info('GoogleDrive. auth error', err);
+            console.error('GoogleDrive. auth error', err);
             this.notificationService.addMessage(new ModelNotification('С Google возникли проблемы. Попробуйте перезагрузить сайт и повторить.', 'error', 5));
          });
    }
