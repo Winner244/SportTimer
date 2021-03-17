@@ -1,12 +1,12 @@
 <table class="exercise-results-table" (window:resize)="onResize()">
    <thead [class.hide]="isHideHeader">
       <tr>
-         <td>№</td>
-         <td width="20%" *ngIf="windowWidth > 600">Время Начала</td>
-         <td width="20%" *ngIf="windowWidth > 600">Время окончания</td>
-         <td [width]="widthTd">Продолжительность</td>
-         <td [width]="widthTd">Кол-во</td>
-         <td [width]="widthTd">Масса</td>
+         <th>№</th>
+         <th width="20%" *ngIf="windowWidth > 600">Время Начала</th>
+         <th width="20%" *ngIf="windowWidth > 600">Время окончания</th>
+         <th [width]="widthTd">Продолжительность</th>
+         <th [width]="widthTd"><label id='exercise-results-table__label-count'>Кол-во</label></th>
+         <th [width]="widthTd"><label id='exercise-results-table__label-mass'>Масса</label></th>
       </tr>
    </thead>
    <tbody>
@@ -19,6 +19,7 @@
             <input 
                type='number' 
                class="exercise-results-table__input-count"
+               aria-labelledby="exercise-results-table__label-count"
                [(ngModel)]="exerciseResult.count"
                (blur)="changeModel()" 
                [disabled]="isDisableInputs" />
@@ -27,6 +28,7 @@
             <input 
                type='number' 
                class="exercise-results-table__input-mass" 
+               aria-labelledby="exercise-results-table__label-mass"
                [(ngModel)]="exerciseResult.mass"
                (blur)="changeModel()" 
                [disabled]="isDisableInputs" />

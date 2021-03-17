@@ -83,7 +83,7 @@ label{
     }
 }
 
-
+/* used in different components */
 .exercise-results-table{
     border-collapse: collapse;
     width: 100%;
@@ -101,11 +101,13 @@ label{
             line-height: 35px;
             height: 35px;
     
-            & > td{
+            & > th{
                 border-right: 1px solid #b0cee3;
                 border-bottom: 1px solid #b0cee3;
                 padding: 0 10px;
                 line-height: 17px;
+                font-weight: 100;
+                text-align: left;
                 
                 @media (max-width: 1000px)  {
                     word-break: break-word;

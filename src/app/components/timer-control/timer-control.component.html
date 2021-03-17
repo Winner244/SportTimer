@@ -1,13 +1,13 @@
 <div class="timer-control">
-  <button class="btn timer-control__button-play" (click)="start()" *ngIf='!isTimerRunning'>
+  <button class="btn timer-control__button-play" (click)="start()" *ngIf='!isTimerRunning' aria-label="Старт">
     <fa-icon [icon]="faPlay"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-pause" (click)="pause()" *ngIf='isTimerRunning'>
+  <button class="btn timer-control__button-pause" (click)="pause()" *ngIf='isTimerRunning' aria-label="Пауза">
     <fa-icon [icon]="faPause"></fa-icon>
   </button>
 
-  <button class="btn timer-control__button-clear" (click)="clear()" [disabled]="isDisabledClearButton" >
+  <button class="btn timer-control__button-clear" (click)="clear()" [disabled]="isDisabledClearButton" aria-label="Очистить">
     <fa-icon [icon]="faStop"></fa-icon>
   </button>
 </div>

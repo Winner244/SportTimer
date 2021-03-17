@@ -2,9 +2,9 @@
 	<table class="exercise-results-table popup-exercise-results__table">
 		<thead>
 			<tr>
-				<td class='popup-exercise-results__table-td-number'>№</td>
-				<td>Дата</td>
-				<td>Тип 
+				<th class='popup-exercise-results__table-td-number'>№</th>
+				<th>Дата</th>
+				<th>Тип 
 					<select 
 						(change)="onSelectTypeExercise($event.target.value)"
 						class="popup-exercise-results__select-exercise"
@@ -16,13 +16,13 @@
 							{{exerciseType.name}}
 						</option>
 					</select>
-				</td>
-				<td class='popup-exercise-results__table-td-duration'>Длительность</td>
-				<td class='popup-exercise-results__table-td-count'>Подходов</td>
-				<td class='popup-exercise-results__table-td-sum'>Кол-во</td>
-				<td class='popup-exercise-results__table-td-mass'>Масса</td>
-				<td>Подробно</td>
-				<td>Удалить</td>
+				</th>
+				<th class='popup-exercise-results__table-td-duration'>Длительность</th>
+				<th class='popup-exercise-results__table-td-count'>Подходов</th>
+				<th class='popup-exercise-results__table-td-sum'>Кол-во</th>
+				<th class='popup-exercise-results__table-td-mass'>Масса</th>
+				<th>Подробно</th>
+				<th>Удалить</th>
 			</tr>
 		</thead>
 		<tbody>

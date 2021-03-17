@@ -2,6 +2,7 @@
   <span *ngIf="windowWidth > 470">Упражнение: </span>
   <select 
     *ngIf="exerciseTypeSelected"
+    aria-label="Упражнение"
     (change)="onSelectTypeExercise($event.target.value)"
     class="exercise-results-settings__select-exercise"
   >
