@@ -1,4 +1,2 @@
-ng build
-copy ".\src\registerWorker.js" "./dist/sportTimer/"
-copy ".\src\serviceWorker.js" "./dist/sportTimer/"
+npm run build --configuration=production
 pause
