@@ -1,2 +1,2 @@
-ng serve --open
+npm run start
 pause

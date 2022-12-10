@@ -13,6 +13,7 @@
             <fa-icon *ngIf="isWaitGoogleDrive" [icon]="faSpinner" class="loader"></fa-icon>
             Подключить Google Drive
          </button>
+         <span *ngIf="!googleDriveEmail" class="popup-settings__google-driver-note"> - что бы результаты не терялись</span>
          <button *ngIf="googleDriveEmail" class="btn btn-style btn-popup-danger" (click)="disconnectGoogleDrive()">
             <fa-icon *ngIf="isWaitGoogleDrive" [icon]="faSpinner" class="loader"></fa-icon>
             Отключить Google Drive - {{googleDriveEmail}}
