@@ -1,5 +1,7 @@
 # SportTimer
 
+Таймер для силовых тренировок с несколькими подходами и отдыхом между ними + есть сохранение результатов в Google Drive и в LocalStorage
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
 ## Development server
