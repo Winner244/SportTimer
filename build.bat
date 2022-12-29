@@ -1,2 +1,2 @@
-npm run build --configuration=production
+ng build --configuration=production
 pause
