@@ -17,7 +17,7 @@ export class SettingsService {
    public isDisplayOldResults$ = this._isDisplayOldResults.asObservable();
    public exerciseTypes$ = this._exerciseTypes.asObservable();
 
-   public isOnPushNotification: boolean;
+   public isOnPushNotification: boolean = true;
 
    constructor() { }
 

@@ -164,9 +164,11 @@ export class ExerciseResultsService implements OnDestroy {
    }
 
    public saveCurrentResult() {
-      const results = this.exerciseResults;
-      results.push(this.exerciseCurrentResult);
-      this.exerciseResults = results;
+      if(this.exerciseCurrentResult.results.length){
+         const results = this.exerciseResults;
+         results.push(this.exerciseCurrentResult);
+         this.exerciseResults = results;
+      }
    }
 
 
