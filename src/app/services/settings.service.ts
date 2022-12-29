@@ -7,9 +7,11 @@ import { ModelTypeExercise } from '../models/ModelTypeExercise';
    providedIn: 'root'
 })
 export class SettingsService {
+   private static readonly isDisplayOldResultsStorageKey = 'SettingsService.isDisplayOldResults';
+   private static readonly exerciseTypesStorageKey = 'SettingsService.exerciseTypes';
 
    private _isOpen = new BehaviorSubject<boolean>(false); //окно открыто?
-   private _isDisplayOldResults = new BehaviorSubject<boolean>(true); //показывать предыдущие результаты?
+   private _isDisplayOldResults = new BehaviorSubject<boolean>(localStorage.getItem(SettingsService.isDisplayOldResultsStorageKey) != 'false'); //показывать предыдущие результаты?
    private _exerciseTypes = new BehaviorSubject<ModelTypeExercise[]>(this._loadExerciseTypes()); //типы упражнений
 
    //для внешнего использования
@@ -30,6 +32,7 @@ export class SettingsService {
    }
 
    public set isDisplayOldResults(newValue: boolean) {
+      localStorage.setItem(SettingsService.isDisplayOldResultsStorageKey, newValue + '');
       this._isDisplayOldResults.next(newValue);
    }
    public get isDisplayOldResults(): boolean {
@@ -39,7 +42,7 @@ export class SettingsService {
    public set exerciseTypes(newValue: ModelTypeExercise[]) {
       const sortValue = Helper.clone(newValue).sort();
       this._exerciseTypes.next(sortValue);
-      localStorage.setItem('SettingsService.exerciseTypes', JSON.stringify(sortValue));
+      localStorage.setItem(SettingsService.exerciseTypesStorageKey, JSON.stringify(sortValue));
    }
    public get exerciseTypes(): ModelTypeExercise[] {
       return this._exerciseTypes.getValue();
@@ -57,7 +60,7 @@ export class SettingsService {
     * Загрузка типов упражнений или возврат default значения
     */
    private _loadExerciseTypes(): ModelTypeExercise[] {
-      return JSON.parse(localStorage.getItem('SettingsService.exerciseTypes') || 'null') ||
+      return JSON.parse(localStorage.getItem(SettingsService.exerciseTypesStorageKey) || 'null') ||
          [
             new ModelTypeExercise('Упражнение1', '1'),
             new ModelTypeExercise('Упражнение2', '2')

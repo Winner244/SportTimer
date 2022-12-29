@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
 import * as moment from 'moment';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
    selector: 'app-exercise-results-statistics',
@@ -21,17 +22,24 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
    exerciseCurrentResultDate: number;
    exerciseCurrentResults: number;
 
+   isDisplayOldResults: boolean;
+
    windowWidth: number;
 
    private _destroyed: Subject<any> = new Subject();
 
-   constructor(private exerciseResultsService: ExerciseResultsService) {
+   constructor(
+      private settingsService: SettingsService,
+      private exerciseResultsService: ExerciseResultsService) 
+   {
       this.exerciseLastResultCount =
          this.exerciseLastResultMass =
          this.exerciseLastResultDate =
          this.exerciseCurrentResultCount =
          this.exerciseCurrentResultMass =
          this.exerciseCurrentResultDate = 0;
+
+      this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
 
       this.exerciseResultsService.exerciseTypeUidSelected$
          .pipe(takeUntil(this._destroyed))
@@ -70,6 +78,11 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
             this.exerciseCurrentResultDate = value.date;
             this.exerciseCurrentResults = value.results.length;
          });
+
+
+      this.settingsService.isDisplayOldResults$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => this.isDisplayOldResults = value);
    }
 
    ngOnInit() {

@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { ExerciseResultsService } from 'src/app/services/exercise-results.service';
 import { ModelExerciseResult } from 'src/app/models/ModelExerciseResult';
 import { Helper } from 'src/app/helpers/Helper';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
    selector: 'app-exercise-results',
@@ -17,14 +18,20 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
    exerciseCurrentResult: ModelExerciseResult;
    windowWidth: number;
 
+   isDisplayOldResults: boolean;
+
    private _destroyed: Subject<any> = new Subject();
 
    @ViewChild('tablesBox') tablesBoxElement: ElementRef;
 
 
-   constructor(private exerciseResultsService: ExerciseResultsService) {
+   constructor(
+      private settingsService: SettingsService,
+      private exerciseResultsService: ExerciseResultsService) 
+   {
       this.exerciseCurrentResultOldCountSumAndMass = 0;
       this.exerciseCurrentResultsOld = 0;
+      this.isDisplayOldResults = this.settingsService.isDisplayOldResults;
    }
 
    ngOnInit() {
@@ -60,6 +67,11 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
             this.exerciseCurrentResult = Helper.clone(value);
             this.resizeTablesBox();
          });
+
+      //подписка на изменение Отображения предыдущего результата
+      this.settingsService.isDisplayOldResults$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => this.isDisplayOldResults = value);
       
       this.onResize();
    }
