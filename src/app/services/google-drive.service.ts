@@ -91,7 +91,7 @@ export class GoogleDriveService {
    /**
     * Если на диске нету данных, а в вебе есть -> сохраняем из веба на диск
     * Если на диске есть данные, а в вебе нету -> скачиваем из диска в веб
-    * Если на диске есть данные и в вебе -> сверяем время последнего сохранения данных и копируем последние данные в старые
+    * Если на диске есть данные и в вебе -> показываем Popup синхронизации данных с предупреждением
     * Если нигде данных нету -> ничего не делаем
     */
    synchronizationDrive(): Promise<any> {
@@ -142,25 +142,11 @@ export class GoogleDriveService {
                         }
 
                         this.notificationService.addMessage(new ModelNotification('Необходима ручная синхронизация данных', 'warning', 10));
-                        console.info('GoogleDrive. data is require User action');
+                        console.info('GoogleDrive. data requires User action');
                         this._isRequiredUserActionForSyncData.next(true);
                         this._isOpenedPopupSyncData.next(true);
                         this.settingsService.closePopup();
                         return new Promise<any>(() => true);
-
-                        //на диске более новые - перезаписываем локальные данные
-                        /*if (googleLastDate > currentData.dateSave) {
-                           console.info('GoogleDrive. update local data', { googleLastDate: googleLastDate, currentLastDate: currentData.dateSave });
-                           this.exerciseResultsService.exerciseResults = dataFile.data;
-                           this.exerciseResultsService.dateSave = dataFile.dateSave;
-                           this.settingsService.exerciseTypes = dataFile.exerciseTypes;
-                           this.notificationService.addMessage(new ModelNotification('Данные успешно загружены с Google Drive.', 'success', 5));
-                           return;
-                        }
-
-                        //сохраняем на google drive
-                        console.info('GoogleDrive. data is not the same', googleLastDate, currentData.dateSave);
-                        return this._updateDriveFile(idFile, currentData);*/
                      });
                }
                else if (currentData.data && currentData.data.length) { //файла нету и локальные данные существуют
@@ -174,6 +160,45 @@ export class GoogleDriveService {
             });
       })
    }
+
+   /** Объединение google drive данных и локальный данных */
+   combineData(){
+
+      console.info('GoogleDrive. combineData');
+      //на диске более новые - перезаписываем локальные данные
+      /*if (googleLastDate > currentData.dateSave) {
+         console.info('GoogleDrive. update local data', { googleLastDate: googleLastDate, currentLastDate: currentData.dateSave });
+         this.exerciseResultsService.exerciseResults = dataFile.data;
+         this.exerciseResultsService.dateSave = dataFile.dateSave;
+         this.settingsService.exerciseTypes = dataFile.exerciseTypes;
+         this.notificationService.addMessage(new ModelNotification('Данные успешно загружены с Google Drive.', 'success', 5));
+         return;
+      }
+
+      //сохраняем на google drive
+      console.info('GoogleDrive. data is not the same', googleLastDate, currentData.dateSave);
+      return this._updateDriveFile(idFile, currentData);*/
+      this._isOpenedPopupSyncData.next(false);
+      this._isRequiredUserActionForSyncData.next(false);
+   }
+
+   /** Удаление google drive данных и сохранение локальных данных туда */
+   deleteGoogleDriveDataAndSaveLocalData(){
+      console.info('GoogleDrive. delete GoogleDrive data and save local data');
+      this._googleDriveFile.next(null);
+
+      this._isOpenedPopupSyncData.next(false);
+      this._isRequiredUserActionForSyncData.next(false);
+   }
+
+   /** Удаление локальных данных и скачивание google drive данных */
+   deleteLocalDataAndTakeGoogleDriveData(){
+      console.info('GoogleDrive. delete local data and download GoogleDrive data');
+
+      this._isOpenedPopupSyncData.next(false);
+      this._isRequiredUserActionForSyncData.next(false);
+   }
+
 
    /** Создаёт Google Drive файл с содержимым */
    private _createDriveFile(dataFile: ModelExerciseResults) {

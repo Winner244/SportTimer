@@ -28,7 +28,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-style btn-popup-danger">Удалить google данные</button>
+			<button class="btn btn-style btn-popup-danger" (click)="deleteGoogleDriveDataAndSaveLocalData()">Удалить google данные</button>
 		</div>
 		<div class='popup-google-drive-sync__table-box'>
 			<div>Текущие данные ({{localLastDateSave}}):</div>
@@ -56,10 +56,10 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-style btn-popup-danger">Удалить локальные данные</button>
+			<button class="btn btn-style btn-popup-danger" (click)="deleteLocalDataAndTakeGoogleDriveData()">Удалить локальные данные</button>
 		</div>
 	</div>
-	<button class="btn btn-style popup-google-drive-sync__button-row">Объеденить google данные и локальные</button>
+	<button class="btn btn-style popup-google-drive-sync__button-row" (click)="combineData()">Объеденить google данные и локальные</button>
 	<button *ngIf="googleDriveEmail" class="btn btn-style popup-google-drive-sync__button-row" (click)="disconnectGoogleDrive()">
 		<fa-icon *ngIf="isWaitGoogleDrive" [icon]="faSpinner" class="loader"></fa-icon>
 		Отключить Google Drive - {{googleDriveEmail}}

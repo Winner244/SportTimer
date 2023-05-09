@@ -101,6 +101,21 @@ export class PopupGoogleDriveSyncComponent implements OnDestroy {
          .catch(() => this.isWaitGoogleDrive = false);
    }
 
+   combineData(){
+      this.googleDriveService.combineData();
+      this.googleDriveService.closePopupGoogleDriveSync();
+   }
+
+   deleteGoogleDriveDataAndSaveLocalData(){
+      this.googleDriveService.deleteGoogleDriveDataAndSaveLocalData();
+      this.googleDriveService.closePopupGoogleDriveSync();
+   }
+
+   deleteLocalDataAndTakeGoogleDriveData(){
+      this.googleDriveService.deleteLocalDataAndTakeGoogleDriveData();
+      this.googleDriveService.closePopupGoogleDriveSync();
+   }
+
    public getItemDate(item: ModelExerciseResult) : string{
       return moment(item.date).format('DD.MM.' + (window.innerWidth > 340 ? 'YYYY' : 'YYг') + (window.innerWidth > 1150 ? ' hh:mm' : ''));
    }
