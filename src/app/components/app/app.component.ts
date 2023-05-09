@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleDriveService } from '../../services/google-drive.service';
+import { GoogleDriveService, SyncType } from '../../services/google-drive.service';
 import * as moment from 'moment';
 import { Helper } from '../../helpers/Helper';
 
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
       let urlParameters = Helper.getUrlParameters();
       if(!urlParameters.faq){
          //синхронизация данных при старте
-         this.googleDriveService.synchronizationDrive();
+         this.googleDriveService.synchronizationDrive(SyncType.AutoCombine);
       }
 
       //локализация времени
