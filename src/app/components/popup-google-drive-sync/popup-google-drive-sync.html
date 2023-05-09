@@ -1,0 +1,67 @@
+<app-popup title="Синхронизация данных" [isOpen]="isOpen" (onClose)="onClose()" height="750px" width="1300px">
+	<div>На google диске обнаружены данные отличающиеся от текущих:</div>
+	
+	<div class='popup-google-drive-sync__tables'>
+		<div class='popup-google-drive-sync__table-box'>
+			<div>Google данные ({{googleDriveLastDateSave}}):</div>
+			<table class="exercise-results-table popup-google-drive-sync__table">
+				<thead>
+					<tr>
+						<th class='popup-google-drive-sync__table-td-number'>№</th>
+						<th>Дата</th>
+						<th>Тип</th>
+						<th class='popup-google-drive-sync__table-td-duration'>Длительность</th>
+						<th class='popup-google-drive-sync__table-td-count'>Подходов</th>
+						<th class='popup-google-drive-sync__table-td-sum'>Кол-во</th>
+						<th class='popup-google-drive-sync__table-td-mass'>Масса</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of googleDriveItems; index as i">
+						<td class='popup-google-drive-sync__table-td-number'>{{i + 1}}</td>
+						<td>{{getItemDate(item)}}</td>
+						<td>{{getExerciseGoogleDriveLabel(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-duration'>{{getDuration(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-count'>{{item.results.length}}</td>
+						<td class='popup-google-drive-sync__table-td-sum'>{{getSumCount(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-mass'>{{getSumMass(item)}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="btn btn-style btn-popup-danger">Удалить google данные</button>
+		</div>
+		<div class='popup-google-drive-sync__table-box'>
+			<div>Текущие данные ({{localLastDateSave}}):</div>
+			<table class="exercise-results-table popup-google-drive-sync__table">
+				<thead>
+					<tr>
+						<th class='popup-google-drive-sync__table-td-number'>№</th>
+						<th>Дата</th>
+						<th>Тип</th>
+						<th class='popup-google-drive-sync__table-td-duration'>Длительность</th>
+						<th class='popup-google-drive-sync__table-td-count'>Подходов</th>
+						<th class='popup-google-drive-sync__table-td-sum'>Кол-во</th>
+						<th class='popup-google-drive-sync__table-td-mass'>Масса</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of localItems; index as i">
+						<td class='popup-google-drive-sync__table-td-number'>{{i + 1}}</td>
+						<td>{{getItemDate(item)}}</td>
+						<td>{{getExerciseLocalLabel(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-duration'>{{getDuration(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-count'>{{item.results.length}}</td>
+						<td class='popup-google-drive-sync__table-td-sum'>{{getSumCount(item)}}</td>
+						<td class='popup-google-drive-sync__table-td-mass'>{{getSumMass(item)}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="btn btn-style btn-popup-danger">Удалить локальные данные</button>
+		</div>
+	</div>
+	<button class="btn btn-style popup-google-drive-sync__button-row">Объеденить google данные и локальные</button>
+	<button *ngIf="googleDriveEmail" class="btn btn-style popup-google-drive-sync__button-row" (click)="disconnectGoogleDrive()">
+		<fa-icon *ngIf="isWaitGoogleDrive" [icon]="faSpinner" class="loader"></fa-icon>
+		Отключить Google Drive - {{googleDriveEmail}}
+		</button>
+</app-popup>

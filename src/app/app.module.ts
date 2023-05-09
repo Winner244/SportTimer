@@ -26,6 +26,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PopupChartComponent } from './components/popup-chart/popup-chart.component';
 import { PopupResultsComponent } from './components/popup-results/popup-results.component';
+import { PopupGoogleDriveSyncComponent } from './components/popup-google-drive-sync/popup-google-drive-sync';
 import { PopupResultInfoComponent } from './components/popup-result-info/popup-result-info.component';
 import { PopupTimerSettingsComponent } from './components/popup-timer-settings/popup-timer-settings.component';
 import { FaqCanvasComponent } from './components/faq-canvas/faq-canvas.component';
@@ -53,6 +54,7 @@ ArrayExtension.on();
     NotificationsComponent,
     PopupChartComponent,
     PopupResultsComponent,
+    PopupGoogleDriveSyncComponent,
     PopupResultInfoComponent,
     PopupTimerSettingsComponent,
     FaqCanvasComponent

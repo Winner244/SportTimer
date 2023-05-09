@@ -1,6 +1,7 @@
 <div class="notifications">
   <div class="notifications__message" 
     [class.notifications__message_success]="message.type === 'success'"
+    [class.notifications__message_warning]="message.type === 'warning'"
     [class.notifications__message_error]="message.type === 'error'"
     (click)='removeMessage(message)'
     *ngFor="let message of messages">

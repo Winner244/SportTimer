@@ -26,6 +26,10 @@ export class PopupComponent implements OnInit {
 
    ngOnInit(){
       this.width2 = this.width;
+      if(this.width.indexOf('px') != -1 && this.left.indexOf('calc(') == 0){
+         this.left = `calc(50% - ${parseInt(this.width) / 2}px)`;
+      }
+
       this.onResize();
    }
 

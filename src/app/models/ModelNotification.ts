@@ -6,13 +6,13 @@ import { Helper } from '../helpers/Helper';
 export class ModelNotification{
     uid: string;
     text: string;
-    type: 'success' | 'error';
+    type: 'success' | 'error' | 'warning';
     endTime: number; //unixTime
 
     private lifetime: number; //время показа сообщения (в секундах)
     private startTime: number; //unixTime
 
-    constructor(text: string, type: 'success' | 'error', lifetime: number){
+    constructor(text: string, type: 'success' | 'error' | 'warning', lifetime: number){
         this.text = text || '';
         this.type = type || 'error';
 

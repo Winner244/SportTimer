@@ -15,7 +15,10 @@ import { ModelNotification } from '../models/ModelNotification';
 })
 export class GoogleDriveService {
 
-   private _googleUser = new BehaviorSubject<ModelGoogleUser>(this._loadGoogleUser()); //email пользователя
+   private _googleUser = new BehaviorSubject<ModelGoogleUser|null>(this._loadGoogleUser()); //email пользователя
+   private _googleDriveFile = new BehaviorSubject<ModelExerciseResults|null>(null); //файл на google диске
+   private _isRequiredUserActionForSyncData = new BehaviorSubject<boolean>(false); //требуется ли помощь Пользователя в синхронизации данных?
+   private _isOpenedPopupSyncData = new BehaviorSubject<boolean>(false); //открыт ли popup синхронизации данных?
 
    private _apiPath = 'https://www.googleapis.com'; //путь для api
    private _clientId = '432384558724-cf07f9o7ujocrr1ob8s5stgdptsesptr';
@@ -34,6 +37,9 @@ export class GoogleDriveService {
 
    //для внешнего использования
    public googleUser$ = this._googleUser.asObservable();
+   public googleDriveFile$ = this._googleDriveFile.asObservable();
+   public isRequiredUserActionForSyncData$ = this._isRequiredUserActionForSyncData.asObservable();
+   public isOpenedPopupSyncAction$ = this._isOpenedPopupSyncData.asObservable();
 
    constructor(
       private http: HttpClient,
@@ -48,12 +54,20 @@ export class GoogleDriveService {
 
 
    //set/get
-   public set googleUser(newValue: ModelGoogleUser) {
+   public set googleUser(newValue: ModelGoogleUser|null) {
       localStorage.setItem('GoogleDrive.googleUser', JSON.stringify(newValue));
       this._googleUser.next(newValue);
    }
-   public get googleUser(): ModelGoogleUser {
+   public get googleUser(): ModelGoogleUser|null {
       return this._googleUser.getValue();
+   }
+
+   public closePopupGoogleDriveSync() {
+      this._isOpenedPopupSyncData.next(false);
+   }
+   
+   public openPopupGoogleDriveSync() {
+      this._isOpenedPopupSyncData.next(true);
    }
 
    /**
@@ -68,6 +82,9 @@ export class GoogleDriveService {
     */
    disconnectDrive(): Promise<boolean> {
       this.googleUser = null;
+      this._isRequiredUserActionForSyncData.next(false);
+      this._isOpenedPopupSyncData.next(false);
+      this._googleDriveFile.next(null);
       return this._logout();
    }
 
@@ -78,6 +95,9 @@ export class GoogleDriveService {
     * Если нигде данных нету -> ничего не делаем
     */
    synchronizationDrive(): Promise<any> {
+      this._isRequiredUserActionForSyncData.next(false);
+      this._googleDriveFile.next(null);
+
       //is exist connect drive?
       if (!this.googleUser) {
          return Promise.resolve(null);
@@ -95,20 +115,24 @@ export class GoogleDriveService {
                currentData.data = this.exerciseResultsService.exerciseResults;
                currentData.exerciseTypes = this.settingsService.exerciseTypes;
 
-               if (idFile !== null) {
-                  //файл есть - получаем его данные
+               if (idFile !== null) { //файл есть 
+                  //получаем его данные
                   return this._getDataDriveFile(idFile)
                      .then((dataFile: ModelExerciseResults) => {
 
-                        //TODO: добавить более умную систему синхронизации данных в случае, если новые данные появились одновременно в Google Drive и в браузере пользователя
-                        //TODO: спросить пользователя какие данные оставить с показом отличий + вариант: объединить данные 
+                        this._googleDriveFile.next(dataFile);
 
                         //сравниваем дату последнего сохранения с текущими данными
                         const googleLastDate = dataFile.dateSave;
                         console.info('GoogleDrive. dateGoogle: ' + googleLastDate + ' dateCurrent: ' + currentData.dateSave);
 
-                        //на диске более новые - перезаписываем локальные данные
-                        if (googleLastDate > currentData.dateSave || !currentData.data.length) {
+                        //одинакова
+                        if (googleLastDate === currentData.dateSave) {
+                           console.info('GoogleDrive. data is the same');
+                           return;
+                        }
+
+                        if (!currentData.dateSave){ //текущие данные ещё пустые
                            console.info('GoogleDrive. update local data', { googleLastDate: googleLastDate, currentLastDate: currentData.dateSave });
                            this.exerciseResultsService.exerciseResults = dataFile.data;
                            this.exerciseResultsService.dateSave = dataFile.dateSave;
@@ -117,18 +141,29 @@ export class GoogleDriveService {
                            return;
                         }
 
-                        //одинакова
-                        if (googleLastDate === currentData.dateSave) {
-                           console.info('GoogleDrive. data is the same');
+                        this.notificationService.addMessage(new ModelNotification('Необходима ручная синхронизация данных', 'warning', 10));
+                        console.info('GoogleDrive. data is require User action');
+                        this._isRequiredUserActionForSyncData.next(true);
+                        this._isOpenedPopupSyncData.next(true);
+                        this.settingsService.closePopup();
+                        return new Promise<any>(() => true);
+
+                        //на диске более новые - перезаписываем локальные данные
+                        /*if (googleLastDate > currentData.dateSave) {
+                           console.info('GoogleDrive. update local data', { googleLastDate: googleLastDate, currentLastDate: currentData.dateSave });
+                           this.exerciseResultsService.exerciseResults = dataFile.data;
+                           this.exerciseResultsService.dateSave = dataFile.dateSave;
+                           this.settingsService.exerciseTypes = dataFile.exerciseTypes;
+                           this.notificationService.addMessage(new ModelNotification('Данные успешно загружены с Google Drive.', 'success', 5));
                            return;
                         }
 
                         //сохраняем на google drive
                         console.info('GoogleDrive. data is not the same', googleLastDate, currentData.dateSave);
-                        return this._updateDriveFile(idFile, currentData);
+                        return this._updateDriveFile(idFile, currentData);*/
                      });
                }
-               else if (currentData.data && currentData.data.length) { //файла нету и локлаьные данные существуют
+               else if (currentData.data && currentData.data.length) { //файла нету и локальные данные существуют
                   //сохраняем на google drive
                   return this._createDriveFile(currentData);
                }

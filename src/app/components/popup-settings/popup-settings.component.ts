@@ -1,7 +1,7 @@
 import { Component, OnDestroy, NgZone, DoCheck, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
-import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSpinner, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { SettingsService } from '../../services/settings.service';
 import { ModelTypeExercise } from '../../models/ModelTypeExercise';
 import { GoogleDriveService } from '../../services/google-drive.service';
@@ -17,6 +17,7 @@ import { Helper } from '../../helpers/Helper';
 export class PopupSettingsComponent implements OnDestroy, DoCheck {
    faTimes = faTimes;
    faSpinner = faSpinner;
+   faExclamationTriangle = faExclamationTriangle;
 
    isOpen: boolean;
    isDisplayOldResults: boolean;
@@ -25,6 +26,7 @@ export class PopupSettingsComponent implements OnDestroy, DoCheck {
    googleDriveEmail: string;
    exerciseTypes: ModelTypeExercise[];
    countResults: number;
+   isRequiredUserActionForSyncData: boolean;
 
    @ViewChild('buttonAddExercise') buttonAddExerciseElement: ElementRef;
    buttonAddExerciseHash: string;
@@ -65,6 +67,12 @@ export class PopupSettingsComponent implements OnDestroy, DoCheck {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.countResults = value.length;
+         });
+
+      this.googleDriveService.isRequiredUserActionForSyncData$
+         .pipe(takeUntil(this._destroyed))
+         .subscribe(value => {
+            this.isRequiredUserActionForSyncData = value;
          });
    }
 
@@ -167,5 +175,10 @@ export class PopupSettingsComponent implements OnDestroy, DoCheck {
          this.exerciseResultsService.exerciseResults = [];
          this.exerciseResultsService.dateSave = 0; //удалённые данные не имеют силы на перезатирание данных в Google Drive
       }
+   }
+
+   openGoogleDriveSyncPopup(){
+      this.settingsService.closePopup();
+      this.googleDriveService.openPopupGoogleDriveSync();
    }
 }

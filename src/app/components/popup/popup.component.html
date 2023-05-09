@@ -4,7 +4,7 @@
     <span>{{title}}</span>
     <button class="btn btn-style btn-popup popup__header-button-close" (click)="close()">x</button>
   </div>
-  <div class="popup__body" [ngStyle]="{'padding': paddingBody}">
+  <div class="popup__body" [ngStyle]="{'padding': paddingBody, 'height': 'calc(100% - 65px)'}">
     <ng-content></ng-content>
   </div>
 </div>

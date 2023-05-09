@@ -14,6 +14,9 @@
             <fa-icon *ngIf="isWaitGoogleDrive" [icon]="faSpinner" class="loader"></fa-icon>
             Отключить Google Drive - {{googleDriveEmail}}
          </button>
+         <button *ngIf="isRequiredUserActionForSyncData" class="btn btn-style btn-popup-warning popup-settings__button-sync-data" (click)="openGoogleDriveSyncPopup()">
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon> Синхронизация
+         </button>
       </div>
 
       <h3>Упражнения:</h3>

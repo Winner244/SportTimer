@@ -10,7 +10,7 @@ export class NotificationService implements OnDestroy {
 
   private _messages = new BehaviorSubject<ModelNotification[]>([]); //сообщения
 
-  private _timerRemoveMessages: NodeJS.Timer; //интервал для удаления сообщений
+  private _timerRemoveMessages: NodeJS.Timer|undefined; //интервал для удаления сообщений
 
   //для внешнего использования
   public messages$ = this._messages.asObservable();
@@ -18,7 +18,7 @@ export class NotificationService implements OnDestroy {
   constructor() { 
     this.removeMessages = this.removeMessages.bind(this);
 
-    this._timerRemoveMessages = null;
+    this._timerRemoveMessages = undefined;
   }
 
   ngOnDestroy() {
@@ -50,7 +50,7 @@ export class NotificationService implements OnDestroy {
     }
     else{
       clearTimeout(this._timerRemoveMessages);
-      this._timerRemoveMessages = null;
+      this._timerRemoveMessages = undefined;
     }
   }
 
