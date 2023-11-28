@@ -2,6 +2,8 @@
 
 Таймер для силовых тренировок с несколькими подходами и отдыхом между ними + есть сохранение результатов в Google Drive и в LocalStorage
 
+https://sport-timer.ru/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
 ## Development server
