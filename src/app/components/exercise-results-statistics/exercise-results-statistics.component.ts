@@ -49,7 +49,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
 
             if (exerciseLastResult && exerciseLastResult.results) {
                this.exerciseLastResultCount = exerciseLastResult.results.sum(x => x.count);
-               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.mass);
+               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.count * x.mass);
                this.exerciseLastResultDate = exerciseLastResult.date;
             }
             else {
@@ -65,7 +65,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
             const exerciseLastResult = this.exerciseResultsService.getLastExerciseResults(this.exerciseTypeUidSelected);
             if(exerciseLastResult){
                this.exerciseLastResultCount = exerciseLastResult.results.sum(x => x.count);
-               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.mass);
+               this.exerciseLastResultMass = exerciseLastResult.results.sum(x => x.count * x.mass);
                this.exerciseLastResultDate = exerciseLastResult.date;
             }
          });

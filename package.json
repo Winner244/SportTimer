@@ -2,12 +2,12 @@
   "name": "sport-timer",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng",
+    "start": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng serve",
+    "build": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng build",
+    "test": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng test",
+    "lint": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng lint",
+    "e2e": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng e2e"
   },
   "private": true,
   "dependencies": {

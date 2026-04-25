@@ -76,7 +76,7 @@ export class PopupResultInfoComponent implements OnDestroy {
       return this.item.results.sum(x => x.count);
    }
    public getSumMass() : number{
-      return this.item.results.sum(x => x.mass);
+      return this.item.results.sum(x => x.count * x.mass);
    }
 
    public onResize() {

@@ -143,6 +143,6 @@ export class PopupGoogleDriveSyncComponent implements OnDestroy {
    }
    
    public getSumMass(item: ModelExerciseResult) : number{
-      return item.results.sum(x => x.mass);
+      return item.results.sum(x => x.count * x.mass);
    }
 }

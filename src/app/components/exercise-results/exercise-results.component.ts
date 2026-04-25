@@ -56,7 +56,7 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             if(this.exerciseCurrentResult && this.exerciseCurrentResult.results){
-               this.exerciseCurrentResultOldCountSumAndMass = this.exerciseCurrentResult.results.sum(x => x.count + x.mass);
+               this.exerciseCurrentResultOldCountSumAndMass = this.exerciseCurrentResult.results.sum(x => x.count * x.mass);
                this.exerciseCurrentResultsOld = this.exerciseCurrentResult.results.length;
             }
 
@@ -95,7 +95,7 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
    }
 
    changeModelTable() {
-      if(this.exerciseCurrentResultOldCountSumAndMass !== this.exerciseCurrentResult.results.sum(x => x.count + x.mass)){
+      if(this.exerciseCurrentResultOldCountSumAndMass !== this.exerciseCurrentResult.results.sum(x => x.count * x.mass)){
          this.exerciseResultsService.exerciseCurrentResult = this.exerciseCurrentResult;
       }
    }

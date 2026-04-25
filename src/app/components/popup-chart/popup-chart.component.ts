@@ -85,7 +85,7 @@ export class PopupChartComponent implements OnDestroy, OnInit {
 		let selectedExerviceResults: ModelExerciseResult[] = [].concat(this.exerciseResultsService.getTypeSelectedExerciseResults());
 		selectedExerviceResults = selectedExerviceResults.sortByField(x => x.date);
 		const xAxis= selectedExerviceResults.map(x => moment(x.date).format('DD.MM.YYYY'));
-		const mass = selectedExerviceResults.map(x => x.results.sum(r => r.mass));
+		const mass = selectedExerviceResults.map(x => x.results.sum(r => r.count * r.mass));
 
 		const lineChartData = {
 			datasets: [{
