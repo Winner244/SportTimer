@@ -74,7 +74,7 @@ export class ExerciseResultsStatisticsComponent implements OnDestroy, OnInit {
          .pipe(takeUntil(this._destroyed))
          .subscribe(value => {
             this.exerciseCurrentResultCount = value.results.sum(x => x.count);
-            this.exerciseCurrentResultMass = value.results.sum(x => x.mass);
+            this.exerciseCurrentResultMass = value.results.sum(x => x.count * x.mass);
             this.exerciseCurrentResultDate = value.date;
             this.exerciseCurrentResults = value.results.length;
          });
