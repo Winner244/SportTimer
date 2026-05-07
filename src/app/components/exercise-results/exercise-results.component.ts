@@ -95,9 +95,7 @@ export class ExerciseResultsComponent implements OnDestroy, OnInit {
    }
 
    changeModelTable() {
-      if(this.exerciseCurrentResultOldCountSumAndMass !== this.exerciseCurrentResult.results.sum(x => x.count * x.mass)){
-         this.exerciseResultsService.exerciseCurrentResult = this.exerciseCurrentResult;
-      }
+      this.exerciseResultsService.exerciseCurrentResult = this.exerciseCurrentResult;
    }
 
    /** высота контейнера таблиц должна быть такой же как самая большая таблица в ней. 
